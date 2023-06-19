@@ -8,7 +8,6 @@ public class Table extends Place{
     private double width;
     private double length;
     private double height;
-    private List<String> items=new ArrayList<>();
 
     public Table(double width, double length, double height) {
         super(width, length, height);
@@ -16,6 +15,12 @@ public class Table extends Place{
         this.length = length;
         this.height = height;
     }
+
+    public int[] getTrueId() {
+        return trueId;
+    }
+
+    @Override
     public String getName(){
         return "Table";
     }
@@ -32,7 +37,4 @@ public class Table extends Place{
         return height;
     }
 
-    public List<String> getItems() {
-        return items;
-    }
 }

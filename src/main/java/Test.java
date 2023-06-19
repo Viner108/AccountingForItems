@@ -18,13 +18,16 @@ public class Test {
         Bed bed=new Bed(2,3,5);
         table.insert(computer);
         table.insert(toy);
+        bed.insert(toy);
         bed.insert(sweet);
         table.insert(dress);
         table.answerSearch(computer);
-        bed.answerSearch(computer);
+        bed.answerSearch(sweet);
         table.remove(computer);
-        table.answerSearch(computer);
+        bed.answerSearch(computer);
         table.movement(computer,bed);
         bed.answerSearch(computer);
+        System.out.println(bed.getWidth());
+        System.out.println(table.getWidth());
     }
 }

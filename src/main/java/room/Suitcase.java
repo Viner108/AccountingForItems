@@ -8,7 +8,6 @@ public class Suitcase extends Place{
     private double width;
     private double length;
     private double height;
-    private List<String> items=new ArrayList<>();
 
     public Suitcase(double width, double length, double height) {
         super(width, length, height);
@@ -16,6 +15,7 @@ public class Suitcase extends Place{
         this.length = length;
         this.height = height;
     }
+    @Override
     public String getName(){
         return "Suitcase";
     }
@@ -32,7 +32,8 @@ public class Suitcase extends Place{
         return height;
     }
 
-    public List<String> getItems() {
-        return items;
+    @Override
+    public int[] getTrueId() {
+        return trueId;
     }
 }

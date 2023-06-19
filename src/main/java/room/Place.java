@@ -19,8 +19,8 @@ public class Place {
     }
 
     public void insert(Item item) {
-        if (item.getWidth() < this.width && item.getLength() < this.length && item.getHeight() < this.height) {
-            for (int i : trueId) {
+        if (item.getWidth()*item.getLength()*item.getHeight()<this.width*this.length*this.height) {
+            for (int i : getTrueId()) {
                 if (i == item.getId()) {
                     items.add(item.getName());
                     this.width -= item.getWidth();
@@ -32,11 +32,16 @@ public class Place {
         } else {
             System.out.println("Нет места для предмета " + item.getName());
         }
+        System.out.println(this.width);
+    }
+
+    public int[] getTrueId() {
+        return trueId;
     }
 
     public boolean search(Item item) {
         for (String integer : items) {
-            if (integer == item.getName()) {
+            if (integer.equals(item.getName())) {
                 return true;
             }
         }
@@ -70,6 +75,18 @@ public class Place {
         } else {
             System.out.println("Невозможно переместить предмет " + item.getName() + " в место " + place.getName());
         }
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getLength() {
+        return length;
+    }
+
+    public double getHeight() {
+        return height;
     }
 }
 

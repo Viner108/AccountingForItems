@@ -8,7 +8,6 @@ public class Bed extends Place{
     private double width;
     private double length;
     private double height;
-    private List<String> items=new ArrayList<>();
 
     public Bed(double width, double length, double height) {
         super(width, length, height);
@@ -16,6 +15,7 @@ public class Bed extends Place{
         this.length = length;
         this.height = height;
     }
+    @Override
     public String getName(){
         return "Bed";
     }
@@ -36,7 +36,4 @@ public class Bed extends Place{
         return height;
     }
 
-    public List<String> getItems() {
-        return items;
-    }
 }
