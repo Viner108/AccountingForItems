@@ -32,7 +32,6 @@ public class Place {
         } else {
             System.out.println("Нет места для предмета " + item.getName());
         }
-        System.out.println(this.width);
     }
 
     public int[] getTrueId() {
