@@ -11,7 +11,7 @@ public class Test {
 //    3-еда
 //    4-другое
     public static void main(String[] args) {
-        Item computer=new Item("Computer",1,0.1,1,0.5);
+        Item computer=new Item("Computer",1,1,1,1);
         Item toy=new Item("Toy",4,2,2,2);
         Item sweet=new Item("Sweet",3,0.01,0.05,0.01);
         Item dress=new Item("Dress",2,0.01,1,1.5);
@@ -21,24 +21,34 @@ public class Test {
         table.insert(computer);
         table.insert(toy);
         table.insert(computer);
-        bed.insert(toy);
-        bed.insert(toy);
-        bed.insert(toy);
-        bed.insert(toy);
-        bed.insert(sweet);
-        suitcase.insert(dress);
-        table.insert(dress);
-        table.answerSearch(computer);
-        bed.answerSearch(sweet);
-        bed.answerSearch(computer);
-        table.movement(computer,bed);
-        bed.remove(computer);
-        bed.answerSearch(computer);
+        table.insert(computer);
+        table.insert(computer);
+//        bed.insert(toy);
+//        bed.insert(toy);
+//        bed.insert(toy);
+//        bed.insert(toy);
+//        bed.insert(sweet);
+//        suitcase.insert(dress);
+//        table.insert(dress);
+//        table.answerSearch(computer);
+//        bed.answerSearch(sweet);
+//        bed.answerSearch(computer);
+//        table.movement(computer,bed);
+//        bed.remove(computer);
+//        bed.answerSearch(computer);
+        randomPlace(sweet,bed,table,suitcase);
         System.out.println(bed.getWidth()+ " " +bed.getLength()+ " " +bed.getHeight());
         System.out.println(table.getWidth()+ " "+ table.getLength()+ " "+ table.getHeight());
         System.out.println(suitcase.getWidth()+" "+suitcase.getLength()+ " "+ suitcase.getHeight());
         System.out.println(bed.volume());
         System.out.println(table.volume());
-
+    }
+    public static void randomPlace(Item item, Place... places){
+        for (Place place:places){
+            if(place.volume()>item.volume()&&place.indexCheck(item)){
+                place.insert(item);
+                break;
+            }
+        }
     }
 }
