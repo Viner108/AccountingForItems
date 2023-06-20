@@ -11,6 +11,9 @@ public class Place {
     private double length;
     private double height;
     private List<String> items = new ArrayList<>();
+    public double volume(){
+        return this.width*this.length*this.height;
+    }
 
     public Place(double width, double length, double height) {
         this.width = width;
@@ -19,13 +22,15 @@ public class Place {
     }
 
     public void insert(Item item) {
-        if (item.getWidth()*item.getLength()*item.getHeight()<this.width*this.length*this.height) {
+        if (item.volume()<volume()) {
             for (int i : getTrueId()) {
                 if (i == item.getId()) {
                     items.add(item.getName());
-                    this.width -= item.getWidth();
-                    this.length -= item.getLength();
-                    this.height -= item.getHeight();
+                    double volume=volume()- item.volume();
+                    volume=Math.cbrt(volume);
+                    this.width=volume;
+                    this.length=volume;
+                    this.height=volume;
                     System.out.println(item.getName() + " добавлен на место " + getName());
                 }
             }

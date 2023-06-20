@@ -14,6 +14,9 @@ public class Item {
         this.length = length;
         this.height = height;
     }
+    public double volume(){
+        return this.width*this.length*this.height;
+    }
 
     public String getName() {
         return name;
