@@ -3,8 +3,8 @@ package room;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Suitcase extends Place{
-    private int[] trueId={1,2,4};
+public class Suitcase extends Place {
+    private int[] trueId = {1, 2, 4};
     private double width;
     private double length;
     private double height;
@@ -15,8 +15,9 @@ public class Suitcase extends Place{
         this.length = length;
         this.height = height;
     }
+
     @Override
-    public String getName(){
+    public String getName() {
         return "Suitcase";
     }
 

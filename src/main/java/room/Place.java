@@ -32,8 +32,8 @@ public class Place {
                 this.length = volume;
                 this.height = volume;
                 System.out.println(item.getName() + " добавлен на место " + getName());
-            }else {
-                System.out.println("Предмету "+ item.getName() + " не место на "+ getName());
+            } else {
+                System.out.println("Предмету " + item.getName() + " не место на " + getName());
             }
         } else {
             System.out.println("Для предмета " + item.getName() + " нет места на " + getName());
