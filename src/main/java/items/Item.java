@@ -1,5 +1,7 @@
 package items;
 
+import java.io.Serializable;
+
 public class Item {
     private String name;
     private int id;
@@ -37,5 +39,16 @@ public class Item {
 
     public double getHeight() {
         return height;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                ", width=" + width +
+                ", length=" + length +
+                ", height=" + height +
+                '}';
     }
 }

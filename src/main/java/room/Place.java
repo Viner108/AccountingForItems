@@ -3,9 +3,11 @@ package room;
 import items.Item;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Place {
+    private String name;
     private int[] trueId = {1, 2, 3, 4};
     private double width;
     private double length;
@@ -16,7 +18,8 @@ public class Place {
         return this.width * this.length * this.height;
     }
 
-    public Place(double width, double length, double height) {
+    public Place(String name, double width, double length, double height) {
+        this.name = name;
         this.width = width;
         this.length = length;
         this.height = height;
@@ -101,6 +104,17 @@ public class Place {
 
     public double getHeight() {
         return height;
+    }
+
+    @Override
+    public String toString() {
+        return "Place{" +
+                "Назывние места='" + name + '\'' +
+                ", Свободное место в ширину=" + width +
+                ", Свободное место в длину=" + length +
+                ", Свободное место в высоту=" + height +
+                ", Список вещей находящихся в этом месте=" + itemNames +
+                '}';
     }
 }
 
