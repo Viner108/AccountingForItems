@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Bed extends Place {
     private String name;
-    private int[] trueId = {1, 2, 4};
+    private int[] trueId = {1, 2, 7};
     private double width;
     private double length;
     private double height;
@@ -20,7 +20,7 @@ public class Bed extends Place {
 
     @Override
     public String getName() {
-        return "Bed";
+        return name;
     }
 
     public int[] getTrueId() {

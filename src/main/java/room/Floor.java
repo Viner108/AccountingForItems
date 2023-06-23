@@ -4,13 +4,13 @@ import java.util.Arrays;
 
 public class Floor extends Place {
     private String name;
-    private int[] trueId = {1, 4};
+    private int[] trueId = {1, 4, 7};
     private double width;
     private double length;
     private double height;
 
-    public Floor(String name,double width, double length, double height) {
-        super(name,width, length, height);
+    public Floor(String name, double width, double length, double height) {
+        super(name, width, length, height);
         this.width = width;
         this.length = length;
         this.height = height;
@@ -18,8 +18,9 @@ public class Floor extends Place {
 
     @Override
     public String getName() {
-        return "Floor";
+        return name;
     }
+
 
     public int[] getTrueId() {
         return trueId;

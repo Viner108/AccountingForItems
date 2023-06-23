@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Place {
     private String name;
-    private int[] trueId = {1, 2, 3, 4};
+    private int[] trueId = {1, 2, 3, 4, 5,6,7};
     private double width;
     private double length;
     private double height;

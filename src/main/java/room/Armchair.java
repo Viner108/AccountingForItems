@@ -9,8 +9,8 @@ public class Armchair extends Place {
     private double length;
     private double height;
 
-    public Armchair(String name,double width, double length, double height) {
-        super(name,width, length, height);
+    public Armchair(String name, double width, double length, double height) {
+        super(name, width, length, height);
         this.width = width;
         this.length = length;
         this.height = height;
@@ -18,7 +18,7 @@ public class Armchair extends Place {
 
     @Override
     public String getName() {
-        return "Armchair";
+        return name;
     }
 
     public int[] getTrueId() {
