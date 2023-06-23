@@ -1,9 +1,9 @@
-Item{name='Computer', id=1, width=1.0, length=1.0, height=1.0}
-Item{name='Toy', id=7, width=2.0, length=2.0, height=2.0}
-Item{name='Sweet', id=3, width=0.01, length=0.05, height=0.01}
-Item{name='Dress', id=2, width=0.01, length=1.0, height=1.5}
-Item{name='Trash', id=7, width=0.1, length=0.04, height=0.01}
-Item{name='Hammock', id=7, width=1.5, length=2.0, height=0.01}
-Item{name='Contract', id=5, width=0.2, length=0.5, height=1.0E-4}
-Item{name='Pills', id=6, width=0.02, length=0.05, height=0.005}
-Item{name='Rope', id=7, width=0.01, length=3.0, height=0.01}
+Item{Название предмета='Computer', id=1, Ширина=1.0, Длина=1.0, Высота=1.0}
+Item{Название предмета='Toy', id=7, Ширина=2.0, Длина=2.0, Высота=2.0}
+Item{Название предмета='Sweet', id=3, Ширина=0.01, Длина=0.05, Высота=0.01}
+Item{Название предмета='Dress', id=2, Ширина=0.01, Длина=1.0, Высота=1.5}
+Item{Название предмета='Trash', id=7, Ширина=0.1, Длина=0.04, Высота=0.01}
+Item{Название предмета='Hammock', id=7, Ширина=1.5, Длина=2.0, Высота=0.01}
+Item{Название предмета='Contract', id=5, Ширина=0.2, Длина=0.5, Высота=1.0E-4}
+Item{Название предмета='Pills', id=6, Ширина=0.02, Длина=0.05, Высота=0.005}
+Item{Название предмета='Rope', id=7, Ширина=0.01, Длина=3.0, Высота=0.01}

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Suitcase extends Place {
-    private String name;
     private int[] trueId = {1, 2, 5,6,7};
     private double width;
     private double length;
@@ -16,13 +15,6 @@ public class Suitcase extends Place {
         this.length = length;
         this.height = height;
     }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-
     public double getWidth() {
         return width;
     }

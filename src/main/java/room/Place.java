@@ -1,6 +1,7 @@
 package room;
 
 import items.Item;
+import users.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,16 +26,16 @@ public class Place {
         this.height = height;
     }
 
-    public void insert(Item item) {
+    public void insert(Item item,User user) {
         if (item.volume() < volume()) {
             if (indexCheck(item)) {
-                itemNames.add(item.getName());
+                itemNames.add(item.getName()+user.getId());
                 double volume = volume() - item.volume();
                 volume = Math.cbrt(volume);
                 this.width = volume;
                 this.length = volume;
                 this.height = volume;
-                System.out.println(item.getName() + " добавлен на место " + getName());
+                System.out.println("Пользователь "+user.getName()+" добавил предмет "+item.getName() + " на место " + getName());
             } else {
                 System.out.println("Предмету " + item.getName() + " не место на " + getName());
             }
@@ -74,7 +75,7 @@ public class Place {
     }
 
     public String getName() {
-        return "Place";
+        return name;
     }
 
     public void remove(Item item) {
@@ -84,10 +85,10 @@ public class Place {
         }
     }
 
-    public void movement(Item item, Place place) {
+    public void movement(Item item,User user, Place place) {
         if (search(item)) {
             remove(item);
-            place.insert(item);
+            place.insert(item,user);
             System.out.println("Предмет " + item.getName() + " был премещен из " + getName() + " в " + place.getName());
         } else {
             System.out.println("Невозможно переместить предмет " + item.getName() + " в место " + place.getName());
@@ -105,6 +106,7 @@ public class Place {
     public double getHeight() {
         return height;
     }
+
 
     @Override
     public String toString() {

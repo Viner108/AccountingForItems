@@ -1,32 +1,63 @@
 import items.Item;
 import items.Medicines;
 import room.Place;
+import users.User;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.util.stream.Collectors;
 
 public class FileRepository {
-    public  void searchInThisRoom(Item item, Place... places) {
-        for (Place place : places) {
-            if (place.search(item)) {
-                place.answerSearch(item);
-            }
+    public void writeAllItem(Path path,Item...items) throws IOException {
+        for (Item item : items) {
+            writeItem(path,item);
         }
     }
-    public void randomPlace(Item item, Place... places) {
+    public void writeAllPlace(Path path,Place...places) throws IOException{
         for (Place place : places) {
-            if (place.volume() > item.volume() && place.indexCheck(item)) {
-                place.insert(item);
-                break;
-            }
+            writePlace(path,place);
         }
     }
-    //должна задаваться дата сегоднешнего дня и расчитываться сколько времени осталось до конца срока годности
-    //либо выдавать дату когда срок годности закончится
-    public long drugExpirationDate(Medicines medicine,long data){
-        return medicine.getTerm()-data;
+    public void writeAllUser(Path path,User...users) throws IOException{
+        for (User user:users){
+            writeUser(path,user);
+        }
+    }
+    public void readFile(Path path) throws IOException {
+        try (BufferedReader inputStream = new BufferedReader(new FileReader(path.toFile()))) {
+            String collect = inputStream.lines()
+                    .collect(Collectors.joining("\n"));
+            System.out.println(collect);
+        }
+    }
+
+    public void writeItem(Path path, Item item) throws IOException {
+        try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(path.toFile(), true))) {
+            outputStream.write(item.toString().getBytes());
+            outputStream.write(System.lineSeparator().getBytes());
+        }
+    }
+
+    public void cleanFile(Path path) {
+        try {
+            FileWriter writer = new FileWriter(path.toFile(), false);
+            writer.write("");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writePlace(Path path, Place place) throws IOException {
+        try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(path.toFile(), true))) {
+            outputStream.write(place.toString().getBytes());
+            outputStream.write(System.lineSeparator().getBytes());
+        }
+    }
+    public void writeUser(Path path, User user) throws IOException{
+        try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(path.toFile(), true))){
+            outputStream.write(user.toString().getBytes());
+            outputStream.write(System.lineSeparator().getBytes());
+        }
     }
 }

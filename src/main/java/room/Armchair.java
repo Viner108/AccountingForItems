@@ -3,7 +3,6 @@ package room;
 import java.util.Arrays;
 
 public class Armchair extends Place {
-    private String name;
     private int[] trueId = {2};
     private double width;
     private double length;
@@ -15,12 +14,6 @@ public class Armchair extends Place {
         this.length = length;
         this.height = height;
     }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
     public int[] getTrueId() {
         return trueId;
     }

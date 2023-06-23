@@ -44,11 +44,11 @@ public class Item {
     @Override
     public String toString() {
         return "Item{" +
-                "name='" + name + '\'' +
+                "Название предмета='" + name + '\'' +
                 ", id=" + id +
-                ", width=" + width +
-                ", length=" + length +
-                ", height=" + height +
+                ", Ширина=" + width +
+                ", Длина=" + length +
+                ", Высота=" + height +
                 '}';
     }
 }

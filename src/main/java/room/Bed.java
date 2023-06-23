@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Bed extends Place {
-    private String name;
     private int[] trueId = {1, 2, 7};
     private double width;
     private double length;
@@ -17,12 +16,6 @@ public class Bed extends Place {
         this.length = length;
         this.height = height;
     }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
     public int[] getTrueId() {
         return trueId;
     }

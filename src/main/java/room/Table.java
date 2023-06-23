@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Table extends Place {
-    private String name;
     private int[] trueId = {1, 3, 4, 5,6,7};
     private double width;
     private double length;
@@ -19,11 +18,6 @@ public class Table extends Place {
 
     public int[] getTrueId() {
         return trueId;
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 
 
