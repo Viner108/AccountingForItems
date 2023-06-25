@@ -1,8 +1,12 @@
 package users;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
     private String name;
     private int id;
+    private List<String> actions = new ArrayList<>();
 
     public User(String name, int id) {
         this.name = name;
@@ -11,6 +15,10 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public List<String> getActions() {
+        return actions;
     }
 
     public int getId() {
@@ -22,6 +30,7 @@ public class User {
         return "User{" +
                 "Имя пользователя='" + name + '\'' +
                 ", id=" + id +
+                ", История активности=" + actions +
                 '}';
     }
 }

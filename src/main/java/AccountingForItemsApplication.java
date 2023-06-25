@@ -54,10 +54,10 @@ public class AccountingForItemsApplication {
         fileRepository.writeAllUser(path3, person1,person2);
     }
 
-    public void searchInThisRoom(Item item, Place... places) {
+    public void searchInThisRoom(Item item,User user, Place... places) {
         for (Place place : places) {
-            if (place.search(item)) {
-                place.answerSearch(item);
+            if (place.search(item,user)) {
+                place.answerSearch(item,user);
             }
         }
     }

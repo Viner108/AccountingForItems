@@ -29,7 +29,8 @@ public class Place {
     public void insert(Item item,User user) {
         if (item.volume() < volume()) {
             if (indexCheck(item)) {
-                itemNames.add(item.getName()+user.getId());
+                itemNames.add(item.getName());
+                user.getActions().add("Добавил предмет "+item.getName()+" в место "+getName());
                 double volume = volume() - item.volume();
                 volume = Math.cbrt(volume);
                 this.width = volume;
@@ -57,7 +58,7 @@ public class Place {
         return trueId;
     }
 
-    public boolean search(Item item) {
+    public boolean search(Item item,User user) {
         for (String integer : itemNames) {
             if (integer.equals(item.getName())) {
                 return true;
@@ -66,11 +67,14 @@ public class Place {
         return false;
     }
 
-    public void answerSearch(Item item) {
-        if (search(item)) {
+    public void answerSearch(Item item,User user) {
+        user.getActions().add("Искал предмет "+ item.getName());
+        if (search(item,user)) {
             System.out.println("Предмет " + item.getName() + " находится в месте " + getName());
+            user.getActions().add("Нашел предмет "+item.getName()+" в месте "+getName());
         } else {
             System.out.println("В месте " + getName() + " нет предмета " + item.getName());
+            user.getActions().add("Не нашел предмет "+item.getName());
         }
     }
 
@@ -78,20 +82,26 @@ public class Place {
         return name;
     }
 
-    public void remove(Item item) {
-        if (search(item)) {
+    public void remove(Item item,User user) {
+        if (search(item,user)) {
             itemNames.remove(item.getName());
-            System.out.println("Предмет " + item.getName() + " был удален из места " + getName());
+            user.getActions().add("Убрал предмет "+item.getName()+" из места "+getName());
+            System.out.println("Пользователь "+user.getName() +" убрал предмет "+item.getName()+" из места " + getName());
+        }else {
+            System.out.println("Пользовать " + user.getName() + " не смог убрать предмет " + item.getName());
         }
     }
 
     public void movement(Item item,User user, Place place) {
-        if (search(item)) {
-            remove(item);
+        if (search(item,user)) {
+            remove(item,user);
+            user.getActions().remove("Убрал предмет "+item.getName()+" из места "+getName());
             place.insert(item,user);
-            System.out.println("Предмет " + item.getName() + " был премещен из " + getName() + " в " + place.getName());
+            user.getActions().remove("Добавил предмет "+item.getName()+" в место "+place.getName());
+            user.getActions().add("Переместил предмет "+item.getName()+" из места "+getName()+" в место " +place.getName());
+            System.out.println("Пользовать " + user.getName() + " переместил предмет " + item.getName() + " из места " + getName()+" в места " +place.getName());
         } else {
-            System.out.println("Невозможно переместить предмет " + item.getName() + " в место " + place.getName());
+            System.out.println("Пользовать " + user.getName() + " не смог переместить предмет " + item.getName() + " из места " + getName()+" в места " +place.getName());
         }
     }
 
