@@ -1,11 +1,13 @@
 package room;
 
 import items.Item;
+import users.ActionLog;
 import users.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 
 public class Place {
     private String name;
@@ -26,11 +28,11 @@ public class Place {
         this.height = height;
     }
 
-    public void insert(Item item,User user) {
+    public void insert(Item item,User user, ActionLog log) {
         if (item.volume() < volume()) {
             if (indexCheck(item)) {
                 itemNames.add(item.getName());
-                user.getActions().add("Добавил предмет "+item.getName()+" в место "+getName());
+                log.getActions().add("Пользователь "+user.getName()+" добавил предмет "+item.getName()+" в место "+getName());
                 double volume = volume() - item.volume();
                 volume = Math.cbrt(volume);
                 this.width = volume;
@@ -67,14 +69,14 @@ public class Place {
         return false;
     }
 
-    public void answerSearch(Item item,User user) {
-        user.getActions().add("Искал предмет "+ item.getName());
+    public void answerSearch(Item item,User user, ActionLog log) {
+        log.getActions().add("Пользователь "+user.getName()+" искал предмет "+ item.getName()+" в месте "+getName());
         if (search(item,user)) {
             System.out.println("Предмет " + item.getName() + " находится в месте " + getName());
-            user.getActions().add("Нашел предмет "+item.getName()+" в месте "+getName());
+            log.getActions().add("Пользователь "+user.getName()+" нашел предмет "+item.getName()+" в месте "+getName());
         } else {
             System.out.println("В месте " + getName() + " нет предмета " + item.getName());
-            user.getActions().add("Не нашел предмет "+item.getName());
+            log.getActions().add("Пользователь "+user.getName()+" не нашел предмет "+item.getName()+" в месте "+getName());
         }
     }
 
@@ -82,23 +84,23 @@ public class Place {
         return name;
     }
 
-    public void remove(Item item,User user) {
+    public void remove(Item item,User user,ActionLog log) {
         if (search(item,user)) {
             itemNames.remove(item.getName());
-            user.getActions().add("Убрал предмет "+item.getName()+" из места "+getName());
+            log.getActions().add("Пользователь " +user.getName()+" убрал предмет "+item.getName()+" из места "+getName());
             System.out.println("Пользователь "+user.getName() +" убрал предмет "+item.getName()+" из места " + getName());
         }else {
             System.out.println("Пользовать " + user.getName() + " не смог убрать предмет " + item.getName());
         }
     }
 
-    public void movement(Item item,User user, Place place) {
+    public void movement(Item item,User user, Place place,ActionLog log) {
         if (search(item,user)) {
-            remove(item,user);
-            user.getActions().remove("Убрал предмет "+item.getName()+" из места "+getName());
-            place.insert(item,user);
-            user.getActions().remove("Добавил предмет "+item.getName()+" в место "+place.getName());
-            user.getActions().add("Переместил предмет "+item.getName()+" из места "+getName()+" в место " +place.getName());
+            remove(item,user,log);
+            log.getActions().remove("Пользователь " +user.getName()+" убрал предмет "+item.getName()+" из места "+getName());
+            place.insert(item,user,log);
+            log.getActions().remove("Пользователь "+user.getName()+" добавил предмет "+item.getName()+" в место "+place.getName());
+            log.getActions().add("Пользователь "+user.getName()+" переместил предмет "+item.getName()+" из места "+getName()+" в место " +place.getName());
             System.out.println("Пользовать " + user.getName() + " переместил предмет " + item.getName() + " из места " + getName()+" в места " +place.getName());
         } else {
             System.out.println("Пользовать " + user.getName() + " не смог переместить предмет " + item.getName() + " из места " + getName()+" в места " +place.getName());

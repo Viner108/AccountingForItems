@@ -3,6 +3,7 @@ import items.Item;
 import items.Medicines;
 import items.SpareParts;
 import room.*;
+import users.ActionLog;
 import users.User;
 
 import java.io.*;
@@ -10,9 +11,11 @@ import java.nio.file.Path;
 
 public class AccountingForItemsApplication {
     private FileRepository fileRepository = new FileRepository();
+    private ActionLog log=new ActionLog();
     private Path path1 = Path.of("library", "Item.java");
     private Path path2 = Path.of("library", "Place.java");
     private Path path3 = Path.of("library", "User.java");
+    private Path path4=Path.of("library","Action.java");
 
     // id - категория предмета
     //  1-техника
@@ -43,21 +46,25 @@ public class AccountingForItemsApplication {
         fileRepository.readFile(path1);
         fileRepository.readFile(path2);
         fileRepository.readFile(path3);
+        fileRepository.readFile(path4);
     }
 
     public void save() throws IOException {
         fileRepository.cleanFile(path1);
         fileRepository.cleanFile(path2);
         fileRepository.cleanFile(path3);
+        fileRepository.cleanFile(path4);
         fileRepository.writeAllItem(path1, computer, toy, sweet, dress, trash, hammock, document, medicine, part);
         fileRepository.writeAllPlace(path2, armchair, bed, floor, suitcase, table);
         fileRepository.writeAllUser(path3, person1,person2);
+        fileRepository.writeAction(path4,log);
     }
 
     public void searchInThisRoom(Item item,User user, Place... places) {
+        log.getActions().add("Пользователь "+ user.getName()+" искал предмет "+ item.getName()+" по всей комнате");
         for (Place place : places) {
             if (place.search(item,user)) {
-                place.answerSearch(item,user);
+                place.answerSearch(item,user,log);
             }
         }
     }
@@ -65,7 +72,7 @@ public class AccountingForItemsApplication {
     public void randomPlace(Item item, User user, Place... places) {
         for (Place place : places) {
             if (place.volume() > item.volume() && place.indexCheck(item)) {
-                place.insert(item, user);
+                place.insert(item, user,log);
                 break;
             }
         }
@@ -80,6 +87,18 @@ public class AccountingForItemsApplication {
 
     public User getPerson1() {
         return person1;
+    }
+
+    public FileRepository getFileRepository() {
+        return fileRepository;
+    }
+
+    public ActionLog getLog() {
+        return log;
+    }
+
+    public Path getPath3() {
+        return path3;
     }
 
     public User getPerson2() {

@@ -1,6 +1,7 @@
 import items.Item;
 import items.Medicines;
 import room.Place;
+import users.ActionLog;
 import users.User;
 
 import java.io.*;
@@ -31,13 +32,6 @@ public class FileRepository {
         }
     }
 
-    public void writeItem(Path path, Item item) throws IOException {
-        try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(path.toFile(), true))) {
-            outputStream.write(item.toString().getBytes());
-            outputStream.write(System.lineSeparator().getBytes());
-        }
-    }
-
     public void cleanFile(Path path) {
         try {
             FileWriter writer = new FileWriter(path.toFile(), false);
@@ -45,6 +39,13 @@ public class FileRepository {
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void writeItem(Path path, Item item) throws IOException {
+        try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(path.toFile(), true))) {
+            outputStream.write(item.toString().getBytes());
+            outputStream.write(System.lineSeparator().getBytes());
         }
     }
 
@@ -57,6 +58,12 @@ public class FileRepository {
     public void writeUser(Path path, User user) throws IOException{
         try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(path.toFile(), true))){
             outputStream.write(user.toString().getBytes());
+            outputStream.write(System.lineSeparator().getBytes());
+        }
+    }
+    public void writeAction(Path path, ActionLog log) throws IOException{
+        try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(path.toFile(), true))){
+            outputStream.write(log.toString().getBytes());
             outputStream.write(System.lineSeparator().getBytes());
         }
     }
