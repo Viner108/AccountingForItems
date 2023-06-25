@@ -1,4 +1,4 @@
-package items;
+package accounting.items;
 
 public class Medicines extends Item {
     private String name;

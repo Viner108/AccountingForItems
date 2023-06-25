@@ -1,4 +1,4 @@
-package items;
+package accounting.items;
 
 public class SpareParts extends Item {
     Item parent;

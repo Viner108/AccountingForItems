@@ -1,15 +1,17 @@
-package users;
+package accounting.users;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID=1L;
     private String name;
     private int id;
+    private String password;
 
-    public User(String name, int id) {
+    public User(String name, int id, String password) {
         this.name = name;
         this.id = id;
+        this.password = password;
     }
 
     public String getName() {

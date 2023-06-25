@@ -1,7 +1,4 @@
-package room;
-
-import java.util.ArrayList;
-import java.util.List;
+package accounting.room;
 
 public class Suitcase extends Place {
     private int[] trueId = {1, 2, 5,6,7};

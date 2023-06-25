@@ -1,6 +1,4 @@
-package room;
-
-import java.util.Arrays;
+package accounting.room;
 
 public class Armchair extends Place {
     private int[] trueId = {2};

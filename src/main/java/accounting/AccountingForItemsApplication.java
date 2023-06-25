@@ -1,21 +1,27 @@
-import items.Documents;
-import items.Item;
-import items.Medicines;
-import items.SpareParts;
-import room.*;
-import users.ActionLog;
-import users.User;
+package accounting;
+
+import accounting.items.Documents;
+import accounting.items.Item;
+import accounting.items.Medicines;
+import accounting.items.SpareParts;
+import accounting.room.*;
+import accounting.users.ActionLog;
+import accounting.users.LoginProcessor;
+import accounting.users.RegistrationProcessor;
+import accounting.users.User;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccountingForItemsApplication {
     private FileRepository fileRepository = new FileRepository();
-    private ActionLog log=new ActionLog();
+    private ActionLog log = new ActionLog();
     private Path path1 = Path.of("library", "Item.java");
     private Path path2 = Path.of("library", "Place.java");
-    private Path path3 = Path.of("library", "User.java");
-    private Path path4=Path.of("library","Action.java");
+    private Path userPath = Path.of("library", "User");
+    private Path path4 = Path.of("library", "Action.java");
 
     // id - категория предмета
     //  1-техника
@@ -39,32 +45,48 @@ public class AccountingForItemsApplication {
     private Suitcase suitcase = new Suitcase("Suitcase", 0.5, 1, 0.5);
     private Floor floor = new Floor("Floor", 3, 4, 5);
     private Armchair armchair = new Armchair("Armchair", 1, 1, 1.5);
-    private User person1 = new User("Lera", 1);
-    private User person2 = new User("Ivan", 2);
+    private User person1 = new User("Lera", 1, "123");
+    private User person2 = new User("Ivan", 2, "321");
+    private List<User> users = new ArrayList<>();
+    private RegistrationProcessor registrationProcessor = new RegistrationProcessor(userPath);
+    private LoginProcessor loginProcessor = new LoginProcessor(userPath);
+
+    public void createUser(String login, String password) {
+        User user = registrationProcessor.createUser(login, password);
+    }
+
+    public void loginUser(String login, String password) {
+        User user = loginProcessor.login(login, password);
+        users.add(user);
+    }
 
     public void read() throws IOException {
         fileRepository.readFile(path1);
         fileRepository.readFile(path2);
-        fileRepository.readFile(path3);
+        fileRepository.readFile(userPath);
         fileRepository.readFile(path4);
     }
 
+
     public void save() throws IOException {
-        fileRepository.cleanFile(path1);
-        fileRepository.cleanFile(path2);
-        fileRepository.cleanFile(path3);
-        fileRepository.cleanFile(path4);
         fileRepository.writeAllItem(path1, computer, toy, sweet, dress, trash, hammock, document, medicine, part);
         fileRepository.writeAllPlace(path2, armchair, bed, floor, suitcase, table);
-        fileRepository.writeAllUser(path3, person1,person2);
-        fileRepository.writeAction(path4,log);
+        fileRepository.writeAllUser(userPath, person1, person2);
+        fileRepository.writeAction(path4, log);
     }
 
-    public void searchInThisRoom(Item item,User user, Place... places) {
-        log.getActions().add("Пользователь "+ user.getName()+" искал предмет "+ item.getName()+" по всей комнате");
+    public void clean() {
+        fileRepository.cleanFile(path1);
+        fileRepository.cleanFile(path2);
+        fileRepository.cleanFile(userPath);
+        fileRepository.cleanFile(path4);
+    }
+
+    public void searchInThisRoom(Item item, User user, Place... places) {
+        log.getActions().add("Пользователь " + user.getName() + " искал предмет " + item.getName() + " по всей комнате");
         for (Place place : places) {
-            if (place.search(item,user)) {
-                place.answerSearch(item,user,log);
+            if (place.search(item, user)) {
+                place.answerSearch(item, user, log);
             }
         }
     }
@@ -72,7 +94,7 @@ public class AccountingForItemsApplication {
     public void randomPlace(Item item, User user, Place... places) {
         for (Place place : places) {
             if (place.volume() > item.volume() && place.indexCheck(item)) {
-                place.insert(item, user,log);
+                place.insert(item, user, log);
                 break;
             }
         }
@@ -97,8 +119,8 @@ public class AccountingForItemsApplication {
         return log;
     }
 
-    public Path getPath3() {
-        return path3;
+    public Path getUserPath() {
+        return userPath;
     }
 
     public User getPerson2() {

@@ -1,7 +1,4 @@
-package room;
-
-import java.util.ArrayList;
-import java.util.List;
+package accounting.room;
 
 public class Table extends Place {
     private int[] trueId = {1, 3, 4, 5,6,7};

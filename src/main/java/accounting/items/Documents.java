@@ -1,4 +1,4 @@
-package items;
+package accounting.items;
 
 public class Documents extends Item{
     private String name;

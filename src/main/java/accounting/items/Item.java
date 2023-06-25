@@ -1,6 +1,4 @@
-package items;
-
-import java.io.Serializable;
+package accounting.items;
 
 public class Item {
     private String name;

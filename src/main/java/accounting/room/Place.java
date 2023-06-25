@@ -1,11 +1,10 @@
-package room;
+package accounting.room;
 
-import items.Item;
-import users.ActionLog;
-import users.User;
+import accounting.items.Item;
+import accounting.users.ActionLog;
+import accounting.users.User;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 

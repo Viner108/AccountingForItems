@@ -1,15 +1,13 @@
-package room;
+package accounting.room;
 
-import java.util.Arrays;
-
-public class Floor extends Place {
-    private int[] trueId = {1, 4, 7};
+public class Bed extends Place {
+    private int[] trueId = {1, 2, 7};
     private double width;
     private double length;
     private double height;
 
-    public Floor(String name, double width, double length, double height) {
-        super(name, width, length, height);
+    public Bed(String name,double width, double length, double height) {
+        super(name,width, length, height);
         this.width = width;
         this.length = length;
         this.height = height;
@@ -17,5 +15,6 @@ public class Floor extends Place {
     public int[] getTrueId() {
         return trueId;
     }
+
 
 }

@@ -1,3 +1,5 @@
+import accounting.AccountingForItemsApplication;
+
 import java.io.*;
 
 public class Test {
@@ -10,6 +12,12 @@ public class Test {
         application.randomPlace(application.getDress(),application.getPerson1(),application.getTable(),application.getArmchair(),application.getBed(),application.getFloor());
         application.searchInThisRoom(application.getDress(),application.getPerson2(),application.getFloor(),application.getBed(),application.getTable(),application.getArmchair(),application.getSuitcase());
         application.getTable().answerSearch(application.getDress(),application.getPerson1(),application.getLog());
+        application.clean();
+        application.createUser("X","Y");
+        application.createUser("X2","Y");
+        application.createUser("X3","Y");
+        application.createUser("X4","Y");
+        application.loginUser("X","Y");
         application.save();
         application.read();
 

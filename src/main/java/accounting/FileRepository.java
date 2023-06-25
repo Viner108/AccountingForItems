@@ -1,11 +1,13 @@
-import items.Item;
-import items.Medicines;
-import room.Place;
-import users.ActionLog;
-import users.User;
+package accounting;
+
+import accounting.items.Item;
+import accounting.room.Place;
+import accounting.users.ActionLog;
+import accounting.users.User;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class FileRepository {
@@ -24,12 +26,14 @@ public class FileRepository {
             writeUser(path,user);
         }
     }
-    public void readFile(Path path) throws IOException {
+    public String readFile(Path path) throws IOException {
+        String collect=null;
         try (BufferedReader inputStream = new BufferedReader(new FileReader(path.toFile()))) {
-            String collect = inputStream.lines()
+            collect = inputStream.lines()
                     .collect(Collectors.joining("\n"));
             System.out.println(collect);
         }
+        return collect;
     }
 
     public void cleanFile(Path path) {
@@ -59,6 +63,16 @@ public class FileRepository {
         try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(path.toFile(), true))){
             outputStream.write(user.toString().getBytes());
             outputStream.write(System.lineSeparator().getBytes());
+        }
+    }
+    public void writeUserAsObject(Path path, User user) throws IOException{
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(path.toFile(), true))){
+            outputStream.writeObject(user);
+        }
+    }
+    public void writeUserAsList(Path path, List<User> users) throws IOException{
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(path.toFile(), true))){
+            outputStream.writeObject(users);
         }
     }
     public void writeAction(Path path, ActionLog log) throws IOException{
