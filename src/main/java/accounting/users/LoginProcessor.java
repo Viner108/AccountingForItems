@@ -6,8 +6,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.Objects;
 
 public class LoginProcessor {
     private FileRepository fileRepository = new FileRepository();
@@ -17,20 +18,23 @@ public class LoginProcessor {
         this.path = path;
     }
     public User login(String login, String password) {
-        User user=null;
-        try {
-            String line=fileRepository.readFile(path);
-            line.split("\n");
-            try (ObjectInputStream objectInputStream=new ObjectInputStream(new FileInputStream(path.toFile()))){
-                Object object=(List)objectInputStream.readObject();
-                object.toString();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-//            Stream.of(line.split("\n")).
-        } catch (IOException e) {
-            e.printStackTrace();
+        User user1=null;
+       try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
+           ArrayList<User> users=((ArrayList<User>) ois.readObject());
+           for (User user:users){
+               if(Objects.equals(user.getName(), login) && Objects.equals(user.getPassword(), password)){
+                   user1=user;
+               }
+           }
+       }catch (Exception e){
+           e.printStackTrace();
+       }
+        return user1;
+    }
+    public boolean isUser(String name, String password){
+        if(login(name,password)!=null){
+            return true;
         }
-        return user;
+        return false;
     }
 }

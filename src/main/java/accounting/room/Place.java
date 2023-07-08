@@ -4,11 +4,12 @@ import accounting.items.Item;
 import accounting.users.ActionLog;
 import accounting.users.User;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Place {
+public class Place implements Serializable {
     private String name;
     private int[] trueId = {1, 2, 3, 4, 5,6,7};
     private double width;

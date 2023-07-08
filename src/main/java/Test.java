@@ -14,12 +14,13 @@ public class Test {
         application.getTable().answerSearch(application.getDress(),application.getPerson1(),application.getLog());
         application.clean();
         application.createUser("X","Y");
-        application.createUser("X2","Y");
-        application.createUser("X3","Y");
-        application.createUser("X4","Y");
+        application.createUser("X2","Y2");
+        application.createUser("X3","Y3");
+        application.createUser("X4","Y4");
         application.loginUser("X","Y");
+        application.isUser("X2","Y2");
         application.save();
-        application.read();
+        application.readAll();
 
     }
 }

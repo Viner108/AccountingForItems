@@ -7,33 +7,50 @@ import accounting.users.User;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FileRepository {
-    public void writeAllItem(Path path,Item...items) throws IOException {
+    public void writeAllItem(Path path, Item... items) {
+        ArrayList<Item> allItem = new ArrayList<>();
         for (Item item : items) {
-            writeItem(path,item);
+            allItem.add(item);
         }
+        writeItem(path, allItem);
     }
-    public void writeAllPlace(Path path,Place...places) throws IOException{
+
+    public void writeAllPlace(Path path, Place... places){
+        ArrayList<Place> allPlace = new ArrayList<>();
         for (Place place : places) {
-            writePlace(path,place);
+            allPlace.add(place);
         }
+        writePlace(path, allPlace);
     }
-    public void writeAllUser(Path path,User...users) throws IOException{
-        for (User user:users){
-            writeUser(path,user);
+
+    public ArrayList<Item> readFileWithItems(Path path) {
+        ArrayList<Item> items = new ArrayList<>();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
+            items = ((ArrayList<Item>) ois.readObject());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
-    public String readFile(Path path) throws IOException {
-        String collect=null;
-        try (BufferedReader inputStream = new BufferedReader(new FileReader(path.toFile()))) {
-            collect = inputStream.lines()
-                    .collect(Collectors.joining("\n"));
-            System.out.println(collect);
+        return items;
+    }public ArrayList<Place> readFileWithPlaces(Path path) {
+        ArrayList<Place> places = new ArrayList<>();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
+            places = ((ArrayList<Place>) ois.readObject());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return collect;
+        return places;
+    }public ArrayList<User> readFileWithUsers(Path path) {
+        ArrayList<User> users = new ArrayList<>();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
+            users = ((ArrayList<User>) ois.readObject());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
     }
 
     public void cleanFile(Path path) {
@@ -46,37 +63,32 @@ public class FileRepository {
         }
     }
 
-    public void writeItem(Path path, Item item) throws IOException {
-        try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(path.toFile(), true))) {
-            outputStream.write(item.toString().getBytes());
-            outputStream.write(System.lineSeparator().getBytes());
+    public void writeItem(Path path, ArrayList<Item> allItem){
+        try (ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(path.toFile(), true))) {
+            oss.writeObject(allItem);
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
 
-    public void writePlace(Path path, Place place) throws IOException {
+    public void writePlace(Path path, ArrayList<Place> allPlace){
+        try (ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(path.toFile(), true))) {
+            oss.writeObject(allPlace);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void writeUser(Path path, ArrayList<User> allUser, boolean append) {
+        try (ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(path.toFile(), append))) {
+            oss.writeObject(allUser);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void writeAction(Path path, ActionLog log) throws IOException {
         try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(path.toFile(), true))) {
-            outputStream.write(place.toString().getBytes());
-            outputStream.write(System.lineSeparator().getBytes());
-        }
-    }
-    public void writeUser(Path path, User user) throws IOException{
-        try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(path.toFile(), true))){
-            outputStream.write(user.toString().getBytes());
-            outputStream.write(System.lineSeparator().getBytes());
-        }
-    }
-    public void writeUserAsObject(Path path, User user) throws IOException{
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(path.toFile(), true))){
-            outputStream.writeObject(user);
-        }
-    }
-    public void writeUserAsList(Path path, List<User> users) throws IOException{
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(path.toFile(), true))){
-            outputStream.writeObject(users);
-        }
-    }
-    public void writeAction(Path path, ActionLog log) throws IOException{
-        try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(path.toFile(), true))){
             outputStream.write(log.toString().getBytes());
             outputStream.write(System.lineSeparator().getBytes());
         }

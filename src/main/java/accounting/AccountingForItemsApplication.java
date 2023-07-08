@@ -18,10 +18,10 @@ import java.util.List;
 public class AccountingForItemsApplication {
     private FileRepository fileRepository = new FileRepository();
     private ActionLog log = new ActionLog();
-    private Path path1 = Path.of("library", "Item.java");
-    private Path path2 = Path.of("library", "Place.java");
-    private Path userPath = Path.of("library", "User");
-    private Path path4 = Path.of("library", "Action.java");
+    private Path itemPath = Path.of("library", "Item.java");
+    private Path placePath = Path.of("library", "Place.java");
+    private Path userPath = Path.of("library", "User.java");
+    private Path actionPath = Path.of("library", "Action.java");
 
     // id - категория предмета
     //  1-техника
@@ -54,32 +54,39 @@ public class AccountingForItemsApplication {
     public void createUser(String login, String password) {
         User user = registrationProcessor.createUser(login, password);
     }
-
     public void loginUser(String login, String password) {
         User user = loginProcessor.login(login, password);
         users.add(user);
     }
+    public void isUser(String login, String password) {
+        if(loginProcessor.isUser(login, password)){
+            System.out.println("Такой пользователь уже существует");
+        }
+    }
 
-    public void read() throws IOException {
-        fileRepository.readFile(path1);
-        fileRepository.readFile(path2);
-        fileRepository.readFile(userPath);
-        fileRepository.readFile(path4);
+    public void readAll() throws IOException {
+       for( User user:fileRepository.readFileWithUsers(userPath)){
+           System.out.println(user.toString());
+       }for( Item item:fileRepository.readFileWithItems(itemPath)){
+           System.out.println(item.toString());
+       }for( Place place:fileRepository.readFileWithPlaces(placePath)){
+           System.out.println(place.toString());
+       }
+//        fileRepository.readFile(path4);
     }
 
 
     public void save() throws IOException {
-        fileRepository.writeAllItem(path1, computer, toy, sweet, dress, trash, hammock, document, medicine, part);
-        fileRepository.writeAllPlace(path2, armchair, bed, floor, suitcase, table);
-        fileRepository.writeAllUser(userPath, person1, person2);
-        fileRepository.writeAction(path4, log);
+        fileRepository.writeAllItem(itemPath, computer, toy, sweet, dress, trash, hammock, document, medicine, part);
+        fileRepository.writeAllPlace(placePath, armchair, bed, floor, suitcase, table);
+//        fileRepository.writeAction(path4, log);
     }
 
     public void clean() {
-        fileRepository.cleanFile(path1);
-        fileRepository.cleanFile(path2);
+        fileRepository.cleanFile(itemPath);
+        fileRepository.cleanFile(placePath);
         fileRepository.cleanFile(userPath);
-        fileRepository.cleanFile(path4);
+        fileRepository.cleanFile(actionPath);
     }
 
     public void searchInThisRoom(Item item, User user, Place... places) {
@@ -127,12 +134,12 @@ public class AccountingForItemsApplication {
         return person2;
     }
 
-    public Path getPath1() {
-        return path1;
+    public Path getItemPath() {
+        return itemPath;
     }
 
-    public Path getPath2() {
-        return path2;
+    public Path getPlacePath() {
+        return placePath;
     }
 
     public Item getComputer() {
