@@ -31,14 +31,18 @@ public class Place implements Serializable {
     public void insert(Item item,User user, ActionLog log) {
         if (item.volume() < volume()) {
             if (indexCheck(item)) {
-                itemNames.add(item.getName());
-                log.getActions().add("Пользователь "+user.getName()+" добавил предмет "+item.getName()+" в место "+getName());
-                double volume = volume() - item.volume();
-                volume = Math.cbrt(volume);
-                this.width = volume;
-                this.length = volume;
-                this.height = volume;
-                System.out.println("Пользователь "+user.getName()+" добавил предмет "+item.getName() + " на место " + getName());
+                if(user!=null) {
+                    itemNames.add(item.getName());
+                    log.getActions().add("Пользователь " + user.getName() + " добавил предмет " + item.getName() + " в место " + getName());
+                    double volume = volume() - item.volume();
+                    volume = Math.cbrt(volume);
+                    this.width = volume;
+                    this.length = volume;
+                    this.height = volume;
+                    System.out.println("Пользователь " + user.getName() + " добавил предмет " + item.getName() + " на место " + getName());
+                }else {
+                    System.out.println("Этот пользователь не зарегестрирован в системе.");
+                }
             } else {
                 System.out.println("Предмету " + item.getName() + " не место на " + getName());
             }
@@ -70,13 +74,17 @@ public class Place implements Serializable {
     }
 
     public void answerSearch(Item item,User user, ActionLog log) {
-        log.getActions().add("Пользователь "+user.getName()+" искал предмет "+ item.getName()+" в месте "+getName());
-        if (search(item,user)) {
-            System.out.println("Предмет " + item.getName() + " находится в месте " + getName());
-            log.getActions().add("Пользователь "+user.getName()+" нашел предмет "+item.getName()+" в месте "+getName());
-        } else {
-            System.out.println("В месте " + getName() + " нет предмета " + item.getName());
-            log.getActions().add("Пользователь "+user.getName()+" не нашел предмет "+item.getName()+" в месте "+getName());
+        if (user!=null) {
+            log.getActions().add("Пользователь " + user.getName() + " искал предмет " + item.getName() + " в месте " + getName());
+            if (search(item, user)) {
+                System.out.println("Предмет " + item.getName() + " находится в месте " + getName());
+                log.getActions().add("Пользователь " + user.getName() + " нашел предмет " + item.getName() + " в месте " + getName());
+            } else {
+                System.out.println("В месте " + getName() + " нет предмета " + item.getName());
+                log.getActions().add("Пользователь " + user.getName() + " не нашел предмет " + item.getName() + " в месте " + getName());
+            }
+        }else {
+            System.out.println("Этот пользователь не зарегестрирован в системе.");
         }
     }
 
@@ -85,25 +93,33 @@ public class Place implements Serializable {
     }
 
     public void remove(Item item,User user,ActionLog log) {
-        if (search(item,user)) {
-            itemNames.remove(item.getName());
-            log.getActions().add("Пользователь " +user.getName()+" убрал предмет "+item.getName()+" из места "+getName());
-            System.out.println("Пользователь "+user.getName() +" убрал предмет "+item.getName()+" из места " + getName());
+        if (user!=null) {
+            if (search(item, user)) {
+                itemNames.remove(item.getName());
+                log.getActions().add("Пользователь " + user.getName() + " убрал предмет " + item.getName() + " из места " + getName());
+                System.out.println("Пользователь " + user.getName() + " убрал предмет " + item.getName() + " из места " + getName());
+            } else {
+                System.out.println("Пользовать " + user.getName() + " не смог убрать предмет " + item.getName());
+            }
         }else {
-            System.out.println("Пользовать " + user.getName() + " не смог убрать предмет " + item.getName());
+            System.out.println("Этот пользователь не зарегестрирован в системе.");
         }
     }
 
     public void movement(Item item,User user, Place place,ActionLog log) {
-        if (search(item,user)) {
-            remove(item,user,log);
-            log.getActions().remove("Пользователь " +user.getName()+" убрал предмет "+item.getName()+" из места "+getName());
-            place.insert(item,user,log);
-            log.getActions().remove("Пользователь "+user.getName()+" добавил предмет "+item.getName()+" в место "+place.getName());
-            log.getActions().add("Пользователь "+user.getName()+" переместил предмет "+item.getName()+" из места "+getName()+" в место " +place.getName());
-            System.out.println("Пользовать " + user.getName() + " переместил предмет " + item.getName() + " из места " + getName()+" в места " +place.getName());
-        } else {
-            System.out.println("Пользовать " + user.getName() + " не смог переместить предмет " + item.getName() + " из места " + getName()+" в места " +place.getName());
+        if (user!=null) {
+            if (search(item, user)) {
+                remove(item, user, log);
+                log.getActions().remove("Пользователь " + user.getName() + " убрал предмет " + item.getName() + " из места " + getName());
+                place.insert(item, user, log);
+                log.getActions().remove("Пользователь " + user.getName() + " добавил предмет " + item.getName() + " в место " + place.getName());
+                log.getActions().add("Пользователь " + user.getName() + " переместил предмет " + item.getName() + " из места " + getName() + " в место " + place.getName());
+                System.out.println("Пользовать " + user.getName() + " переместил предмет " + item.getName() + " из места " + getName() + " в места " + place.getName());
+            } else {
+                System.out.println("Пользовать " + user.getName() + " не смог переместить предмет " + item.getName() + " из места " + getName() + " в места " + place.getName());
+            }
+        }else {
+            System.out.println("Этот пользователь не зарегестрирован в системе.");
         }
     }
 

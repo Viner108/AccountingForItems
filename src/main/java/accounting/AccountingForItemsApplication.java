@@ -12,6 +12,7 @@ import accounting.users.User;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,8 +38,8 @@ public class AccountingForItemsApplication {
     private Item dress = new Item("Dress", 2, 0.01, 1, 1.5);
     private Item trash = new Item("Trash", 7, 0.1, 0.04, 0.01);
     private Item hammock = new Item("Hammock", 7, 1.5, 2, 0.01);
-    private Documents document = new Documents("Contract", 5, 0.2, 0.5, 0.0001, 31536000);
-    private Medicines medicine = new Medicines("Pills", 6, 0.02, 0.05, 0.005, 7776000);
+    private Documents document = new Documents("Contract", 5, 0.2, 0.5, 0.0001,10,11,2015, "y",10);
+    private Medicines medicine = new Medicines("Pills", 6, 0.02, 0.05, 0.005,3,4,1999,"y",2);
     private SpareParts part = new SpareParts("Rope", 7, 0.01, 3, 0.01, hammock);
     private Table table = new Table("Table", 1, 2, 2);
     private Bed bed = new Bed("Bed", 2, 3, 5);
@@ -53,10 +54,11 @@ public class AccountingForItemsApplication {
 
     public void createUser(String login, String password) {
         User user = registrationProcessor.createUser(login, password);
-    }
-    public void loginUser(String login, String password) {
-        User user = loginProcessor.login(login, password);
         users.add(user);
+    }
+    public User loginUser(String login, String password) {
+        User user = loginProcessor.login(login, password);
+        return user;
     }
     public void isUser(String login, String password) {
         if(loginProcessor.isUser(login, password)){
@@ -77,7 +79,7 @@ public class AccountingForItemsApplication {
 
 
     public void save() throws IOException {
-        fileRepository.writeAllItem(itemPath, computer, toy, sweet, dress, trash, hammock, document, medicine, part);
+        fileRepository.writeAllItem(itemPath, computer, toy, sweet, dress, trash, hammock, document, document, part);
         fileRepository.writeAllPlace(placePath, armchair, bed, floor, suitcase, table);
 //        fileRepository.writeAction(path4, log);
     }
@@ -90,28 +92,79 @@ public class AccountingForItemsApplication {
     }
 
     public void searchInThisRoom(Item item, User user, Place... places) {
-        log.getActions().add("Пользователь " + user.getName() + " искал предмет " + item.getName() + " по всей комнате");
-        for (Place place : places) {
-            if (place.search(item, user)) {
-                place.answerSearch(item, user, log);
+        if (user!=null) {
+            log.getActions().add("Пользователь " + user.getName() + " искал предмет " + item.getName() + " по всей комнате");
+            for (Place place : places) {
+                if (place.search(item, user)) {
+                    place.answerSearch(item, user, log);
+                }
             }
         }
     }
 
     public void randomPlace(Item item, User user, Place... places) {
-        for (Place place : places) {
-            if (place.volume() > item.volume() && place.indexCheck(item)) {
-                place.insert(item, user, log);
-                break;
+        if (user!=null) {
+            for (Place place : places) {
+                if (place.volume() > item.volume() && place.indexCheck(item)) {
+                    place.insert(item, user, log);
+                    break;
+                }
             }
+        }else {
+            System.out.println("Этот пользователь не зарегестрирован в системе.");
         }
     }
-
-    //должна задаваться дата сегоднешнего дня и расчитываться сколько времени осталось до конца срока годности
-    //либо выдавать дату когда срок годности закончится
-
-    public long drugExpirationDate(Medicines medicine, long data) {
-        return medicine.getTerm() - data;
+    public void AllRoom(Item item, User user) {
+        if (user!=null) {
+            for (Place place : fileRepository.readFileWithPlaces(placePath)) {
+                if (place.volume() > item.volume() && place.indexCheck(item)) {
+                    place.insert(item, user, log);
+                    break;
+                }
+            }
+        }else {
+            System.out.println("Этот пользователь не зарегестрирован в системе.");
+        }
+    }
+    public boolean drugExpirationDate(Medicines medicine) {
+        LocalDate nowDate =LocalDate.now();
+        LocalDate date=null;
+        if(medicine.getDays()!=0){
+            date= medicine.getDateOfPurchase().plusDays(medicine.getDays());
+        }else if(medicine.getMonths()!=0){
+            date= medicine.getDateOfPurchase().plusMonths(medicine.getMonths());
+        }else if(medicine.getYears()!=0){
+            date= medicine.getDateOfPurchase().plusYears(medicine.getYears());
+        }
+        date=date.minusYears(nowDate.getYear());
+        date = date.minusMonths(nowDate.getMonthValue());
+        date = date.minusDays(nowDate.getDayOfMonth());
+        if(date.getYear()>=0&&date.getMonthValue()>=0&&date.getDayOfMonth()>0){
+            System.out.println("Лекарство "+medicine.getName()+" пригодно к использованию");
+            return true;
+        }
+        System.out.println("У лекарства "+medicine.getName()+" уже истек срок годности");
+        return false;
+    }
+    public boolean documentExpirationDate(Documents document) {
+        LocalDate nowDate =LocalDate.now();
+        LocalDate date=null;
+        if(this.document.getDays()!=0){
+            date= this.document.getDateOfPurchase().plusDays(this.document.getDays());
+        }else if(this.document.getMonths()!=0){
+            date= this.document.getDateOfPurchase().plusMonths(this.document.getMonths());
+        }else if(this.document.getYears()!=0){
+            date= this.document.getDateOfPurchase().plusYears(this.document.getYears());
+        }
+        date=date.minusYears(nowDate.getYear());
+        date = date.minusMonths(nowDate.getMonthValue());
+        date = date.minusDays(nowDate.getDayOfMonth());
+        if(date.getYear()>=0&&date.getMonthValue()>=0&&date.getDayOfMonth()>0){
+            System.out.println("У документа "+ this.document.getName()+" на данный момент срок годности не закончился");
+            return true;
+        }
+        System.out.println("У документа "+ this.document.getName()+" срок годности уже истек");
+        return false;
     }
 
     public User getPerson1() {
