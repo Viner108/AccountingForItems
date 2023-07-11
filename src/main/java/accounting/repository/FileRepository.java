@@ -1,10 +1,5 @@
 package accounting.repository;
 
-import accounting.items.Item;
-import accounting.room.Place;
-import accounting.users.ActionLog;
-import accounting.users.User;
-
 import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -17,8 +12,6 @@ public class FileRepository<T> {
         }
         write(path, allItem);
     }
-
-
     public ArrayList<T> readFileWithItems(Path path) {
         ArrayList<T> items = new ArrayList<>();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
@@ -48,18 +41,11 @@ public class FileRepository<T> {
     }
 
 
-    public void writeUser(Path path, ArrayList<T> allUser, boolean append) {
+    public void writeObject(Path path, ArrayList<T> allUser, boolean append) {
         try (ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(path.toFile(), append))) {
             oss.writeObject(allUser);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void writeAction(Path path, ActionLog log) throws IOException {
-        try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(path.toFile(), true))) {
-            outputStream.write(log.toString().getBytes());
-            outputStream.write(System.lineSeparator().getBytes());
         }
     }
 }

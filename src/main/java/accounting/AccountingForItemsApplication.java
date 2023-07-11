@@ -1,15 +1,11 @@
 package accounting;
 
-import accounting.items.Documents;
-import accounting.items.Item;
-import accounting.items.Medicines;
-import accounting.items.SpareParts;
-import accounting.repository.FileRepository;
-import accounting.repository.ItemRepository;
-import accounting.repository.PlaceRepository;
-import accounting.repository.UserRepository;
-import accounting.room.*;
-import accounting.users.ActionLog;
+import accounting.action.ActionRepository;
+import accounting.action.ListOfThingsInPlace;
+import accounting.items.*;
+import accounting.repository.*;
+import accounting.places.*;
+import accounting.action.ActionLog;
 import accounting.users.LoginProcessor;
 import accounting.users.RegistrationProcessor;
 import accounting.users.User;
@@ -25,7 +21,9 @@ public class AccountingForItemsApplication {
     private UserRepository userRepository = new UserRepository();
     private ItemRepository itemRepository = new ItemRepository();
     private PlaceRepository placeRepository = new PlaceRepository();
+    private ActionRepository actionRepository=new ActionRepository();
     private ActionLog log = new ActionLog();
+    private ListOfThingsInPlace listOfThingsInPlace=new ListOfThingsInPlace();
     private Path itemPath = Path.of("library", "Item.java");
     private Path placePath = Path.of("library", "Place.java");
     private Path userPath = Path.of("library", "User.java");
@@ -56,8 +54,20 @@ public class AccountingForItemsApplication {
     private User person1 = new User("Lera", 1, "123");
     private User person2 = new User("Ivan", 2, "321");
     private List<User> users = new ArrayList<>();
+    private List<Place> places = new ArrayList<>();
+    private List<Item> items = new ArrayList<>();
+    private ItemCreationProcessor itemCreationProcessor=new ItemCreationProcessor(itemPath);
+    private PlaceCreationProcessor placeCreationProcessor=new PlaceCreationProcessor(placePath);
     private RegistrationProcessor registrationProcessor = new RegistrationProcessor(userPath);
     private LoginProcessor loginProcessor = new LoginProcessor(userPath);
+    public void createItem(String name, int id, double width, double length, double height){
+        Item item =itemCreationProcessor.createItem(name,id,width,length,height);
+        items.add(item);
+    }
+    public void createPlace(String name, double width, double length, double height){
+        Place place=placeCreationProcessor.createPlace(name,width,length,height);
+        places.add(place);
+    }
 
     public void createUser(String login, String password) {
         User user = registrationProcessor.createUser(login, password);
@@ -68,6 +78,14 @@ public class AccountingForItemsApplication {
         User user = loginProcessor.login(login, password);
         return user;
     }
+    public Item useOfTheItem(String name) {
+        Item item = itemCreationProcessor.useOfTheItem(name);
+        return item;
+    }
+    public Place useOfThePlace(String name) {
+        Place place = placeCreationProcessor.useOfThePlace(name);
+        return place;
+    }
 
     public void isUser(String login, String password) {
         if (loginProcessor.isUser(login, password)) {
@@ -75,7 +93,7 @@ public class AccountingForItemsApplication {
         }
     }
 
-    public void readAll() throws IOException {
+    public void readAll(){
         for (User user : userRepository.readFileWithItems(userPath)) {
             System.out.println(user.toString());
         }
@@ -85,14 +103,12 @@ public class AccountingForItemsApplication {
         for (Place place : placeRepository.readFileWithItems(placePath)) {
             System.out.println(place.toString());
         }
-//        fileRepository.readFile(path4);
+        actionRepository.readFile(actionPath);
     }
 
 
     public void save() throws IOException {
-        itemRepository.writeAll(itemPath, computer, toy, sweet, dress, trash, hammock, document, document, part);
-        placeRepository.writeAll(placePath, armchair, bed, floor, suitcase, table);
-//        fileRepository.writeAction(path4, log);
+        actionRepository.writeAction(actionPath, log);
     }
 
     public void clean() {
@@ -102,12 +118,12 @@ public class AccountingForItemsApplication {
         fileRepository.cleanFile(actionPath);
     }
 
-    public void searchInThisRoom(Item item, User user, Place... places) {
+    public void searchInThisRoom(Item item, User user) {
         if (user != null) {
             log.getActions().add("Пользователь " + user.getName() + " искал предмет " + item.getName() + " по всей комнате");
-            for (Place place : places) {
-                if (place.search(item, user)) {
-                    place.answerSearch(item, user, log);
+            for (Place place : placeRepository.readFileWithItems(placePath)) {
+                if (place.search(item, user,listOfThingsInPlace)) {
+                    place.answerSearch(item, user, log,listOfThingsInPlace);
                 }
             }
         }
@@ -117,7 +133,7 @@ public class AccountingForItemsApplication {
         if (user != null) {
             for (Place place : places) {
                 if (place.volume() > item.volume() && place.indexCheck(item)) {
-                    place.insert(item, user, log);
+                    place.insert(item, user, log,listOfThingsInPlace);
                     break;
                 }
             }
@@ -130,7 +146,7 @@ public class AccountingForItemsApplication {
         if (user != null) {
             for (Place place : placeRepository.readFileWithItems(placePath)) {
                 if (place.volume() > item.volume() && place.indexCheck(item)) {
-                    place.insert(item, user, log);
+                    place.insert(item, user, log,listOfThingsInPlace);
                     break;
                 }
             }
@@ -179,6 +195,10 @@ public class AccountingForItemsApplication {
         }
         System.out.println("У документа " + this.document.getName() + " срок годности уже истек");
         return false;
+    }
+
+    public ListOfThingsInPlace getListOfThingsInPlace() {
+        return listOfThingsInPlace;
     }
 
     public User getPerson1() {

@@ -1,15 +1,15 @@
-package accounting.users;
+package accounting.action;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ActionLog {
 
-    private List<String> actions = new ArrayList<>();
+    private ArrayList<String> actions = new ArrayList<>();
     public ActionLog(){
 
     }
-    public List<String> getActions() {
+    public ArrayList<String> getActions() {
         return actions;
     }
 

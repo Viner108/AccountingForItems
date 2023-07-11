@@ -1,4 +1,4 @@
-package accounting.room;
+package accounting.places;
 
 public class Floor extends Place {
     private int[] trueId = {1, 4, 7};

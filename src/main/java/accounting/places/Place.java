@@ -1,7 +1,8 @@
-package accounting.room;
+package accounting.places;
 
+import accounting.action.ListOfThingsInPlace;
 import accounting.items.Item;
-import accounting.users.ActionLog;
+import accounting.action.ActionLog;
 import accounting.users.User;
 
 import java.io.Serializable;
@@ -28,17 +29,17 @@ public class Place implements Serializable {
         this.height = height;
     }
 
-    public void insert(Item item,User user, ActionLog log) {
+    public void insert(Item item, User user, ActionLog log, ListOfThingsInPlace list) {
         if (item.volume() < volume()) {
             if (indexCheck(item)) {
                 if(user!=null) {
-                    itemNames.add(item.getName());
                     log.getActions().add("Пользователь " + user.getName() + " добавил предмет " + item.getName() + " в место " + getName());
                     double volume = volume() - item.volume();
                     volume = Math.cbrt(volume);
                     this.width = volume;
                     this.length = volume;
                     this.height = volume;
+                    list.putOnTheList(item.getName(),getName());
                     System.out.println("Пользователь " + user.getName() + " добавил предмет " + item.getName() + " на место " + getName());
                 }else {
                     System.out.println("Этот пользователь не зарегестрирован в системе.");
@@ -64,8 +65,8 @@ public class Place implements Serializable {
         return trueId;
     }
 
-    public boolean search(Item item,User user) {
-        for (String integer : itemNames) {
+    public boolean search(Item item,User user,ListOfThingsInPlace list) {
+        for (String integer : list.getList().keySet()) {
             if (integer.equals(item.getName())) {
                 return true;
             }
@@ -73,10 +74,10 @@ public class Place implements Serializable {
         return false;
     }
 
-    public void answerSearch(Item item,User user, ActionLog log) {
+    public void answerSearch(Item item,User user, ActionLog log,ListOfThingsInPlace list) {
         if (user!=null) {
             log.getActions().add("Пользователь " + user.getName() + " искал предмет " + item.getName() + " в месте " + getName());
-            if (search(item, user)) {
+            if (search(item, user,list)) {
                 System.out.println("Предмет " + item.getName() + " находится в месте " + getName());
                 log.getActions().add("Пользователь " + user.getName() + " нашел предмет " + item.getName() + " в месте " + getName());
             } else {
@@ -92,10 +93,15 @@ public class Place implements Serializable {
         return name;
     }
 
-    public void remove(Item item,User user,ActionLog log) {
+    public void remove(Item item,User user,ActionLog log,ListOfThingsInPlace list) {
         if (user!=null) {
-            if (search(item, user)) {
-                itemNames.remove(item.getName());
+            if (search(item, user,list)) {
+                list.removeFromList(item.getName(),getName());
+                double volume = volume() + item.volume();
+                volume = Math.cbrt(volume);
+                this.width = volume;
+                this.length = volume;
+                this.height = volume;
                 log.getActions().add("Пользователь " + user.getName() + " убрал предмет " + item.getName() + " из места " + getName());
                 System.out.println("Пользователь " + user.getName() + " убрал предмет " + item.getName() + " из места " + getName());
             } else {
@@ -106,12 +112,14 @@ public class Place implements Serializable {
         }
     }
 
-    public void movement(Item item,User user, Place place,ActionLog log) {
+    public void movement(Item item,User user, Place place,ActionLog log,ListOfThingsInPlace list) {
         if (user!=null) {
-            if (search(item, user)) {
-                remove(item, user, log);
+            if (search(item, user,list)) {
+                remove(item, user, log,list);
+                list.removeFromList(item.getName(),getName());
                 log.getActions().remove("Пользователь " + user.getName() + " убрал предмет " + item.getName() + " из места " + getName());
-                place.insert(item, user, log);
+                place.insert(item, user, log,list);
+                list.putOnTheList(item.getName(),place.getName());
                 log.getActions().remove("Пользователь " + user.getName() + " добавил предмет " + item.getName() + " в место " + place.getName());
                 log.getActions().add("Пользователь " + user.getName() + " переместил предмет " + item.getName() + " из места " + getName() + " в место " + place.getName());
                 System.out.println("Пользовать " + user.getName() + " переместил предмет " + item.getName() + " из места " + getName() + " в места " + place.getName());
@@ -143,7 +151,6 @@ public class Place implements Serializable {
                 ", Свободное место в ширину=" + width +
                 ", Свободное место в длину=" + length +
                 ", Свободное место в высоту=" + height +
-                ", Список вещей находящихся в этом месте=" + itemNames +
                 '}';
     }
 }

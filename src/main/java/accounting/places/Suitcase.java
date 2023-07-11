@@ -1,4 +1,4 @@
-package accounting.room;
+package accounting.places;
 
 public class Suitcase extends Place {
     private int[] trueId = {1, 2, 5,6,7};

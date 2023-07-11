@@ -1,6 +1,6 @@
 package accounting.repository;
 
-import accounting.room.Place;
+import accounting.places.Place;
 
 public class PlaceRepository extends FileRepository<Place>{
 }

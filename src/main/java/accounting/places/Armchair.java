@@ -1,4 +1,4 @@
-package accounting.room;
+package accounting.places;
 
 public class Armchair extends Place {
     private int[] trueId = {2};
