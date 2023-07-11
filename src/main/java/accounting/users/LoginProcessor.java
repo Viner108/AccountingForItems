@@ -1,17 +1,16 @@
 package accounting.users;
 
-import accounting.FileRepository;
+import accounting.repository.FileRepository;
+import accounting.repository.UserRepository;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class LoginProcessor {
-    private FileRepository fileRepository = new FileRepository();
+    private UserRepository fileRepository = new UserRepository();
     private Path path;
 
     public LoginProcessor(Path path) {
