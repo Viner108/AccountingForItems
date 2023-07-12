@@ -52,8 +52,8 @@ public class Test {
 //        application.getTable().answerSearch(application.getDress(),application.loginUser("X","Y"),application.getLog());
 //        application.AllRoom(application.getComputer(),application.loginUser("X","Y"));
 //        application.AllRoom(application.getComputer(),application.loginUser("X5","Y5"));
-//        application.drugExpirationDate(application.getMedicine());
-//        application.documentExpirationDate(application.getDocument());
+        application.drugExpirationDate(application.getMedicine());
+        application.documentExpirationDate(application.getDocument());
         application.readAll();
     }
 }

@@ -6,6 +6,10 @@ import accounting.items.*;
 import accounting.repository.*;
 import accounting.places.*;
 import accounting.action.ActionLog;
+import accounting.service.DocumentService;
+import accounting.service.DrugService;
+import accounting.service.ItemService;
+import accounting.service.PlaceService;
 import accounting.users.LoginProcessor;
 import accounting.users.RegistrationProcessor;
 import accounting.users.User;
@@ -56,10 +60,11 @@ public class AccountingForItemsApplication {
     private List<User> users = new ArrayList<>();
     private List<Place> places = new ArrayList<>();
     private List<Item> items = new ArrayList<>();
-    private ItemCreationProcessor itemCreationProcessor=new ItemCreationProcessor(itemPath);
-    private PlaceCreationProcessor placeCreationProcessor=new PlaceCreationProcessor(placePath);
+    private ItemService itemCreationProcessor=new ItemService(itemPath);
+    private PlaceService placeCreationProcessor=new PlaceService(placePath);
     private RegistrationProcessor registrationProcessor = new RegistrationProcessor(userPath);
     private LoginProcessor loginProcessor = new LoginProcessor(userPath);
+
     public void createItem(String name, int id, double width, double length, double height){
         Item item =itemCreationProcessor.createItem(name,id,width,length,height);
         items.add(item);
@@ -155,46 +160,22 @@ public class AccountingForItemsApplication {
         }
     }
 
-    public boolean drugExpirationDate(Medicines medicine) {
-        LocalDate nowDate = LocalDate.now();
-        LocalDate date = null;
-        if (medicine.getDays() != 0) {
-            date = medicine.getDateOfPurchase().plusDays(medicine.getDays());
-        } else if (medicine.getMonths() != 0) {
-            date = medicine.getDateOfPurchase().plusMonths(medicine.getMonths());
-        } else if (medicine.getYears() != 0) {
-            date = medicine.getDateOfPurchase().plusYears(medicine.getYears());
-        }
-        date = date.minusYears(nowDate.getYear());
-        date = date.minusMonths(nowDate.getMonthValue());
-        date = date.minusDays(nowDate.getDayOfMonth());
-        if (date.getYear() >= 0 && date.getMonthValue() >= 0 && date.getDayOfMonth() > 0) {
+    public void drugExpirationDate(Medicines medicine) {
+        DrugService drugService=new DrugService(medicine);
+        if (drugService.drugExpirationDate()){
             System.out.println("Лекарство " + medicine.getName() + " пригодно к использованию");
-            return true;
+        }else {
+            System.out.println("У лекарства " + medicine.getName() + " уже истек срок годности");
         }
-        System.out.println("У лекарства " + medicine.getName() + " уже истек срок годности");
-        return false;
     }
 
-    public boolean documentExpirationDate(Documents document) {
-        LocalDate nowDate = LocalDate.now();
-        LocalDate date = null;
-        if (this.document.getDays() != 0) {
-            date = this.document.getDateOfPurchase().plusDays(this.document.getDays());
-        } else if (this.document.getMonths() != 0) {
-            date = this.document.getDateOfPurchase().plusMonths(this.document.getMonths());
-        } else if (this.document.getYears() != 0) {
-            date = this.document.getDateOfPurchase().plusYears(this.document.getYears());
-        }
-        date = date.minusYears(nowDate.getYear());
-        date = date.minusMonths(nowDate.getMonthValue());
-        date = date.minusDays(nowDate.getDayOfMonth());
-        if (date.getYear() >= 0 && date.getMonthValue() >= 0 && date.getDayOfMonth() > 0) {
-            System.out.println("У документа " + this.document.getName() + " на данный момент срок годности не закончился");
-            return true;
-        }
-        System.out.println("У документа " + this.document.getName() + " срок годности уже истек");
-        return false;
+    public void documentExpirationDate(Documents document) {
+        DocumentService drugExpirationDate=new DocumentService(document);
+       if(drugExpirationDate.documentExpirationDate()){
+           System.out.println("У документа " + this.document.getName() + " на данный момент срок годности не закончился");
+       }else {
+           System.out.println("У документа " + this.document.getName() + " срок годности уже истек");
+       }
     }
 
     public ListOfThingsInPlace getListOfThingsInPlace() {

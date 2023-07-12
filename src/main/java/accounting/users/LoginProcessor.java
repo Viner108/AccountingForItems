@@ -20,11 +20,12 @@ public class LoginProcessor {
         User user1=null;
        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
            ArrayList<User> users=((ArrayList<User>) ois.readObject());
-           for (User user:users){
-               if(Objects.equals(user.getName(), login) && Objects.equals(user.getPassword(), password)){
-                   user1=user;
-               }
-           }
+           user1=users.stream().filter(user -> user.getName().equals(login)&&user.getPassword().equals(password)).findFirst().get();
+//           for (User user:users){
+//               if(Objects.equals(user.getName(), login) && Objects.equals(user.getPassword(), password)){
+//                   user1=user;
+//               }
+//           }
        }catch (Exception e){
            e.printStackTrace();
        }

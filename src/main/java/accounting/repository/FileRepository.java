@@ -3,13 +3,15 @@ package accounting.repository;
 import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class FileRepository<T> {
     public void writeAll(Path path, T... items) {
         ArrayList<T> allItem = new ArrayList<>();
-        for (T item : items) {
-            allItem.add(item);
-        }
+        Arrays.stream(items).forEach(item ->allItem.add(item));
+//        for (T item : items) {
+//            allItem.add(item);
+//        }
         write(path, allItem);
     }
     public ArrayList<T> readFileWithItems(Path path) {

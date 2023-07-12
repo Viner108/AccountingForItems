@@ -1,8 +1,7 @@
-package accounting.items;
+package accounting.service;
 
+import accounting.items.Item;
 import accounting.repository.ItemRepository;
-import accounting.repository.UserRepository;
-import accounting.users.User;
 
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
@@ -10,12 +9,12 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class ItemCreationProcessor {
+public class ItemService {
     private ItemRepository fileRepository = new ItemRepository();
     private Path path;
     private ArrayList<Item> items = new ArrayList<>();
 
-    public ItemCreationProcessor(Path path) {
+    public ItemService(Path path) {
         this.path = path;
     }
 
@@ -30,11 +29,12 @@ public class ItemCreationProcessor {
         Item item1 = null;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
             ArrayList<Item> items1 = ((ArrayList<Item>) ois.readObject());
-            for (Item item : items1) {
-                if (Objects.equals(item.getName(), name)) {
-                    item1 = item;
-                }
-            }
+            item1=items1.stream().filter(item -> item.getName().equals(name)).findFirst().get();
+//            for (Item item : items1) {
+//                if (Objects.equals(item.getName(), name)) {
+//                    item1 = item;
+//                }
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

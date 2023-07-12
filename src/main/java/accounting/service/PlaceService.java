@@ -1,5 +1,6 @@
-package accounting.places;
+package accounting.service;
 
+import accounting.places.Place;
 import accounting.repository.PlaceRepository;
 
 import java.io.FileInputStream;
@@ -8,12 +9,12 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class PlaceCreationProcessor {
+public class PlaceService {
     private PlaceRepository fileRepository = new PlaceRepository();
     private Path path;
     private ArrayList<Place> places = new ArrayList<>();
 
-    public PlaceCreationProcessor(Path path) {
+    public PlaceService(Path path) {
         this.path = path;
     }
 
@@ -27,11 +28,12 @@ public class PlaceCreationProcessor {
         Place place1=null;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
             ArrayList<Place> places1=((ArrayList<Place>) ois.readObject());
-            for (Place place:places1){
-                if(Objects.equals(place.getName(), name)){
-                    place1=place;
-                }
-            }
+            place1=places1.stream().filter(place -> place.getName().equals(name)).findFirst().get();
+//            for (Place place:places1){
+//                if(Objects.equals(place.getName(), name)){
+//                    place1=place;
+//                }
+//            }
         }catch (Exception e){
             e.printStackTrace();
         }
