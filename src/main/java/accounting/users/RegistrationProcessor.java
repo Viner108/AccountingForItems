@@ -17,7 +17,7 @@ public class RegistrationProcessor {
     public User createUser(String login, String password) {
         User user = new User(login,hashCode(),password);
         users.add(user);
-        fileRepository.writeObject(path,users,false);
+        fileRepository.writeWithAppend(path,users,false);
         return user;
     }
 }

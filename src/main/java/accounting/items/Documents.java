@@ -4,9 +4,6 @@ import java.time.LocalDate;
 
 public class Documents extends Item{
     private String name;
-    private long days;
-    private long years;
-    private long months;
     private LocalDate validByDate;
     public Documents(String name, int id, double width, double length, double height, int day,int month,int year) {
         super(name, id, width, length, height);
@@ -19,17 +16,6 @@ public class Documents extends Item{
         return name;
     }
 
-    public long getDays() {
-        return days;
-    }
-
-    public long getYears() {
-        return years;
-    }
-
-    public long getMonths() {
-        return months;
-    }
 
     public LocalDate getValidByDate() {
         return validByDate;

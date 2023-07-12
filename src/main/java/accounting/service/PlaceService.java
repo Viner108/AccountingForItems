@@ -22,7 +22,7 @@ public class PlaceService implements Serializable {
     public Place createPlace(String name, double width, double length, double height) {
         Place place = new Place(name, width, length, height);
         places.add(place);
-        fileRepository.writeObject(path, places, false);
+        fileRepository.writeWithAppend(path, places, false);
         return place;
     }
 
@@ -52,7 +52,7 @@ public class PlaceService implements Serializable {
                     places1.add(newPlace);
                 }
             }
-            fileRepository.writeObject(path, places1, false);
+            fileRepository.writeWithAppend(path, places1, false);
         } catch (Exception e) {
             e.printStackTrace();
         }

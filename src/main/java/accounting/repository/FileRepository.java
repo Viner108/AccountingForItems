@@ -43,7 +43,7 @@ public class FileRepository<T> {
     }
 
 
-    public void writeObject(Path path, ArrayList<T> allUser, boolean append) {
+    public void writeWithAppend(Path path, ArrayList<T> allUser, boolean append) {
         try (ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(path.toFile(), append))) {
             oss.writeObject(allUser);
         } catch (IOException e) {

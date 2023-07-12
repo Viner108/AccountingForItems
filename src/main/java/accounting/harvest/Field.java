@@ -1,13 +1,18 @@
 package accounting.harvest;
 
-public class Field {
-    private double width;
-    private double length;
-    private double height;
+import java.util.ArrayList;
 
-    public Field(double width, double length, double height) {
-        this.width = width;
-        this.length = length;
-        this.height = height;
+public class Field {
+    private double wight;
+    private double row;
+    private ArrayList<Plant> planting=new ArrayList<>();
+
+    public Field(double wight, double row) {
+        this.wight = wight;
+        this.row = row;
+    }
+    public void addPlants(Plant plant){
+        planting.add(plant);
+        this.row-=plant.getRow();
     }
 }
