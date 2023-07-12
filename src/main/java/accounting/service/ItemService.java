@@ -29,7 +29,7 @@ public class ItemService {
         Item item1 = null;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
             ArrayList<Item> items1 = ((ArrayList<Item>) ois.readObject());
-            item1=items1.stream().filter(item -> item.getName().equals(name)).findFirst().get();
+            item1=items1.stream().filter(item -> Objects.equals(item.getName(),name)).findFirst().get();
 //            for (Item item : items1) {
 //                if (Objects.equals(item.getName(), name)) {
 //                    item1 = item;

@@ -2,5 +2,7 @@ package accounting.repository;
 
 import accounting.places.Place;
 
-public class PlaceRepository extends FileRepository<Place>{
+import java.io.Serializable;
+
+public class PlaceRepository extends FileRepository<Place> {
 }

@@ -6,7 +6,7 @@ public class User extends Object implements Serializable {
     private String name;
     private int id;
     private String password;
-
+    private boolean online=false;
     public User(String name, int id, String password) {
         this.name = name;
         this.id = id;

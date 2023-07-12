@@ -1,9 +1,10 @@
 package accounting.action;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ListOfThingsInPlace {
+public class ListOfThingsInPlace implements Serializable {
     private Map<String,String> list=new HashMap<>();
     public void putOnTheList(String item, String place){
         list.put(item,place);

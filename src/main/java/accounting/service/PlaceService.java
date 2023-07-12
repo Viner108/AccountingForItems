@@ -5,15 +5,15 @@ import accounting.repository.PlaceRepository;
 
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class PlaceService {
+public class PlaceService implements Serializable {
     private PlaceRepository fileRepository = new PlaceRepository();
     private Path path;
     private ArrayList<Place> places = new ArrayList<>();
-
     public PlaceService(Path path) {
         this.path = path;
     }
@@ -28,7 +28,7 @@ public class PlaceService {
         Place place1=null;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
             ArrayList<Place> places1=((ArrayList<Place>) ois.readObject());
-            place1=places1.stream().filter(place -> place.getName().equals(name)).findFirst().get();
+            place1=places1.stream().filter(place -> Objects.equals(place.getName(),name)).findFirst().get();
 //            for (Place place:places1){
 //                if(Objects.equals(place.getName(), name)){
 //                    place1=place;
