@@ -13,15 +13,7 @@ public class DocumentService {
 
     public boolean documentExpirationDate() {
         LocalDate nowDate = LocalDate.now();
-        LocalDate date = null;
-        if (this.document.getDays() != 0) {
-            date = this.document.getDateOfPurchase().plusDays(this.document.getDays());
-        } else if (this.document.getMonths() != 0) {
-            date = this.document.getDateOfPurchase().plusMonths(this.document.getMonths());
-        } else if (this.document.getYears() != 0) {
-            date = this.document.getDateOfPurchase().plusYears(this.document.getYears());
-        }
-        if (nowDate.isBefore(date)) {
+        if (nowDate.isBefore(document.getValidByDate())) {
             return true;
         }
         return false;

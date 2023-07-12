@@ -12,7 +12,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Place implements Serializable {
     private String name;
     private int[] trueId = {1, 2, 3, 4, 5,6,7};
@@ -32,6 +31,35 @@ public class Place implements Serializable {
         this.height = height;
     }
 
+    public String getName() {
+        return name;
+    }
+    public double getWidth() {
+        return width;
+    }
+
+    public double getLength() {
+        return length;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+
+    public int[] getTrueId() {
+        return trueId;
+    }
+
+    @Override
+    public String toString() {
+        return "Place{" +
+                "Назывние места='" + name + '\'' +
+                ", Свободное место в ширину=" + width +
+                ", Свободное место в длину=" + length +
+                ", Свободное место в высоту=" + height +
+                '}';
+    }
 //    public void insert(Item item, User user, ActionLog log, ListOfThingsInPlace list) {
 //        if (item.volume() < volume()) {
 //            if (indexCheck(item)) {
@@ -53,8 +81,8 @@ public class Place implements Serializable {
 //        } else {
 //            System.out.println("Для предмета " + item.getName() + " нет места на " + getName());
 //        }
-//    }
 
+//    }
 //    public boolean indexCheck(Item item) {
 //        for (int i : getTrueId()) {
 //            if (i == item.getId()) {
@@ -62,11 +90,8 @@ public class Place implements Serializable {
 //            }
 //        }
 //        return false;
-//    }
 
-    public int[] getTrueId() {
-        return trueId;
-    }
+//    }
 
 //    public boolean search(Item item,User user,ListOfThingsInPlace list) {
 //        for (String integer : list.getList().keySet()) {
@@ -75,8 +100,8 @@ public class Place implements Serializable {
 //            }
 //        }
 //        return false;
-//    }
 
+//    }
 //    public void answerSearch(Item item,User user, ActionLog log,ListOfThingsInPlace list) {
 //        if (user!=null) {
 //            log.getActions().add("Пользователь " + user.getName() + " искал предмет " + item.getName() + " в месте " + getName());
@@ -90,11 +115,8 @@ public class Place implements Serializable {
 //        }else {
 //            System.out.println("Этот пользователь не зарегестрирован в системе.");
 //        }
-//    }
 
-    public String getName() {
-        return name;
-    }
+//    }
 
 //    public void remove(Item item,User user,ActionLog log,ListOfThingsInPlace list) {
 //        if (user!=null) {
@@ -114,7 +136,6 @@ public class Place implements Serializable {
 //            System.out.println("Этот пользователь не зарегестрирован в системе.");
 //        }
 //    }
-
 //    public void movement(Item item,User user, Place place,ActionLog log,ListOfThingsInPlace list) {
 //        if (user!=null) {
 //            if (search(item, user,list)) {
@@ -132,29 +153,8 @@ public class Place implements Serializable {
 //        }else {
 //            System.out.println("Этот пользователь не зарегестрирован в системе.");
 //        }
+
 //    }
-
-    public double getWidth() {
-        return width;
-    }
-
-    public double getLength() {
-        return length;
-    }
-
-    public double getHeight() {
-        return height;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Place{" +
-                "Назывние места='" + name + '\'' +
-                ", Свободное место в ширину=" + width +
-                ", Свободное место в длину=" + length +
-                ", Свободное место в высоту=" + height +
-                '}';
-    }
 }
+
 

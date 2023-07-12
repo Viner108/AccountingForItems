@@ -46,8 +46,8 @@ public class AccountingForItemsApplication {
     private Item dress = new Item("Dress", 2, 0.01, 1, 1.5);
     private Item trash = new Item("Trash", 7, 0.1, 0.04, 0.01);
     private Item hammock = new Item("Hammock", 7, 1.5, 2, 0.01);
-    private Documents document = new Documents("Contract", 5, 0.2, 0.5, 0.0001, 10, 11, 2015, "y", 10);
-    private Medicines medicine = new Medicines("Pills", 6, 0.02, 0.05, 0.005, 3, 4, 1999, "y", 2);
+    private Documents document = new Documents("Contract", 5, 0.2, 0.5, 0.0001, 10, 11, 2023);
+    private Medicines medicine = new Medicines("Pills", 6, 0.02, 0.05, 0.005, 3, 4, 2022);
     private SpareParts part = new SpareParts("Rope", 7, 0.01, 3, 0.01, hammock);
     private Table table = new Table("Table", 1, 2, 2);
     private Bed bed = new Bed("Bed", 2, 3, 5);
