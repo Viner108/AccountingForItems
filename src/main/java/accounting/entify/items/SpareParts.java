@@ -1,4 +1,4 @@
-package accounting.items;
+package accounting.entify.items;
 
 public class SpareParts extends Item {
     Item parent;

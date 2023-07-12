@@ -1,8 +1,6 @@
 package accounting.repository;
 
-import accounting.places.Place;
-
-import java.io.Serializable;
+import accounting.entify.places.Place;
 
 public class PlaceRepository extends FileRepository<Place> {
 }

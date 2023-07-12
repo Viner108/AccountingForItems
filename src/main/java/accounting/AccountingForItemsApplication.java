@@ -1,18 +1,22 @@
 package accounting;
 
-import accounting.action.ActionRepository;
-import accounting.action.ListOfThingsInPlace;
+import accounting.entify.items.Documents;
+import accounting.entify.items.Item;
+import accounting.entify.items.Medicines;
+import accounting.entify.places.Place;
+import accounting.repository.ActionRepository;
+import accounting.entify.action.ListOfThingsInPlace;
 import accounting.items.*;
 import accounting.repository.*;
 import accounting.places.*;
-import accounting.action.ActionLog;
+import accounting.entify.action.ActionLog;
 import accounting.service.DocumentService;
 import accounting.service.DrugService;
 import accounting.service.ItemService;
 import accounting.service.PlaceService;
-import accounting.users.LoginProcessor;
-import accounting.users.RegistrationProcessor;
-import accounting.users.User;
+import accounting.service.user_service.LoginProcessor;
+import accounting.service.user_service.RegistrationProcessor;
+import accounting.entify.users.User;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -40,22 +44,6 @@ public class AccountingForItemsApplication {
     //  5-документы
     //  6-лекарства
     //  7-другое
-    private Item computer = new Item("Computer", 1, 1, 1, 1);
-    private Item toy = new Item("Toy", 7, 2, 2, 2);
-    private Item sweet = new Item("Sweet", 3, 0.01, 0.05, 0.01);
-    private Item dress = new Item("Dress", 2, 0.01, 1, 1.5);
-    private Item trash = new Item("Trash", 7, 0.1, 0.04, 0.01);
-    private Item hammock = new Item("Hammock", 7, 1.5, 2, 0.01);
-    private Documents document = new Documents("Contract", 5, 0.2, 0.5, 0.0001, 10, 11, 2023);
-    private Medicines medicine = new Medicines("Pills", 6, 0.02, 0.05, 0.005, 3, 4, 2022);
-    private SpareParts part = new SpareParts("Rope", 7, 0.01, 3, 0.01, hammock);
-    private Table table = new Table("Table", 1, 2, 2);
-    private Bed bed = new Bed("Bed", 2, 3, 5);
-    private Suitcase suitcase = new Suitcase("Suitcase", 0.5, 1, 0.5);
-    private Floor floor = new Floor("Floor", 3, 4, 5);
-    private Armchair armchair = new Armchair("Armchair", 1, 1, 1.5);
-    private User person1 = new User("Lera", 1, "123");
-    private User person2 = new User("Ivan", 2, "321");
     private List<User> users = new ArrayList<>();
     private List<Place> places = new ArrayList<>();
     private List<Item> items = new ArrayList<>();
@@ -181,10 +169,11 @@ public class AccountingForItemsApplication {
             System.out.println("Этот пользователь не зарегестрирован в системе.");
         }
     }
-    public void remove(Place place,Item item,User user) {
-        if (user!=null) {
+
+    public void remove(Place place, Item item, User user) {
+        if (user != null) {
             if (search(item, user)) {
-                listOfThingsInPlace.removeFromList(item.getName(),place.getName());
+                listOfThingsInPlace.removeFromList(item.getName(), place.getName());
                 double volume = place.volume() + item.volume();
                 volume = Math.cbrt(volume);
                 double width = volume;
@@ -196,7 +185,7 @@ public class AccountingForItemsApplication {
             } else {
                 System.out.println("Пользовать " + user.getName() + " не смог убрать предмет " + item.getName());
             }
-        }else {
+        } else {
             System.out.println("Этот пользователь не зарегестрирован в системе.");
         }
     }
@@ -206,7 +195,7 @@ public class AccountingForItemsApplication {
             log.getActions().add("Пользователь " + user.getName() + " искал предмет " + item.getName() + " по всей комнате");
             for (Place place : placeRepository.readFileWithItems(placePath)) {
                 if (search(item, user)) {
-                    answerSearch(place,item, user);
+                    answerSearch(place, item, user);
                 }
             }
         }
@@ -215,8 +204,8 @@ public class AccountingForItemsApplication {
     public void randomPlace(Item item, User user, Place... places) {
         if (user != null) {
             for (Place place : places) {
-                if (place.volume() > item.volume() && indexCheck(item,place)) {
-                    insert(place,item, user);
+                if (place.volume() > item.volume() && indexCheck(item, place)) {
+                    insert(place, item, user);
                     break;
                 }
             }
@@ -228,8 +217,8 @@ public class AccountingForItemsApplication {
     public void AllRoom(Item item, User user) {
         if (user != null) {
             for (Place place : placeRepository.readFileWithItems(placePath)) {
-                if (place.volume() > item.volume() &&indexCheck(item,place)) {
-                    insert(place,item, user);
+                if (place.volume() > item.volume() && indexCheck(item, place)) {
+                    insert(place, item, user);
                     break;
                 }
             }
@@ -250,18 +239,14 @@ public class AccountingForItemsApplication {
     public void documentExpirationDate(Documents document) {
         DocumentService drugExpirationDate = new DocumentService(document);
         if (drugExpirationDate.documentExpirationDate()) {
-            System.out.println("У документа " + this.document.getName() + " на данный момент срок годности не закончился");
+            System.out.println("У документа " + document.getName() + " на данный момент срок годности не закончился");
         } else {
-            System.out.println("У документа " + this.document.getName() + " срок годности уже истек");
+            System.out.println("У документа " + document.getName() + " срок годности уже истек");
         }
     }
 
     public ListOfThingsInPlace getListOfThingsInPlace() {
         return listOfThingsInPlace;
-    }
-
-    public User getPerson1() {
-        return person1;
     }
 
     public FileRepository getFileRepository() {
@@ -276,9 +261,6 @@ public class AccountingForItemsApplication {
         return userPath;
     }
 
-    public User getPerson2() {
-        return person2;
-    }
 
     public Path getItemPath() {
         return itemPath;
@@ -288,59 +270,4 @@ public class AccountingForItemsApplication {
         return placePath;
     }
 
-    public Item getComputer() {
-        return computer;
-    }
-
-    public Item getToy() {
-        return toy;
-    }
-
-    public Item getSweet() {
-        return sweet;
-    }
-
-    public Item getDress() {
-        return dress;
-    }
-
-    public Item getTrash() {
-        return trash;
-    }
-
-    public Item getHammock() {
-        return hammock;
-    }
-
-    public Documents getDocument() {
-        return document;
-    }
-
-    public Medicines getMedicine() {
-        return medicine;
-    }
-
-    public SpareParts getPart() {
-        return part;
-    }
-
-    public Table getTable() {
-        return table;
-    }
-
-    public Bed getBed() {
-        return bed;
-    }
-
-    public Suitcase getSuitcase() {
-        return suitcase;
-    }
-
-    public Floor getFloor() {
-        return floor;
-    }
-
-    public Armchair getArmchair() {
-        return armchair;
-    }
 }

@@ -1,15 +1,16 @@
-package accounting.items;
+package accounting.entify.items;
 
 import java.time.LocalDate;
 
-public class Medicines extends Item {
+public class Documents extends Item{
     private String name;
     private LocalDate validByDate;
-    public Medicines(String name, int id, double width, double length, double height, int day,int month,int year) {
+    public Documents(String name, int id, double width, double length, double height, int day,int month,int year) {
         super(name, id, width, length, height);
         this.name = name;
         this.validByDate =LocalDate.of(year,month,day);
     }
+
 
     public String getName() {
         return name;

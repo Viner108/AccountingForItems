@@ -1,4 +1,4 @@
-package accounting.harvest;
+package accounting.entify.harvest;
 
 public class Plant {
     private int row;

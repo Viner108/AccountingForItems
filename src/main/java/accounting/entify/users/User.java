@@ -1,4 +1,4 @@
-package accounting.users;
+package accounting.entify.users;
 
 import java.io.Serializable;
 

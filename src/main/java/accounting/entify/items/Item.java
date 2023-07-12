@@ -1,4 +1,4 @@
-package accounting.items;
+package accounting.entify.items;
 
 import java.io.Serializable;
 

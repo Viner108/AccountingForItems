@@ -1,6 +1,6 @@
 package accounting.service;
 
-import accounting.items.Item;
+import accounting.entify.items.Item;
 import accounting.repository.ItemRepository;
 
 import java.io.FileInputStream;

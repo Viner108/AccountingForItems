@@ -1,14 +1,6 @@
-package accounting.places;
-
-import accounting.action.ListOfThingsInPlace;
-import accounting.items.Item;
-import accounting.action.ActionLog;
-import accounting.repository.PlaceRepository;
-import accounting.service.PlaceService;
-import accounting.users.User;
+package accounting.entify.places;
 
 import java.io.Serializable;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 

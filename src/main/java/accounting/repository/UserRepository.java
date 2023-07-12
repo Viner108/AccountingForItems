@@ -1,6 +1,6 @@
 package accounting.repository;
 
-import accounting.users.User;
+import accounting.entify.users.User;
 
 public class UserRepository extends FileRepository<User> {
 }

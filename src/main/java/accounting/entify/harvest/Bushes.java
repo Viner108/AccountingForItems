@@ -1,4 +1,4 @@
-package accounting.harvest;
+package accounting.entify.harvest;
 
 public class Bushes {
     private int NumberOfBushes;

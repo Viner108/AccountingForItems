@@ -1,6 +1,6 @@
 package accounting.service;
 
-import accounting.items.Medicines;
+import accounting.entify.items.Medicines;
 
 import java.time.LocalDate;
 

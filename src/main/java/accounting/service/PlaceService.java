@@ -1,6 +1,6 @@
 package accounting.service;
 
-import accounting.places.Place;
+import accounting.entify.places.Place;
 import accounting.repository.PlaceRepository;
 
 import java.io.FileInputStream;

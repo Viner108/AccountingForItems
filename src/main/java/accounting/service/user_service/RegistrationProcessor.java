@@ -1,6 +1,7 @@
-package accounting.users;
+package accounting.service.user_service;
 
 import accounting.repository.UserRepository;
+import accounting.entify.users.User;
 
 import java.nio.file.Path;
 import java.util.ArrayList;

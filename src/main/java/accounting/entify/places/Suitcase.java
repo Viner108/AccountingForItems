@@ -1,4 +1,4 @@
-package accounting.places;
+package accounting.entify.places;
 
 public class Suitcase extends Place {
     private int[] trueId = {1, 2, 5,6,7};

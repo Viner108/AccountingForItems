@@ -1,13 +1,12 @@
-package accounting.users;
+package accounting.service.user_service;
 
-import accounting.repository.FileRepository;
 import accounting.repository.UserRepository;
+import accounting.entify.users.User;
 
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class LoginProcessor {
     private UserRepository fileRepository = new UserRepository();

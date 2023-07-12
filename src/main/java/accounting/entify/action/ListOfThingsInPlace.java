@@ -1,4 +1,4 @@
-package accounting.action;
+package accounting.entify.action;
 
 import java.io.Serializable;
 import java.util.HashMap;
