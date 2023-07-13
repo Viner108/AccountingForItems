@@ -18,7 +18,10 @@ public class FileRepository<T> {
         ArrayList<T> items = new ArrayList<>();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
             items = ((ArrayList<T>) ois.readObject());
-        } catch (Exception e) {
+        } catch (EOFException e) {
+            e.printStackTrace();
+            return items;
+        } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
         return items;
