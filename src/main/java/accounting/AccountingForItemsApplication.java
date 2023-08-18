@@ -2,14 +2,16 @@ package accounting;
 
 import accounting.entify.items.Documents;
 import accounting.entify.items.Item;
+import accounting.entify.items.ItemMap;
 import accounting.entify.items.Medicines;
 import accounting.entify.places.Place;
+import accounting.entify.places.PlaceWrapper;
 import accounting.repository.ActionRepository;
 import accounting.entify.action.ListOfThingsInPlace;
-import accounting.entify.items.*;
 import accounting.repository.*;
-import accounting.entify.places.*;
 import accounting.entify.action.ActionLog;
+import accounting.repository.xml.ItemXmlRepository;
+import accounting.repository.xml.PlaceXmlRepository;
 import accounting.service.DocumentService;
 import accounting.service.DrugService;
 import accounting.service.ItemService;
@@ -18,23 +20,34 @@ import accounting.service.user_service.LoginProcessor;
 import accounting.service.user_service.RegistrationProcessor;
 import accounting.entify.users.User;
 
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AccountingForItemsApplication {
     private FileRepository fileRepository = new FileRepository();
     private UserRepository userRepository = new UserRepository();
     private ItemRepository itemRepository = new ItemRepository();
-    private PlaceRepository placeRepository = new PlaceRepository();
+    private PlaceFileRepository placeFileRepository = new PlaceFileRepository();
     private ActionRepository actionRepository = new ActionRepository();
     private ActionLog log = new ActionLog();
     private ListOfThingsInPlace listOfThingsInPlace = new ListOfThingsInPlace();
+    private Path itemXmlPath = Path.of("library", "Items.xml");
+    private Path placeXmlPath = Path.of("library", "Places.xml");
     private Path itemPath = Path.of("library", "Item.java");
     private Path placePath = Path.of("library", "Place.java");
     private Path userPath = Path.of("library", "User.java");
     private Path actionPath = Path.of("library", "Action.java");
+    private ItemXmlRepository itemXmlRepository=new ItemXmlRepository(itemXmlPath);
+    private PlaceXmlRepository placeXmlRepository=new PlaceXmlRepository(placeXmlPath);
+    private ItemMap itemMap=new ItemMap();
+    private Map<Integer,Item> map=new HashMap<>();
 
     // id - категория предмета
     //  1-техника
@@ -47,19 +60,23 @@ public class AccountingForItemsApplication {
     private List<User> users = new ArrayList<>();
     private List<Place> places = new ArrayList<>();
     private List<Item> items = new ArrayList<>();
-    private ItemService itemService = new ItemService(itemPath);
-    private PlaceService placeService = new PlaceService(placePath);
+    private PlaceWrapper placeWrapper=new PlaceWrapper();
+    private ItemService itemService = new ItemService(itemXmlPath);
+    private PlaceService placeService = new PlaceService(placeXmlPath);
     private RegistrationProcessor registrationProcessor = new RegistrationProcessor(userPath);
     private LoginProcessor loginProcessor = new LoginProcessor(userPath);
 
     public void createItem(String name, int id, double width, double length, double height) {
         Item item = itemService.createItem(name, id, width, length, height);
         items.add(item);
+        map.put(items.size(),item);
+        itemMap.setItemMap(map);
     }
 
     public void createPlace(String name, double width, double length, double height) {
         Place place = placeService.createPlace(name, width, length, height);
         places.add(place);
+//        placeWrapper.places.add(place);
     }
 
     public void createUser(String login, String password) {
@@ -87,15 +104,18 @@ public class AccountingForItemsApplication {
             System.out.println("Такой пользователь уже существует");
         }
     }
+    public void writeXml() throws JAXBException {
+        itemXmlRepository.writeToXmlFile(itemMap);
+    }
 
     public void readAll() {
         for (User user : userRepository.readFileWithItems(userPath)) {
             System.out.println(user.toString());
         }
-        for (Item item : itemRepository.readFileWithItems(itemPath)) {
+        for (Item item : itemRepository.readFileWithItems(itemXmlPath)) {
             System.out.println(item.toString());
         }
-        for (Place place : placeRepository.readFileWithItems(placePath)) {
+        for (Place place : placeFileRepository.readFileWithItems(placeXmlPath)) {
             System.out.println(place.toString());
         }
         actionRepository.readFile(actionPath);
@@ -107,8 +127,8 @@ public class AccountingForItemsApplication {
     }
 
     public void clean() {
-        itemRepository.cleanFile(itemPath);
-        placeRepository.cleanFile(placePath);
+        itemRepository.cleanFile(itemXmlPath);
+        placeFileRepository.cleanFile(placeXmlPath);
         userRepository.cleanFile(userPath);
         fileRepository.cleanFile(actionPath);
     }
@@ -138,11 +158,11 @@ public class AccountingForItemsApplication {
     }
 
     public boolean indexCheck(Item item, Place place) {
-        for (int i : place.getTrueId()) {
-            if (i == item.getId()) {
+//        for (int i : place.getTrueId()) {
+            if ( 1 == item.getId()) {
                 return true;
             }
-        }
+//        }
         return false;
     }
 
@@ -193,7 +213,7 @@ public class AccountingForItemsApplication {
     public void searchInThisRoom(Item item, User user) {
         if (user != null) {
             log.getActions().add("Пользователь " + user.getName() + " искал предмет " + item.getName() + " по всей комнате");
-            for (Place place : placeRepository.readFileWithItems(placePath)) {
+            for (Place place : placeFileRepository.readFileWithItems(placeXmlPath)) {
                 if (search(item, user)) {
                     answerSearch(place, item, user);
                 }
@@ -216,7 +236,7 @@ public class AccountingForItemsApplication {
 
     public void AllRoom(Item item, User user) {
         if (user != null) {
-            for (Place place : placeRepository.readFileWithItems(placePath)) {
+            for (Place place : placeFileRepository.readFileWithItems(placeXmlPath)) {
                 if (place.volume() > item.volume() && indexCheck(item, place)) {
                     insert(place, item, user);
                     break;
@@ -263,11 +283,18 @@ public class AccountingForItemsApplication {
 
 
     public Path getItemPath() {
-        return itemPath;
+        return itemXmlPath;
     }
 
     public Path getPlacePath() {
-        return placePath;
+        return placeXmlPath;
     }
 
+    public ItemXmlRepository getItemXmlRepository() {
+        return itemXmlRepository;
+    }
+
+    public PlaceXmlRepository getPlaceXmlRepository() {
+        return placeXmlRepository;
+    }
 }

@@ -1,16 +1,28 @@
 package accounting.entify.places;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
+@Data
+@XmlRootElement
+@NoArgsConstructor
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Place implements Serializable {
+    @XmlAttribute(name = "name")
     private String name;
-    private int[] trueId = {1, 2, 3, 4, 5,6,7};
+    @XmlElement(name = "id")
+    private int trueId = 1;
+    @XmlElement(name = "width")
     private double width;
+    @XmlElement(name = "length")
     private double length;
+    @XmlElement(name = "height")
     private double height;
-    private List<String> itemNames = new ArrayList<>();
+//    private List<String> itemNames = new ArrayList<>();
 
     public double volume() {
         return this.width * this.length * this.height;
@@ -26,6 +38,7 @@ public class Place implements Serializable {
     public String getName() {
         return name;
     }
+
     public double getWidth() {
         return width;
     }
@@ -39,7 +52,7 @@ public class Place implements Serializable {
     }
 
 
-    public int[] getTrueId() {
+    public int getTrueId() {
         return trueId;
     }
 
@@ -52,6 +65,7 @@ public class Place implements Serializable {
                 ", Свободное место в высоту=" + height +
                 '}';
     }
+
 //    public void insert(Item item, User user, ActionLog log, ListOfThingsInPlace list) {
 //        if (item.volume() < volume()) {
 //            if (indexCheck(item)) {

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ItemMap>
+    <Items>
+        <item name="Computer" id="1">
+            <width>1.0</width>
+            <length>1.0</length>
+            <height>1.0</height>
+        </item>
+        <item name="Computer2" id="1">
+            <width>2.0</width>
+            <length>2.0</length>
+            <height>2.0</height>
+        </item>
+    </Items>
+</ItemMap>

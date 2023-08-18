@@ -2,5 +2,5 @@ package accounting.repository;
 
 import accounting.entify.places.Place;
 
-public class PlaceRepository extends FileRepository<Place> {
+public class PlaceFileRepository extends FileRepository<Place> {
 }

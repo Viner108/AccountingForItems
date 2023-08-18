@@ -1,12 +1,25 @@
 package accounting.entify.items;
 
-import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.xml.bind.annotation.*;
+import java.io.Serializable;
+@Data
+@NoArgsConstructor
+//@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Item implements Serializable {
+    @XmlAttribute(name = "name")
     private String name;
+    @XmlAttribute(name = "id")
     private int id;
+    @XmlElement(name = "width")
     private double width;
+    @XmlElement(name = "length")
     private double length;
+    @XmlElement(name = "height")
     private double height;
 
     public Item(String name, int id, double width, double length, double height) {
@@ -19,26 +32,6 @@ public class Item implements Serializable {
 
     public double volume() {
         return this.width * this.length * this.height;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public double getWidth() {
-        return width;
-    }
-
-    public double getLength() {
-        return length;
-    }
-
-    public double getHeight() {
-        return height;
     }
 
     @Override
