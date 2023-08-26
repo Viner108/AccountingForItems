@@ -12,8 +12,6 @@ import java.util.Random;
 import java.util.RandomAccess;
 
 public class Test {
-    private static Path itemPath = Path.of("library", "Items.xml");
-    private static Path placePath = Path.of("library", "Places.xml");
     public static void main(String[] args) throws IOException, JAXBException {
         testWriteXmlFile();
     }
@@ -32,6 +30,10 @@ public class Test {
         AccountingForItemsApplication application=new AccountingForItemsApplication();
         application.createItem("Computer",1,1,1,1);
         application.createItem("Computer2",1,2,2,2);
+        application.createUser("Computer","111");
+        application.createUser("Computer2","222");
+        application.createPlace("Table",1,1,1);
+        application.createPlace("Table2",2,2,2);
         application.writeXml();
     }
 }

@@ -5,13 +5,16 @@ import accounting.entify.items.Item;
 import accounting.entify.items.ItemMap;
 import accounting.entify.items.Medicines;
 import accounting.entify.places.Place;
+import accounting.entify.places.PlaceMap;
 import accounting.entify.places.PlaceWrapper;
+import accounting.entify.users.UserMap;
 import accounting.repository.ActionRepository;
 import accounting.entify.action.ListOfThingsInPlace;
 import accounting.repository.*;
 import accounting.entify.action.ActionLog;
 import accounting.repository.xml.ItemXmlRepository;
 import accounting.repository.xml.PlaceXmlRepository;
+import accounting.repository.xml.UserXmlRepository;
 import accounting.service.DocumentService;
 import accounting.service.DrugService;
 import accounting.service.ItemService;
@@ -21,8 +24,6 @@ import accounting.service.user_service.RegistrationProcessor;
 import accounting.entify.users.User;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -40,14 +41,20 @@ public class AccountingForItemsApplication {
     private ListOfThingsInPlace listOfThingsInPlace = new ListOfThingsInPlace();
     private Path itemXmlPath = Path.of("library", "Items.xml");
     private Path placeXmlPath = Path.of("library", "Places.xml");
+    private Path userXmlPath = Path.of("library", "Users.xml");
     private Path itemPath = Path.of("library", "Item.java");
     private Path placePath = Path.of("library", "Place.java");
     private Path userPath = Path.of("library", "User.java");
     private Path actionPath = Path.of("library", "Action.java");
-    private ItemXmlRepository itemXmlRepository=new ItemXmlRepository(itemXmlPath);
-    private PlaceXmlRepository placeXmlRepository=new PlaceXmlRepository(placeXmlPath);
-    private ItemMap itemMap=new ItemMap();
-    private Map<Integer,Item> map=new HashMap<>();
+    private ItemXmlRepository itemXmlRepository = new ItemXmlRepository(itemXmlPath);
+    private PlaceXmlRepository placeXmlRepository = new PlaceXmlRepository(placeXmlPath);
+    private UserXmlRepository userXmlRepository = new UserXmlRepository(userXmlPath);
+    private ItemMap itemMap = new ItemMap();
+    private PlaceMap placeMap = new PlaceMap();
+    private UserMap userMap = new UserMap();
+    private Map<Integer, Item> mapForItem = new HashMap<>();
+    private Map<Integer, Place> mapForPlace = new HashMap<>();
+    private Map<Integer, User> mapForUser = new HashMap<>();
 
     // id - категория предмета
     //  1-техника
@@ -60,7 +67,7 @@ public class AccountingForItemsApplication {
     private List<User> users = new ArrayList<>();
     private List<Place> places = new ArrayList<>();
     private List<Item> items = new ArrayList<>();
-    private PlaceWrapper placeWrapper=new PlaceWrapper();
+    private PlaceWrapper placeWrapper = new PlaceWrapper();
     private ItemService itemService = new ItemService(itemXmlPath);
     private PlaceService placeService = new PlaceService(placeXmlPath);
     private RegistrationProcessor registrationProcessor = new RegistrationProcessor(userPath);
@@ -69,19 +76,22 @@ public class AccountingForItemsApplication {
     public void createItem(String name, int id, double width, double length, double height) {
         Item item = itemService.createItem(name, id, width, length, height);
         items.add(item);
-        map.put(items.size(),item);
-        itemMap.setItemMap(map);
+        mapForItem.put(items.size(), item);
+        itemMap.setItemMap(mapForItem);
     }
 
     public void createPlace(String name, double width, double length, double height) {
         Place place = placeService.createPlace(name, width, length, height);
         places.add(place);
-//        placeWrapper.places.add(place);
+        mapForPlace.put(places.size(), place);
+        placeMap.setPlaceMap(mapForPlace);
     }
 
     public void createUser(String login, String password) {
         User user = registrationProcessor.createUser(login, password);
         users.add(user);
+        mapForUser.put(users.size(), user);
+        userMap.setUserMap(mapForUser);
     }
 
     public User loginUser(String login, String password) {
@@ -104,8 +114,11 @@ public class AccountingForItemsApplication {
             System.out.println("Такой пользователь уже существует");
         }
     }
+
     public void writeXml() throws JAXBException {
         itemXmlRepository.writeToXmlFile(itemMap);
+        placeXmlRepository.writeToXmlFile(placeMap);
+        userXmlRepository.writeToXmlFile(userMap);
     }
 
     public void readAll() {
@@ -159,9 +172,9 @@ public class AccountingForItemsApplication {
 
     public boolean indexCheck(Item item, Place place) {
 //        for (int i : place.getTrueId()) {
-            if ( 1 == item.getId()) {
-                return true;
-            }
+        if (1 == item.getId()) {
+            return true;
+        }
 //        }
         return false;
     }
@@ -290,11 +303,16 @@ public class AccountingForItemsApplication {
         return placeXmlPath;
     }
 
+
     public ItemXmlRepository getItemXmlRepository() {
         return itemXmlRepository;
     }
 
     public PlaceXmlRepository getPlaceXmlRepository() {
         return placeXmlRepository;
+    }
+
+    public UserXmlRepository getUserXmlRepository() {
+        return userXmlRepository;
     }
 }

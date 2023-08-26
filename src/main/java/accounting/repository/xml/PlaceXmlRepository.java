@@ -1,6 +1,8 @@
 package accounting.repository.xml;
 
+import accounting.entify.items.ItemMap;
 import accounting.entify.places.Place;
+import accounting.entify.places.PlaceMap;
 import accounting.entify.places.PlaceWrapper;
 
 import javax.xml.bind.JAXBContext;
@@ -17,15 +19,10 @@ public class PlaceXmlRepository{
         this.path = path;
     }
 
-    public void writeToXmlFile(PlaceWrapper place){
-        try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Place.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            jaxbMarshaller.marshal(place, path.toFile());
-
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
+    public void writeToXmlFile(PlaceMap placeMap) throws JAXBException {
+        JAXBContext jaxbContext = JAXBContext.newInstance(PlaceMap.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        jaxbMarshaller.marshal(placeMap, path.toFile());
     }
 }

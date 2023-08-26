@@ -1,11 +1,22 @@
 package accounting.entify.users;
 
-import java.io.Serializable;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.xml.bind.annotation.*;
+import java.io.Serializable;
+@Data
+@XmlRootElement
+@NoArgsConstructor
+@XmlAccessorType(XmlAccessType.FIELD)
 public class User extends Object implements Serializable {
+    @XmlElement(name = "name")
     private String name;
+    @XmlElement(name = "id")
     private int id;
+    @XmlElement(name = "password")
     private String password;
+    @XmlElement(name = "online")
     private boolean online=false;
     public User(String name, int id, String password) {
         this.name = name;

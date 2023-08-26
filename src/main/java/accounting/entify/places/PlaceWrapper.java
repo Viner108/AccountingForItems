@@ -1,33 +1,12 @@
 package accounting.entify.places;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import accounting.entify.items.Item;
 
-import javax.xml.bind.annotation.*;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
-@XmlAccessorType(XmlAccessType.FIELD)
 public class PlaceWrapper {
-    @XmlElement
-    @XmlJavaTypeAdapter(PlaceWrapper.PlaceAdapter.class)
+    @XmlElement(name = "place")
     public List<Place> places = new ArrayList<Place>();
-
-    class PlaceAdapter extends XmlAdapter<List<Place>, List<Place>> {
-
-
-        @Override
-        public List<Place> unmarshal(List<Place> places) throws Exception {
-            return places;
-        }
-
-        @Override
-        public List<Place> marshal(List<Place> places) throws Exception {
-            return places;
-        }
-    }
 }
-

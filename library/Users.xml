@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<UserMap>
+    <Users>
+        <user>
+            <name>Computer</name>
+            <id>32374789</id>
+            <password>111</password>
+            <online>false</online>
+        </user>
+        <user>
+            <name>Computer2</name>
+            <id>32374789</id>
+            <password>222</password>
+            <online>false</online>
+        </user>
+    </Users>
+</UserMap>
