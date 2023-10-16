@@ -1,5 +1,6 @@
 package accounting;
 
+import accounting.entify.action.ActionLogMap;
 import accounting.entify.items.Documents;
 import accounting.entify.items.Item;
 import accounting.entify.items.ItemMap;
@@ -12,6 +13,7 @@ import accounting.repository.ActionRepository;
 import accounting.entify.action.ListOfThingsInPlace;
 import accounting.repository.*;
 import accounting.entify.action.ActionLog;
+import accounting.repository.xml.ActionXmlRepository;
 import accounting.repository.xml.ItemXmlRepository;
 import accounting.repository.xml.PlaceXmlRepository;
 import accounting.repository.xml.UserXmlRepository;
@@ -42,6 +44,7 @@ public class AccountingForItemsApplication {
     private Path itemXmlPath = Path.of("library", "Items.xml");
     private Path placeXmlPath = Path.of("library", "Places.xml");
     private Path userXmlPath = Path.of("library", "Users.xml");
+    private Path actionXmlPath = Path.of("library", "Action.xml");
     private Path itemPath = Path.of("library", "Item.java");
     private Path placePath = Path.of("library", "Place.java");
     private Path userPath = Path.of("library", "User.java");
@@ -49,12 +52,15 @@ public class AccountingForItemsApplication {
     private ItemXmlRepository itemXmlRepository = new ItemXmlRepository(itemXmlPath);
     private PlaceXmlRepository placeXmlRepository = new PlaceXmlRepository(placeXmlPath);
     private UserXmlRepository userXmlRepository = new UserXmlRepository(userXmlPath);
+    private ActionXmlRepository actionXmlRepository = new ActionXmlRepository(actionXmlPath);
     private ItemMap itemMap = new ItemMap();
     private PlaceMap placeMap = new PlaceMap();
     private UserMap userMap = new UserMap();
+    private ActionLogMap actionLogMap = new ActionLogMap();
     private Map<Integer, Item> mapForItem = new HashMap<>();
     private Map<Integer, Place> mapForPlace = new HashMap<>();
     private Map<Integer, User> mapForUser = new HashMap<>();
+    private Map<Integer, ActionLog> mapForAction = new HashMap<>();
 
     // id - категория предмета
     //  1-техника
@@ -67,7 +73,7 @@ public class AccountingForItemsApplication {
     private List<User> users = new ArrayList<>();
     private List<Place> places = new ArrayList<>();
     private List<Item> items = new ArrayList<>();
-    private PlaceWrapper placeWrapper = new PlaceWrapper();
+    private List<ActionLog> actionLogs = new ArrayList<>();
     private ItemService itemService = new ItemService(itemXmlPath);
     private PlaceService placeService = new PlaceService(placeXmlPath);
     private RegistrationProcessor registrationProcessor = new RegistrationProcessor(userPath);
@@ -78,6 +84,8 @@ public class AccountingForItemsApplication {
         items.add(item);
         mapForItem.put(items.size(), item);
         itemMap.setItemMap(mapForItem);
+        addInAction(1);
+
     }
 
     public void createPlace(String name, double width, double length, double height) {
@@ -85,6 +93,7 @@ public class AccountingForItemsApplication {
         places.add(place);
         mapForPlace.put(places.size(), place);
         placeMap.setPlaceMap(mapForPlace);
+        addInAction(2);
     }
 
     public void createUser(String login, String password) {
@@ -92,6 +101,27 @@ public class AccountingForItemsApplication {
         users.add(user);
         mapForUser.put(users.size(), user);
         userMap.setUserMap(mapForUser);
+        addInAction(3);
+    }
+
+    private void addInAction(int x) {
+        ActionLog actionLog =new ActionLog();
+        if (x == 1) {
+            actionLog.setActions("В программе создан новый предмет");
+            actionLogs.add(actionLog);
+            mapForAction.put(actionLogs.size(),actionLog);
+            actionLogMap.setActionLogMap(mapForAction);
+        } else if (x == 2) {
+            actionLog.setActions("В программе создано новое место");
+            actionLogs.add(actionLog);
+            mapForAction.put(actionLogs.size(),actionLog);
+            actionLogMap.setActionLogMap(mapForAction);
+        } else if (x == 3) {
+            actionLog.setActions("В программе создана новая учетную запись");
+            actionLogs.add(actionLog);
+            mapForAction.put(actionLogs.size(),actionLog);
+            actionLogMap.setActionLogMap(mapForAction);
+        }
     }
 
     public User loginUser(String login, String password) {
@@ -119,6 +149,7 @@ public class AccountingForItemsApplication {
         itemXmlRepository.writeToXmlFile(itemMap);
         placeXmlRepository.writeToXmlFile(placeMap);
         userXmlRepository.writeToXmlFile(userMap);
+        actionXmlRepository.writeToXmlFile(actionLogMap);
     }
 
     public void readAll() {
@@ -150,7 +181,7 @@ public class AccountingForItemsApplication {
         if (item.volume() < place.volume()) {
             if (indexCheck(item, place)) {
                 if (user != null) {
-                    log.getActions().add("Пользователь " + user.getName() + " добавил предмет " + item.getName() + " в место " + place.getName());
+//                    log.getActions().add("Пользователь " + user.getName() + " добавил предмет " + item.getName() + " в место " + place.getName());
                     double volume = place.volume() - item.volume();
                     volume = Math.cbrt(volume);
                     double width = volume;
@@ -190,13 +221,13 @@ public class AccountingForItemsApplication {
 
     public void answerSearch(Place place, Item item, User user) {
         if (user != null) {
-            log.getActions().add("Пользователь " + user.getName() + " искал предмет " + item.getName() + " в месте " + place.getName());
+//            log.getActions().add("Пользователь " + user.getName() + " искал предмет " + item.getName() + " в месте " + place.getName());
             if (search(item, user)) {
                 System.out.println("Предмет " + item.getName() + " находится в месте " + place.getName());
-                log.getActions().add("Пользователь " + user.getName() + " нашел предмет " + item.getName() + " в месте " + place.getName());
+//                log.getActions().add("Пользователь " + user.getName() + " нашел предмет " + item.getName() + " в месте " + place.getName());
             } else {
                 System.out.println("В месте " + place.getName() + " нет предмета " + item.getName());
-                log.getActions().add("Пользователь " + user.getName() + " не нашел предмет " + item.getName() + " в месте " + place.getName());
+//                log.getActions().add("Пользователь " + user.getName() + " не нашел предмет " + item.getName() + " в месте " + place.getName());
             }
         } else {
             System.out.println("Этот пользователь не зарегестрирован в системе.");
@@ -213,7 +244,7 @@ public class AccountingForItemsApplication {
                 double length = volume;
                 double height = volume;
                 placeService.overwritingPlace(place.getName(), new Place(place.getName(), width, length, height));
-                log.getActions().add("Пользователь " + user.getName() + " убрал предмет " + item.getName() + " из места " + place.getName());
+//                log.getActions().add("Пользователь " + user.getName() + " убрал предмет " + item.getName() + " из места " + place.getName());
                 System.out.println("Пользователь " + user.getName() + " убрал предмет " + item.getName() + " из места " + place.getName());
             } else {
                 System.out.println("Пользовать " + user.getName() + " не смог убрать предмет " + item.getName());
@@ -225,7 +256,7 @@ public class AccountingForItemsApplication {
 
     public void searchInThisRoom(Item item, User user) {
         if (user != null) {
-            log.getActions().add("Пользователь " + user.getName() + " искал предмет " + item.getName() + " по всей комнате");
+//            log.getActions().add("Пользователь " + user.getName() + " искал предмет " + item.getName() + " по всей комнате");
             for (Place place : placeFileRepository.readFileWithItems(placeXmlPath)) {
                 if (search(item, user)) {
                     answerSearch(place, item, user);

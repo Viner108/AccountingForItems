@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ActionLogMap>
+    <Actions>
+        <log>
+            <action>В программе создан новый предмет</action>
+        </log>
+        <log>
+            <action>В программе создан новый предмет</action>
+        </log>
+        <log>
+            <action>В программе создана новая учетную запись</action>
+        </log>
+        <log>
+            <action>В программе создана новая учетную запись</action>
+        </log>
+        <log>
+            <action>В программе создано новое место</action>
+        </log>
+        <log>
+            <action>В программе создано новое место</action>
+        </log>
+    </Actions>
+</ActionLogMap>
