@@ -13,7 +13,7 @@ public class FileXmlRepository<T> {
         this.path = path;
     }
     public void writeToXmlFile(T elementMap) throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(T.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(elementMap.getClass() );
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         jaxbMarshaller.marshal(elementMap, path.toFile());
