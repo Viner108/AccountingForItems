@@ -8,17 +8,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.nio.file.Path;
 
-public class UserXmlRepository {
-    private Path path;
-
+public class UserXmlRepository extends FileXmlRepository<UserMap>{
     public UserXmlRepository(Path path) {
-        this.path = path;
-    }
-
-    public void writeToXmlFile(UserMap userMap) throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(UserMap.class);
-        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        jaxbMarshaller.marshal(userMap, path.toFile());
+        super(path);
     }
 }

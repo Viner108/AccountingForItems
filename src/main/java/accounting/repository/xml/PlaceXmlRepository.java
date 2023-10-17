@@ -12,17 +12,8 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-public class PlaceXmlRepository{
-    private Path path;
-
+public class PlaceXmlRepository extends FileXmlRepository<PlaceMap>{
     public PlaceXmlRepository(Path path) {
-        this.path = path;
-    }
-
-    public void writeToXmlFile(PlaceMap placeMap) throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(PlaceMap.class);
-        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        jaxbMarshaller.marshal(placeMap, path.toFile());
+        super(path);
     }
 }

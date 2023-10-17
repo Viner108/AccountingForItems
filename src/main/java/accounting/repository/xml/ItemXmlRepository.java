@@ -11,17 +11,8 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.HashMap;
 
-public class ItemXmlRepository {
-    private Path path;
-
+public class ItemXmlRepository extends FileXmlRepository<ItemMap>{
     public ItemXmlRepository(Path path) {
-        this.path = path;
-    }
-
-    public void writeToXmlFile(ItemMap itemMap) throws JAXBException {
-            JAXBContext jaxbContext = JAXBContext.newInstance(ItemMap.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            jaxbMarshaller.marshal(itemMap, path.toFile());
+        super(path);
     }
 }
