@@ -53,6 +53,16 @@
             <artifactId>jaxb-impl</artifactId>
             <version>4.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>4.0.2</version>
+        </dependency>
     </dependencies>
-
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>http://repo.maven.apache.org/maven2/</url>
+        </repository>
+    </repositories>
 </project>
