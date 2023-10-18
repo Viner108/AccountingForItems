@@ -12,7 +12,7 @@ import java.util.Random;
 import java.util.RandomAccess;
 
 public class Test {
-    public static void main(String[] args) throws IOException, JAXBException {
+    public static void main(String[] args) throws IOException, JAXBException, Exception {
         testWriteXmlFile();
     }
     public static void testCreateUser(){
@@ -26,7 +26,7 @@ public class Test {
         System.out.println(application.loginUser("X","Y").toString());
         application.readAll();
     }
-    public static void testWriteXmlFile() throws JAXBException {
+    public static void testWriteXmlFile() throws JAXBException,Exception {
         AccountingForItemsApplication application=new AccountingForItemsApplication();
         application.createItem("Computer",1,1,1,1);
         application.createItem("Computer2",1,2,2,2);
@@ -35,5 +35,6 @@ public class Test {
         application.createPlace("Table",1,1,1);
         application.createPlace("Table2",2,2,2);
         application.writeXml();
+        application.readXmlPlace().toString();
     }
 }

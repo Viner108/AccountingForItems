@@ -9,6 +9,7 @@ import javax.xml.bind.Marshaller;
 import java.nio.file.Path;
 
 public class UserXmlRepository extends FileXmlRepository<UserMap>{
+
     public UserXmlRepository(Path path) {
         super(path);
     }

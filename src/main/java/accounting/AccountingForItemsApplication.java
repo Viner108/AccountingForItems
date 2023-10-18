@@ -50,7 +50,7 @@ public class AccountingForItemsApplication {
     private Path userPath = Path.of("library", "User.java");
     private Path actionPath = Path.of("library", "Action.java");
     private ItemXmlRepository itemXmlRepository = new ItemXmlRepository(itemXmlPath);
-    private PlaceXmlRepository placeXmlRepository = new PlaceXmlRepository(placeXmlPath);
+    public PlaceXmlRepository placeXmlRepository = new PlaceXmlRepository(placeXmlPath);
     private UserXmlRepository userXmlRepository = new UserXmlRepository(userXmlPath);
     private ActionXmlRepository actionXmlRepository = new ActionXmlRepository(actionXmlPath);
     private ItemMap itemMap = new ItemMap();
@@ -145,11 +145,15 @@ public class AccountingForItemsApplication {
         }
     }
 
-    public void writeXml() throws JAXBException {
+    public void writeXml() throws JAXBException, Exception {
         itemXmlRepository.writeToXmlFile(itemMap);
         placeXmlRepository.writeToXmlFile(placeMap);
         userXmlRepository.writeToXmlFile(userMap);
         actionXmlRepository.writeToXmlFile(actionLogMap);
+    }
+    public PlaceMap readXmlPlace() throws JAXBException, Exception {
+        PlaceMap placeMap1=placeXmlRepository.readFromFile(placeMap);
+        return placeMap1;
     }
 
     public void readAll() {
