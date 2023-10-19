@@ -34,11 +34,6 @@ import java.util.List;
 import java.util.Map;
 
 public class AccountingForItemsApplication {
-    private FileRepository fileRepository = new FileRepository();
-    private UserRepository userRepository = new UserRepository();
-    private ItemRepository itemRepository = new ItemRepository();
-    private PlaceFileRepository placeFileRepository = new PlaceFileRepository();
-    private ActionRepository actionRepository = new ActionRepository();
     private ActionLog log = new ActionLog();
     private ListOfThingsInPlace listOfThingsInPlace = new ListOfThingsInPlace();
     private Path itemXmlPath = Path.of("library", "Items.xml");
@@ -49,6 +44,10 @@ public class AccountingForItemsApplication {
     private Path placePath = Path.of("library", "Place.java");
     private Path userPath = Path.of("library", "User.java");
     private Path actionPath = Path.of("library", "Action.java");
+    private UserRepository userRepository = new UserRepository(userPath);
+    private ItemRepository itemRepository = new ItemRepository(itemPath);
+    private PlaceFileRepository placeFileRepository = new PlaceFileRepository(placePath);
+    private ActionRepository actionRepository = new ActionRepository(actionPath);
     private ItemXmlRepository itemXmlRepository = new ItemXmlRepository(itemXmlPath);
     public PlaceXmlRepository placeXmlRepository = new PlaceXmlRepository(placeXmlPath);
     private UserXmlRepository userXmlRepository = new UserXmlRepository(userXmlPath);
@@ -157,13 +156,13 @@ public class AccountingForItemsApplication {
     }
 
     public void readAll() {
-        for (User user : userRepository.readFileWithItems(userPath)) {
+        for (User user : userRepository.readFileWithItems()) {
             System.out.println(user.toString());
         }
-        for (Item item : itemRepository.readFileWithItems(itemXmlPath)) {
+        for (Item item : itemRepository.readFileWithItems()) {
             System.out.println(item.toString());
         }
-        for (Place place : placeFileRepository.readFileWithItems(placeXmlPath)) {
+        for (Place place : placeFileRepository.readFileWithItems()) {
             System.out.println(place.toString());
         }
         actionRepository.readFile(actionPath);
@@ -175,10 +174,10 @@ public class AccountingForItemsApplication {
     }
 
     public void clean() {
-        itemRepository.cleanFile(itemXmlPath);
-        placeFileRepository.cleanFile(placeXmlPath);
-        userRepository.cleanFile(userPath);
-        fileRepository.cleanFile(actionPath);
+        itemRepository.cleanFile();
+        placeFileRepository.cleanFile();
+        userRepository.cleanFile();
+        actionRepository.cleanFile();
     }
 
     public void insert(Place place, Item item, User user) {
@@ -261,7 +260,7 @@ public class AccountingForItemsApplication {
     public void searchInThisRoom(Item item, User user) {
         if (user != null) {
 //            log.getActions().add("Пользователь " + user.getName() + " искал предмет " + item.getName() + " по всей комнате");
-            for (Place place : placeFileRepository.readFileWithItems(placeXmlPath)) {
+            for (Place place : placeFileRepository.readFileWithItems()) {
                 if (search(item, user)) {
                     answerSearch(place, item, user);
                 }
@@ -284,7 +283,7 @@ public class AccountingForItemsApplication {
 
     public void AllRoom(Item item, User user) {
         if (user != null) {
-            for (Place place : placeFileRepository.readFileWithItems(placeXmlPath)) {
+            for (Place place : placeFileRepository.readFileWithItems()) {
                 if (place.volume() > item.volume() && indexCheck(item, place)) {
                     insert(place, item, user);
                     break;
@@ -315,10 +314,6 @@ public class AccountingForItemsApplication {
 
     public ListOfThingsInPlace getListOfThingsInPlace() {
         return listOfThingsInPlace;
-    }
-
-    public FileRepository getFileRepository() {
-        return fileRepository;
     }
 
     public ActionLog getLog() {

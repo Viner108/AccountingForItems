@@ -21,4 +21,5 @@ public class PlaceMap {
     public void setPlaceMap(Map<Integer, Place> placeMap) {
         this.placeMap = placeMap;
     }
+
 }

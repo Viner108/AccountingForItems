@@ -10,18 +10,18 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class ItemService {
-    private ItemRepository fileRepository = new ItemRepository();
     private Path path;
     private ArrayList<Item> items = new ArrayList<>();
-
     public ItemService(Path path) {
         this.path = path;
     }
 
+    private ItemRepository fileRepository = new ItemRepository(path);
+
     public Item createItem(String name, int id, double width, double length, double height) {
         Item item = new Item(name, id, width, length, height);
         items.add(item);
-        fileRepository.writeWithAppend(path, items, false);
+        fileRepository.writeWithAppend( items, false);
         return item;
     }
 

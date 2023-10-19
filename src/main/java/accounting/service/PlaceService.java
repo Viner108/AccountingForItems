@@ -12,19 +12,19 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class PlaceService implements Serializable {
-    private PlaceFileRepository fileRepository = new PlaceFileRepository();
 //    private PlaceXmlRepository repository = new PlaceXmlRepository();
     private ArrayList<Place> places = new ArrayList<>();
     private Path path;
-
     public PlaceService(Path path) {
         this.path = path;
     }
 
+    private PlaceFileRepository fileRepository = new PlaceFileRepository(path);
+
     public Place createPlace(String name, double width, double length, double height) {
         Place place = new Place(name, width, length, height);
         places.add(place);
-        fileRepository.writeWithAppend(path, places, false);
+        fileRepository.writeWithAppend( places, false);
         return place;
     }
 
@@ -54,7 +54,7 @@ public class PlaceService implements Serializable {
                     places1.add(newPlace);
                 }
             }
-            fileRepository.writeWithAppend(path, places1, false);
+            fileRepository.writeWithAppend( places1, false);
 //            repository.writeWithAppend(path, places1, false);
         } catch (Exception e) {
             e.printStackTrace();

@@ -5,16 +5,22 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class FileRepository<T> {
-    public void writeAll(Path path, T... items) {
+public class FileRepository<T> implements Repository<T>{
+    Path path;
+
+    public FileRepository(Path path) {
+        this.path = path;
+    }
+
+    public void writeAll( T... items) {
         ArrayList<T> allItem = new ArrayList<>();
         Arrays.stream(items).forEach(item ->allItem.add(item));
 //        for (T item : items) {
 //            allItem.add(item);
 //        }
-        write(path, allItem);
+        write(allItem);
     }
-    public ArrayList<T> readFileWithItems(Path path) {
+    public ArrayList<T> readFileWithItems() {
         ArrayList<T> items = new ArrayList<>();
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
             items = ((ArrayList<T>) ois.readObject());
@@ -27,7 +33,7 @@ public class FileRepository<T> {
         return items;
     }
 
-    public void cleanFile(Path path) {
+    public void cleanFile() {
         try {
             FileWriter writer = new FileWriter(path.toFile(), false);
             writer.write("");
@@ -37,7 +43,7 @@ public class FileRepository<T> {
         }
     }
 
-    public void write(Path path, ArrayList<T> allItem) {
+    public void write( ArrayList<T> allItem) {
         try (ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(path.toFile(), true))) {
             oss.writeObject(allItem);
         } catch (IOException e) {
@@ -46,7 +52,7 @@ public class FileRepository<T> {
     }
 
 
-    public void writeWithAppend(Path path, ArrayList<T> allUser, boolean append) {
+    public void writeWithAppend(ArrayList<T> allUser, boolean append) {
         try (ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(path.toFile(), append))) {
             oss.writeObject(allUser);
         } catch (IOException e) {

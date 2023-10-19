@@ -13,6 +13,8 @@ import java.util.RandomAccess;
 
 public class Test {
     public static void main(String[] args) throws IOException, JAXBException, Exception {
+//        testCreateUser();
+//        testLoginUser();
         testWriteXmlFile();
     }
     public static void testCreateUser(){
@@ -35,6 +37,6 @@ public class Test {
         application.createPlace("Table",1,1,1);
         application.createPlace("Table2",2,2,2);
         application.writeXml();
-        application.readXmlPlace().toString();
+        System.out.println(application.readXmlPlace().getPlaceMap().toString());
     }
 }

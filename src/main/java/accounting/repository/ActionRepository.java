@@ -7,6 +7,10 @@ import java.nio.file.Path;
 import java.util.stream.Collectors;
 
 public class ActionRepository extends FileRepository {
+    public ActionRepository(Path path) {
+        super(path);
+    }
+
     public void writeAction(Path path, ActionLog log) throws IOException {
         try (BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(path.toFile(), true))) {
             outputStream.write(log.toString().getBytes());
