@@ -4,21 +4,14 @@ import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
-public class FileRepository<T> implements Repository<T>{
+public class FileRepository<T,R> implements Repository<T,R>{
     Path path;
 
     public FileRepository(Path path) {
         this.path = path;
-    }
-
-    public void writeAll( T... items) {
-        ArrayList<T> allItem = new ArrayList<>();
-        Arrays.stream(items).forEach(item ->allItem.add(item));
-//        for (T item : items) {
-//            allItem.add(item);
-//        }
-        write(allItem);
     }
     public ArrayList<T> readFileWithItems() {
         ArrayList<T> items = new ArrayList<>();
@@ -43,7 +36,7 @@ public class FileRepository<T> implements Repository<T>{
         }
     }
 
-    public void write( ArrayList<T> allItem) {
+    public void writeToFile(ArrayList<T> allItem, R elements) {
         try (ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(path.toFile(), true))) {
             oss.writeObject(allItem);
         } catch (IOException e) {
@@ -52,7 +45,7 @@ public class FileRepository<T> implements Repository<T>{
     }
 
 
-    public void writeWithAppend(ArrayList<T> allUser, boolean append) {
+    public void writeWithAppend(ArrayList<T> allUser,R elements, boolean append) {
         try (ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(path.toFile(), append))) {
             oss.writeObject(allUser);
         } catch (IOException e) {

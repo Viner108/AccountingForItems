@@ -1,6 +1,7 @@
 package accounting.service;
 
 import accounting.entify.places.Place;
+import accounting.entify.places.PlaceMap;
 import accounting.repository.PlaceFileRepository;
 import accounting.repository.xml.PlaceXmlRepository;
 
@@ -14,17 +15,17 @@ import java.util.Objects;
 public class PlaceService implements Serializable {
 //    private PlaceXmlRepository repository = new PlaceXmlRepository();
     private ArrayList<Place> places = new ArrayList<>();
+    private PlaceMap placeMap=new PlaceMap();
     private Path path;
     public PlaceService(Path path) {
         this.path = path;
     }
 
-    private PlaceFileRepository fileRepository = new PlaceFileRepository(path);
-
     public Place createPlace(String name, double width, double length, double height) {
         Place place = new Place(name, width, length, height);
         places.add(place);
-        fileRepository.writeWithAppend( places, false);
+        PlaceFileRepository fileRepository = new PlaceFileRepository(path);
+        fileRepository.writeWithAppend( places,placeMap, false);
         return place;
     }
 
@@ -54,7 +55,8 @@ public class PlaceService implements Serializable {
                     places1.add(newPlace);
                 }
             }
-            fileRepository.writeWithAppend( places1, false);
+            PlaceFileRepository fileRepository = new PlaceFileRepository(path);
+            fileRepository.writeWithAppend( places1,placeMap, false);
 //            repository.writeWithAppend(path, places1, false);
         } catch (Exception e) {
             e.printStackTrace();

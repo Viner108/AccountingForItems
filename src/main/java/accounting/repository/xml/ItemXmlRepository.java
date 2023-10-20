@@ -11,7 +11,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.HashMap;
 
-public class ItemXmlRepository extends FileXmlRepository<ItemMap>{
+public class ItemXmlRepository extends FileXmlRepository<Item,ItemMap>{
     public ItemXmlRepository(Path path) {
         super(path);
     }

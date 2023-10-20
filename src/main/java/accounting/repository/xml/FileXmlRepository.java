@@ -9,8 +9,11 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-public class FileXmlRepository<T> implements XmlRepository<T> {
+public class FileXmlRepository<T,R> implements XmlRepository<T,R> {
     private Path path;
 
     public FileXmlRepository(Path path) {
@@ -18,7 +21,7 @@ public class FileXmlRepository<T> implements XmlRepository<T> {
     }
 
     @Override
-    public void writeToXmlFile(T elementMap) throws JAXBException, Exception {
+    public void writeToXmlFile(R elementMap) throws JAXBException, Exception {
         JAXBContext jaxbContext = JAXBContext.newInstance(elementMap.getClass());
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -26,10 +29,10 @@ public class FileXmlRepository<T> implements XmlRepository<T> {
     }
 
     @Override
-    public T readFromFile(T elementMap) throws JAXBException, Exception {
+    public R readFromFile(R elementMap) throws JAXBException, Exception {
         JAXBContext context = JAXBContext.newInstance(elementMap.getClass());
         Unmarshaller unmarshaller = context.createUnmarshaller();
-        T elementMap1 = (T) unmarshaller.unmarshal(new InputStreamReader(new FileInputStream(path.toString()), StandardCharsets.UTF_8));
+        R elementMap1 = (R) unmarshaller.unmarshal(new InputStreamReader(new FileInputStream(path.toString()), StandardCharsets.UTF_8));
         return elementMap1;
     }
 }

@@ -8,12 +8,12 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class LoginProcessor {
-    private UserRepository fileRepository = new UserRepository();
     private Path path;
-
     public LoginProcessor(Path path) {
         this.path = path;
     }
+
+    private UserRepository fileRepository = new UserRepository(path);
 
     public User login(String login, String password) {
         User user1 = null;

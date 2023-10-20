@@ -2,10 +2,9 @@ package accounting.repository;
 
 import java.util.ArrayList;
 
-public interface Repository<T> {
-    void writeAll( T... items);
+public interface Repository<T,R> {
+    void writeToFile(ArrayList<T> allItem, R elements);
     ArrayList<T> readFileWithItems();
     void cleanFile();
-    void write( ArrayList<T> allItem);
-    void writeWithAppend(ArrayList<T> allUser, boolean append);
+    void writeWithAppend(ArrayList<T> allUser, R elements, boolean append);
 }

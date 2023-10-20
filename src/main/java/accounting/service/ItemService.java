@@ -1,6 +1,7 @@
 package accounting.service;
 
 import accounting.entify.items.Item;
+import accounting.entify.items.ItemMap;
 import accounting.repository.ItemRepository;
 
 import java.io.FileInputStream;
@@ -12,16 +13,18 @@ import java.util.Objects;
 public class ItemService {
     private Path path;
     private ArrayList<Item> items = new ArrayList<>();
+    private ItemMap itemMap=new ItemMap();
     public ItemService(Path path) {
         this.path = path;
     }
 
-    private ItemRepository fileRepository = new ItemRepository(path);
+//    private ItemRepository fileRepository = new ItemRepository(path);
 
     public Item createItem(String name, int id, double width, double length, double height) {
         Item item = new Item(name, id, width, length, height);
         items.add(item);
-        fileRepository.writeWithAppend( items, false);
+        ItemRepository fileRepository = new ItemRepository(path);
+        fileRepository.writeWithAppend( items,itemMap, false);
         return item;
     }
 

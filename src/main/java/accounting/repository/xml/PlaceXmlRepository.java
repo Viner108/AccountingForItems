@@ -12,7 +12,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-public class PlaceXmlRepository extends FileXmlRepository<PlaceMap>{
+public class PlaceXmlRepository extends FileXmlRepository<Place,PlaceMap>{
     public PlaceXmlRepository(Path path) {
         super(path);
     }

@@ -37,6 +37,6 @@ public class Test {
         application.createPlace("Table",1,1,1);
         application.createPlace("Table2",2,2,2);
         application.writeXml();
-        System.out.println(application.readXmlPlace().getPlaceMap().toString());
+//        System.out.println(application.readXmlPlace().getPlaceMap().values().stream().count());
     }
 }
