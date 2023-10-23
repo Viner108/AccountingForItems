@@ -15,6 +15,7 @@ public class Test {
     public static void main(String[] args) throws IOException, JAXBException, Exception {
 //        testCreateUser();
 //        testLoginUser();
+//        testWriteFile();
         testWriteXmlFile();
     }
     public static void testCreateUser(){
@@ -28,15 +29,24 @@ public class Test {
         System.out.println(application.loginUser("X","Y").toString());
         application.readAll();
     }
+    public static void testWriteFile() throws JAXBException,Exception {
+        AccountingForItemsApplication application=new AccountingForItemsApplication();
+        application.createItem("Computer",1,1,1,1);
+        System.out.println(application.useOfTheItem("Computer").toString());
+        application.createPlace("Table",1,1,1);
+        System.out.println(application.useOfThePlace("Table").toString());
+    }
     public static void testWriteXmlFile() throws JAXBException,Exception {
         AccountingForItemsApplication application=new AccountingForItemsApplication();
         application.createItem("Computer",1,1,1,1);
-        application.createItem("Computer2",1,2,2,2);
         application.createUser("Computer","111");
-        application.createUser("Computer2","222");
         application.createPlace("Table",1,1,1);
-        application.createPlace("Table2",2,2,2);
         application.writeXml();
+        application.createPlace("Table3",2,2,2);
+        application.writeXml();
+        System.out.println(application.useOfTheXmlItem("Computer").toString());
+        System.out.println(application.useOfTheXmlUser("Computer").toString());
+        System.out.println(application.useOfTheXmlPlace("Table3").toString());
 //        System.out.println(application.readXmlPlace().getPlaceMap().values().stream().count());
     }
 }

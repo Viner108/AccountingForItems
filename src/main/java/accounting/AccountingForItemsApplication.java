@@ -28,10 +28,7 @@ import accounting.entify.users.User;
 import javax.xml.bind.JAXBException;
 import java.io.*;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AccountingForItemsApplication {
     private ActionLog log = new ActionLog();
@@ -150,11 +147,21 @@ public class AccountingForItemsApplication {
         userXmlRepository.writeToXmlFile(userMap);
         actionXmlRepository.writeToXmlFile(actionLogMap);
     }
-    public PlaceMap readXmlPlace() throws JAXBException, Exception {
+    public Place useOfTheXmlPlace(String name) throws JAXBException, Exception {
         PlaceMap placeMap1=placeXmlRepository.readFromFile(placeMap);
-        return placeMap1;
+        Place place1 = placeMap1.getPlaceMap().values().stream().filter(place -> Objects.equals(place.getName(), name)).findFirst().get();
+        return place1;
     }
-
+    public Item useOfTheXmlItem(String name) throws JAXBException, Exception {
+        ItemMap itemMap1 = itemXmlRepository.readFromFile(itemMap);
+        Item item1 = itemMap1.getItemMap().values().stream().filter(item -> Objects.equals(item.getName(), name)).findFirst().get();
+        return item1;
+    }
+    public User useOfTheXmlUser(String name) throws JAXBException, Exception {
+        UserMap userMap1 = userXmlRepository.readFromFile(userMap);
+        User user1 = userMap1.getUserMap().values().stream().filter(user -> Objects.equals(user.getName(), name)).findFirst().get();
+        return user1;
+    }
     public void readAll() {
         for (User user : userRepository.readFileWithItems()) {
             System.out.println(user.toString());
