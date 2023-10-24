@@ -1,11 +1,9 @@
 package accounting.repository;
 
+import javax.xml.bind.JAXBException;
 import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 public class FileRepository<T,R> implements Repository<T,R>{
     Path path;
@@ -25,7 +23,9 @@ public class FileRepository<T,R> implements Repository<T,R>{
         }
         return items;
     }
-
+    public R readFromFile(ArrayList<T> allItem,R elementMap) throws JAXBException, Exception{
+        return elementMap;
+    }
     public void cleanFile() {
         try {
             FileWriter writer = new FileWriter(path.toFile(), false);
@@ -36,16 +36,8 @@ public class FileRepository<T,R> implements Repository<T,R>{
         }
     }
 
-    public void writeToFile(ArrayList<T> allItem, R elements) {
-        try (ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(path.toFile(), true))) {
-            oss.writeObject(allItem);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-
-    public void writeWithAppend(ArrayList<T> allUser,R elements, boolean append) {
+    public void writeToFile(ArrayList<T> allUser, R elements, boolean append) throws JAXBException, Exception{
         try (ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(path.toFile(), append))) {
             oss.writeObject(allUser);
         } catch (IOException e) {

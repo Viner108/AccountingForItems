@@ -4,6 +4,7 @@ import accounting.entify.items.Item;
 import accounting.entify.items.ItemMap;
 import accounting.repository.ItemRepository;
 
+import javax.xml.bind.JAXBException;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.nio.file.Path;
@@ -20,11 +21,11 @@ public class ItemService {
 
 //    private ItemRepository fileRepository = new ItemRepository(path);
 
-    public Item createItem(String name, int id, double width, double length, double height) {
+    public Item createItem(String name, int id, double width, double length, double height) throws JAXBException, Exception{
         Item item = new Item(name, id, width, length, height);
         items.add(item);
         ItemRepository fileRepository = new ItemRepository(path);
-        fileRepository.writeWithAppend( items,itemMap, false);
+        fileRepository.writeToFile( items,itemMap, false);
         return item;
     }
 

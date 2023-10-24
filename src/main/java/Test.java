@@ -13,17 +13,17 @@ import java.util.RandomAccess;
 
 public class Test {
     public static void main(String[] args) throws IOException, JAXBException, Exception {
-//        testCreateUser();
+        testCreateUser();
 //        testLoginUser();
 //        testWriteFile();
-        testWriteXmlFile();
+//        testWriteXmlFile();
     }
-    public static void testCreateUser(){
+    public static void testCreateUser() throws JAXBException, Exception{
         AccountingForItemsApplication application=new AccountingForItemsApplication();
         application.createUser("X","Y");
-        application.clean();
+//        application.clean();
     }
-    public static void testLoginUser(){
+    public static void testLoginUser() throws JAXBException, Exception{
         AccountingForItemsApplication application=new AccountingForItemsApplication();
         application.createUser("X","Y");
         System.out.println(application.loginUser("X","Y").toString());

@@ -3,8 +3,8 @@ package accounting.service;
 import accounting.entify.places.Place;
 import accounting.entify.places.PlaceMap;
 import accounting.repository.PlaceFileRepository;
-import accounting.repository.xml.PlaceXmlRepository;
 
+import javax.xml.bind.JAXBException;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -21,11 +21,11 @@ public class PlaceService implements Serializable {
         this.path = path;
     }
 
-    public Place createPlace(String name, double width, double length, double height) {
+    public Place createPlace(String name, double width, double length, double height) throws JAXBException, Exception{
         Place place = new Place(name, width, length, height);
         places.add(place);
         PlaceFileRepository fileRepository = new PlaceFileRepository(path);
-        fileRepository.writeWithAppend( places,placeMap, false);
+        fileRepository.writeToFile( places,placeMap, false);
         return place;
     }
 
@@ -45,7 +45,7 @@ public class PlaceService implements Serializable {
         return place1;
     }
 
-    public void overwritingPlace(String name, Place newPlace) {
+    public void overwritingPlace(String name, Place newPlace) throws JAXBException, Exception{
         ArrayList<Place> places1 = null;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
             places1 = ((ArrayList<Place>) ois.readObject());
@@ -56,7 +56,7 @@ public class PlaceService implements Serializable {
                 }
             }
             PlaceFileRepository fileRepository = new PlaceFileRepository(path);
-            fileRepository.writeWithAppend( places1,placeMap, false);
+            fileRepository.writeToFile( places1,placeMap, false);
 //            repository.writeWithAppend(path, places1, false);
         } catch (Exception e) {
             e.printStackTrace();

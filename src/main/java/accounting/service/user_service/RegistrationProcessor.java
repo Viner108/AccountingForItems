@@ -4,6 +4,7 @@ import accounting.entify.users.UserMap;
 import accounting.repository.UserRepository;
 import accounting.entify.users.User;
 
+import javax.xml.bind.JAXBException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
@@ -15,11 +16,11 @@ public class RegistrationProcessor {
         this.path = path;
     }
 
-    public User createUser(String login, String password) {
+    public User createUser(String login, String password) throws JAXBException, Exception{
         User user = new User(login,hashCode(),password);
         users.add(user);
         UserRepository fileRepository = new UserRepository(path);
-        fileRepository.writeWithAppend(users,userMap,false);
+        fileRepository.writeToFile(users,userMap,false);
         return user;
     }
 }

@@ -1,10 +1,11 @@
 package accounting.repository;
 
+import javax.xml.bind.JAXBException;
 import java.util.ArrayList;
 
 public interface Repository<T,R> {
-    void writeToFile(ArrayList<T> allItem, R elements);
     ArrayList<T> readFileWithItems();
+    R readFromFile(ArrayList<T> allItem,R elementMap) throws JAXBException, Exception;
     void cleanFile();
-    void writeWithAppend(ArrayList<T> allUser, R elements, boolean append);
+    void writeToFile(ArrayList<T> allUser, R elements, boolean append) throws JAXBException, Exception;
 }
