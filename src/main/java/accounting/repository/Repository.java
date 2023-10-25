@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public interface Repository<T,R> {
     ArrayList<T> readFileWithItems();
-    R readFromFile(ArrayList<T> allItem,R elementMap) throws JAXBException, Exception;
+    R readFromFile(ArrayList<T> allItem,R elementMap) throws  Exception;
     void cleanFile();
-    void writeToFile(ArrayList<T> allUser, R elements, boolean append) throws JAXBException, Exception;
+    void writeToFile(ArrayList<T> allUser, R elements, boolean append) throws  Exception;
 }

@@ -20,8 +20,8 @@ public class UserAdapter extends XmlAdapter<UserWrapper, Map<Integer, User>> {
         Map<Integer, User> userMap = null;
         if (userWrapper != null && userWrapper.users != null && !userWrapper.users.isEmpty()) {
             userMap = new HashMap<Integer, User>();
+            int i=0;
             for (User user : userWrapper.users) {
-                int i=0;
                 userMap.put(i,user);
                 i++;
             }

@@ -18,8 +18,8 @@ public class PlaceAdapter extends XmlAdapter<PlaceWrapper, Map<Integer, Place>> 
         Map<Integer, Place> placeMap = null;
         if (placeWrapper != null && placeWrapper.places != null && !placeWrapper.places.isEmpty()) {
             placeMap = new HashMap<Integer, Place>();
+            int i=0;
             for (Place place : placeWrapper.places) {
-                int i=0;
                 placeMap.put(i,place);
                 i++;
             }

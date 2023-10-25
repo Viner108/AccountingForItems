@@ -3,7 +3,13 @@
     <Users>
         <user>
             <name>Computer</name>
-            <id>1023487453</id>
+            <id>558922244</id>
+            <password>111</password>
+            <online>false</online>
+        </user>
+        <user>
+            <name>Computer2</name>
+            <id>558922244</id>
             <password>111</password>
             <online>false</online>
         </user>

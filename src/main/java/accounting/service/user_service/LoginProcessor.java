@@ -1,5 +1,7 @@
 package accounting.service.user_service;
 
+import accounting.entify.users.UserMap;
+import accounting.repository.Repository;
 import accounting.repository.UserRepository;
 import accounting.entify.users.User;
 
@@ -9,11 +11,12 @@ import java.util.ArrayList;
 
 public class LoginProcessor {
     private Path path;
-    public LoginProcessor(Path path) {
-        this.path = path;
-    }
+    private Repository<User,UserMap> repository;
 
-    private UserRepository fileRepository = new UserRepository(path);
+    public LoginProcessor(Path path, Repository<User, UserMap> repository) {
+        this.path = path;
+        this.repository = repository;
+    }
 
     public User login(String login, String password) {
         User user1 = null;

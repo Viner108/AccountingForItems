@@ -42,10 +42,10 @@ public class AccountingForItemsApplication {
     private Path actionPath = Path.of("library", "Action.java");
     private UserRepository userRepository = new UserRepository(userPath);
     private ItemRepository itemRepository = new ItemRepository(itemPath);
-    private PlaceFileRepository placeFileRepository = new PlaceFileRepository(placePath);
+    private PlaceRepository placeRepository = new PlaceRepository(placePath);
     private ActionRepository actionRepository = new ActionRepository(actionPath);
     private ItemXmlRepository itemXmlRepository = new ItemXmlRepository(itemXmlPath);
-    public PlaceXmlRepository placeXmlRepository = new PlaceXmlRepository(placeXmlPath);
+    private PlaceXmlRepository placeXmlRepository = new PlaceXmlRepository(placeXmlPath);
     private UserXmlRepository userXmlRepository = new UserXmlRepository(userXmlPath);
     private ActionXmlRepository actionXmlRepository = new ActionXmlRepository(actionXmlPath);
     private ItemMap itemMap = new ItemMap();
@@ -69,52 +69,58 @@ public class AccountingForItemsApplication {
     private List<Place> places = new ArrayList<>();
     private List<Item> items = new ArrayList<Item>();
     private List<ActionLog> actionLogs = new ArrayList<>();
-    private ItemService itemService = new ItemService(itemXmlPath);
-    private PlaceService placeService = new PlaceService(placeXmlPath);
-    private RegistrationProcessor registrationProcessor = new RegistrationProcessor(userPath);
-    private LoginProcessor loginProcessor = new LoginProcessor(userPath);
+    private Repository<Item, ItemMap> itemRepository1 = new ItemRepository(itemPath);
+    private ItemService itemService = new ItemService(itemPath,itemRepository1);
+    private Repository<Place, PlaceMap> placeRepository1 = new PlaceRepository(userPath);
+    private PlaceService placeService = new PlaceService(placePath,placeRepository1);
+    private Repository<User, UserMap> userRepository1 = new UserRepository(userPath);
+    private RegistrationProcessor registrationProcessor = new RegistrationProcessor(userPath, userRepository1);
+    //    private Repository<User,UserMap> repository=new UserXmlRepository(userXmlPath);
+    private LoginProcessor loginProcessor = new LoginProcessor(userPath, userRepository1);
 
-    public void createItem(String name, int id, double width, double length, double height) throws JAXBException, Exception{
+    public void createItem(String name, int id, double width, double length, double height) throws Exception {
         Item item = itemService.createItem(name, id, width, length, height);
         items.add(item);
         mapForItem.put(items.size(), item);
         itemMap.setItemMap(mapForItem);
         addInAction(1);
-
+        writeXml();
     }
 
-    public void createPlace(String name, double width, double length, double height) throws JAXBException, Exception {
+    public void createPlace(String name, double width, double length, double height) throws Exception {
         Place place = placeService.createPlace(name, width, length, height);
         places.add(place);
         mapForPlace.put(places.size(), place);
         placeMap.setPlaceMap(mapForPlace);
         addInAction(2);
+        writeXml();
     }
 
-    public void createUser(String login, String password) throws JAXBException, Exception{
+    public void createUser(String login, String password) throws Exception {
         User user = registrationProcessor.createUser(login, password);
         users.add(user);
         mapForUser.put(users.size(), user);
         userMap.setUserMap(mapForUser);
         addInAction(3);
+        writeXml();
     }
 
     private void addInAction(int x) {
-        ActionLog actionLog =new ActionLog();
+        ActionLog actionLog = new ActionLog();
         if (x == 1) {
             actionLog.setActions("В программе создан новый предмет");
             actionLogs.add(actionLog);
-            mapForAction.put(actionLogs.size(),actionLog);
+            mapForAction.put(actionLogs.size(), actionLog);
             actionLogMap.setActionLogMap(mapForAction);
         } else if (x == 2) {
             actionLog.setActions("В программе создано новое место");
             actionLogs.add(actionLog);
-            mapForAction.put(actionLogs.size(),actionLog);
+            mapForAction.put(actionLogs.size(), actionLog);
             actionLogMap.setActionLogMap(mapForAction);
         } else if (x == 3) {
             actionLog.setActions("В программе создана новая учетную запись");
             actionLogs.add(actionLog);
-            mapForAction.put(actionLogs.size(),actionLog);
+            mapForAction.put(actionLogs.size(), actionLog);
             actionLogMap.setActionLogMap(mapForAction);
         }
     }
@@ -140,27 +146,39 @@ public class AccountingForItemsApplication {
         }
     }
 
-    public void writeXml() throws JAXBException, Exception {
-        itemXmlRepository.writeToFile((ArrayList<Item>) items,itemMap,false);
-        placeXmlRepository.writeToFile((ArrayList<Place>) places,placeMap,false);
-        userXmlRepository.writeToFile((ArrayList<User>) users,userMap,false);
-        actionXmlRepository.writeToFile((ArrayList<ActionLog>) actionLogs,actionLogMap,false);
+    public void writeXml() throws Exception {
+        if (itemMap.getItemMap() != null) {
+            itemXmlRepository.writeToFile((ArrayList<Item>) items, itemMap, false);
+        }
+        if (placeMap.getPlaceMap() != null) {
+            placeXmlRepository.writeToFile((ArrayList<Place>) places, placeMap, false);
+        }
+        if (userMap.getUserMap() != null) {
+            userXmlRepository.writeToFile((ArrayList<User>) users, userMap, false);
+        }
+        if (actionLogMap.getActionLogMap() != null) {
+            actionXmlRepository.writeToFile((ArrayList<ActionLog>) actionLogs, actionLogMap, false);
+        }
     }
-    public Place useOfTheXmlPlace(String name) throws JAXBException, Exception {
-        PlaceMap placeMap1=placeXmlRepository.readFromFile((ArrayList<Place>) places,placeMap);
+
+    public Place useOfTheXmlPlace(String name) throws Exception {
+        PlaceMap placeMap1 = placeXmlRepository.readFromFile((ArrayList<Place>) places, placeMap);
         Place place1 = placeMap1.getPlaceMap().values().stream().filter(place -> Objects.equals(place.getName(), name)).findFirst().get();
         return place1;
     }
-    public Item useOfTheXmlItem(String name) throws JAXBException, Exception {
-        ItemMap itemMap1 = itemXmlRepository.readFromFile((ArrayList<Item>) items,itemMap);
+
+    public Item useOfTheXmlItem(String name) throws Exception {
+        ItemMap itemMap1 = itemXmlRepository.readFromFile((ArrayList<Item>) items, itemMap);
         Item item1 = itemMap1.getItemMap().values().stream().filter(item -> Objects.equals(item.getName(), name)).findFirst().get();
         return item1;
     }
-    public User useOfTheXmlUser(String name) throws JAXBException, Exception {
-        UserMap userMap1 = userXmlRepository.readFromFile((ArrayList<User>) users,userMap);
+
+    public User useOfTheXmlUser(String name) throws Exception {
+        UserMap userMap1 = userXmlRepository.readFromFile((ArrayList<User>) users, userMap);
         User user1 = userMap1.getUserMap().values().stream().filter(user -> Objects.equals(user.getName(), name)).findFirst().get();
         return user1;
     }
+
     public void readAll() {
         for (User user : userRepository.readFileWithItems()) {
             System.out.println(user.toString());
@@ -168,7 +186,7 @@ public class AccountingForItemsApplication {
         for (Item item : itemRepository.readFileWithItems()) {
             System.out.println(item.toString());
         }
-        for (Place place : placeFileRepository.readFileWithItems()) {
+        for (Place place : placeRepository.readFileWithItems()) {
             System.out.println(place.toString());
         }
         actionRepository.readFile(actionPath);
@@ -181,12 +199,12 @@ public class AccountingForItemsApplication {
 
     public void clean() {
         itemRepository.cleanFile();
-        placeFileRepository.cleanFile();
+        placeRepository.cleanFile();
         userRepository.cleanFile();
         actionRepository.cleanFile();
     }
 
-    public void insert(Place place, Item item, User user) throws JAXBException, Exception{
+    public void insert(Place place, Item item, User user) throws JAXBException, Exception {
         if (item.volume() < place.volume()) {
             if (indexCheck(item, place)) {
                 if (user != null) {
@@ -243,7 +261,7 @@ public class AccountingForItemsApplication {
         }
     }
 
-    public void remove(Place place, Item item, User user) throws JAXBException, Exception{
+    public void remove(Place place, Item item, User user) throws JAXBException, Exception {
         if (user != null) {
             if (search(item, user)) {
                 listOfThingsInPlace.removeFromList(item.getName(), place.getName());
@@ -266,7 +284,7 @@ public class AccountingForItemsApplication {
     public void searchInThisRoom(Item item, User user) {
         if (user != null) {
 //            log.getActions().add("Пользователь " + user.getName() + " искал предмет " + item.getName() + " по всей комнате");
-            for (Place place : placeFileRepository.readFileWithItems()) {
+            for (Place place : placeRepository.readFileWithItems()) {
                 if (search(item, user)) {
                     answerSearch(place, item, user);
                 }
@@ -274,7 +292,7 @@ public class AccountingForItemsApplication {
         }
     }
 
-    public void randomPlace(Item item, User user, Place... places) throws JAXBException, Exception{
+    public void randomPlace(Item item, User user, Place... places) throws JAXBException, Exception {
         if (user != null) {
             for (Place place : places) {
                 if (place.volume() > item.volume() && indexCheck(item, place)) {
@@ -287,9 +305,9 @@ public class AccountingForItemsApplication {
         }
     }
 
-    public void AllRoom(Item item, User user) throws JAXBException, Exception{
+    public void AllRoom(Item item, User user) throws JAXBException, Exception {
         if (user != null) {
-            for (Place place : placeFileRepository.readFileWithItems()) {
+            for (Place place : placeRepository.readFileWithItems()) {
                 if (place.volume() > item.volume() && indexCheck(item, place)) {
                     insert(place, item, user);
                     break;

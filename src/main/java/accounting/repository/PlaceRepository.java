@@ -5,8 +5,8 @@ import accounting.entify.places.PlaceMap;
 
 import java.nio.file.Path;
 
-public class PlaceFileRepository extends FileRepository<Place, PlaceMap> {
-    public PlaceFileRepository(Path path) {
+public class PlaceRepository extends FileRepository<Place, PlaceMap> {
+    public PlaceRepository(Path path) {
         super(path);
     }
 }

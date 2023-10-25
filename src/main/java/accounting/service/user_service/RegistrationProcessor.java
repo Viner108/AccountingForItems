@@ -1,6 +1,7 @@
 package accounting.service.user_service;
 
 import accounting.entify.users.UserMap;
+import accounting.repository.Repository;
 import accounting.repository.UserRepository;
 import accounting.entify.users.User;
 
@@ -12,8 +13,10 @@ public class RegistrationProcessor {
     private Path path;
     private ArrayList<User> users = new ArrayList<>();
     private UserMap userMap=new UserMap();
-    public RegistrationProcessor(Path path) {
+    private Repository repository;
+    public RegistrationProcessor(Path path, Repository<User,UserMap> repository) {
         this.path = path;
+        this.repository=repository;
     }
 
     public User createUser(String login, String password) throws JAXBException, Exception{

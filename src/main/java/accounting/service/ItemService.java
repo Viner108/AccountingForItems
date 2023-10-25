@@ -3,6 +3,7 @@ package accounting.service;
 import accounting.entify.items.Item;
 import accounting.entify.items.ItemMap;
 import accounting.repository.ItemRepository;
+import accounting.repository.Repository;
 
 import javax.xml.bind.JAXBException;
 import java.io.FileInputStream;
@@ -15,8 +16,11 @@ public class ItemService {
     private Path path;
     private ArrayList<Item> items = new ArrayList<>();
     private ItemMap itemMap=new ItemMap();
-    public ItemService(Path path) {
+    private Repository repository;
+    public ItemService(Path path, Repository<Item,ItemMap> repository) {
         this.path = path;
+        this.repository=repository;
+
     }
 
 //    private ItemRepository fileRepository = new ItemRepository(path);

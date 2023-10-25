@@ -17,8 +17,8 @@ public class ActionLogAdapter extends XmlAdapter<ActionLogWrapper, Map<Integer, 
         Map<Integer, ActionLog> actionLogMap = null;
         if (actionLogWrapper != null && actionLogWrapper.actionLogs != null && !actionLogWrapper.actionLogs.isEmpty()) {
             actionLogMap = new HashMap<Integer, ActionLog>();
+            int i=0;
             for (ActionLog item : actionLogWrapper.actionLogs) {
-                int i=0;
                 actionLogMap.put(i,item);
                 i++;
             }

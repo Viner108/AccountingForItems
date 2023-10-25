@@ -23,7 +23,7 @@ public class FileRepository<T,R> implements Repository<T,R>{
         }
         return items;
     }
-    public R readFromFile(ArrayList<T> allItem,R elementMap) throws JAXBException, Exception{
+    public R readFromFile(ArrayList<T> allItem,R elementMap) throws Exception{
         return elementMap;
     }
     public void cleanFile() {
@@ -37,7 +37,7 @@ public class FileRepository<T,R> implements Repository<T,R>{
     }
 
 
-    public void writeToFile(ArrayList<T> allUser, R elements, boolean append) throws JAXBException, Exception{
+    public void writeToFile(ArrayList<T> allUser, R elements, boolean append) throws Exception{
         try (ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(path.toFile(), append))) {
             oss.writeObject(allUser);
         } catch (IOException e) {

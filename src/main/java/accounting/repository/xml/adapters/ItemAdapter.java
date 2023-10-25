@@ -17,8 +17,8 @@ public class ItemAdapter extends XmlAdapter<ItemWrapper, Map<Integer, Item>> {
         Map<Integer, Item> itemMap = null;
         if (itemWrapper != null && itemWrapper.items != null && !itemWrapper.items.isEmpty()) {
             itemMap = new HashMap<Integer, Item>();
+            int i=0;
             for (Item item : itemWrapper.items) {
-                int i=0;
                 itemMap.put(i,item);
                 i++;
             }
