@@ -13,8 +13,8 @@ import java.util.RandomAccess;
 
 public class Test {
     public static void main(String[] args) throws Exception {
-//        testCreateUser();
-//        testLoginUser();
+        testCreateUser();
+        testLoginUser();
         testWriteFile();
         testWriteXmlFile();
     }
@@ -29,7 +29,7 @@ public class Test {
         AccountingForItemsApplication application = new AccountingForItemsApplication();
         application.createUser("X", "Y");
         System.out.println(application.loginUser("X", "Y").toString());
-        application.readAll();
+//        application.readAll();
     }
 
     public static void testWriteFile() throws Exception {

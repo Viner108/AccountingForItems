@@ -73,10 +73,10 @@ public class AccountingForItemsApplication {
     private ItemService itemService = new ItemService(itemPath,itemRepository1);
     private Repository<Place, PlaceMap> placeRepository1 = new PlaceRepository(userPath);
     private PlaceService placeService = new PlaceService(placePath,placeRepository1);
-    private Repository<User, UserMap> userRepository1 = new UserRepository(userPath);
-    private RegistrationProcessor registrationProcessor = new RegistrationProcessor(userPath, userRepository1);
-    //    private Repository<User,UserMap> repository=new UserXmlRepository(userXmlPath);
+//    private Repository<User, UserMap> userRepository1 = new UserRepository(userPath);
+    private Repository<User,UserMap> userRepository1=new UserXmlRepository(userXmlPath);
     private LoginProcessor loginProcessor = new LoginProcessor(userPath, userRepository1);
+    private RegistrationProcessor registrationProcessor = new RegistrationProcessor(userPath, userRepository1);
 
     public void createItem(String name, int id, double width, double length, double height) throws Exception {
         Item item = itemService.createItem(name, id, width, length, height);
@@ -102,7 +102,6 @@ public class AccountingForItemsApplication {
         mapForUser.put(users.size(), user);
         userMap.setUserMap(mapForUser);
         addInAction(3);
-        writeXml();
     }
 
     private void addInAction(int x) {
@@ -125,7 +124,7 @@ public class AccountingForItemsApplication {
         }
     }
 
-    public User loginUser(String login, String password) {
+    public User loginUser(String login, String password) throws Exception {
         User user = loginProcessor.login(login, password);
         return user;
     }
@@ -140,7 +139,7 @@ public class AccountingForItemsApplication {
         return place;
     }
 
-    public void isUser(String login, String password) {
+    public void isUser(String login, String password) throws Exception {
         if (loginProcessor.isUser(login, password)) {
             System.out.println("Такой пользователь уже существует");
         }
@@ -162,19 +161,19 @@ public class AccountingForItemsApplication {
     }
 
     public Place useOfTheXmlPlace(String name) throws Exception {
-        PlaceMap placeMap1 = placeXmlRepository.readFromFile((ArrayList<Place>) places, placeMap);
+        PlaceMap placeMap1 = placeXmlRepository.readFromFile( placeMap);
         Place place1 = placeMap1.getPlaceMap().values().stream().filter(place -> Objects.equals(place.getName(), name)).findFirst().get();
         return place1;
     }
 
     public Item useOfTheXmlItem(String name) throws Exception {
-        ItemMap itemMap1 = itemXmlRepository.readFromFile((ArrayList<Item>) items, itemMap);
+        ItemMap itemMap1 = itemXmlRepository.readFromFile( itemMap);
         Item item1 = itemMap1.getItemMap().values().stream().filter(item -> Objects.equals(item.getName(), name)).findFirst().get();
         return item1;
     }
 
     public User useOfTheXmlUser(String name) throws Exception {
-        UserMap userMap1 = userXmlRepository.readFromFile((ArrayList<User>) users, userMap);
+        UserMap userMap1 = userXmlRepository.readFromFile( userMap);
         User user1 = userMap1.getUserMap().values().stream().filter(user -> Objects.equals(user.getName(), name)).findFirst().get();
         return user1;
     }

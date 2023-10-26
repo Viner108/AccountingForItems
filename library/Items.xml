@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ItemMap>
     <Items>
-        <item name="Computer" id="1">
-            <width>1.0</width>
-            <length>1.0</length>
-            <height>1.0</height>
+        <item name="sxz" id="1">
+            <width>2.0</width>
+            <length>3.0</length>
+            <height>4.0</height>
         </item>
     </Items>
 </ItemMap>

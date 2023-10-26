@@ -23,7 +23,7 @@ public class FileRepository<T,R> implements Repository<T,R>{
         }
         return items;
     }
-    public R readFromFile(ArrayList<T> allItem,R elementMap) throws Exception{
+    public R readFromFile(R elementMap) throws Exception{
         return elementMap;
     }
     public void cleanFile() {

@@ -41,7 +41,7 @@ public class FileXmlRepository<T,R> implements Repository<T,R> {
     }
 
     @Override
-    public R readFromFile(ArrayList<T> allItem,R elementMap) throws  Exception {
+    public R readFromFile(R elementMap) throws  Exception {
         JAXBContext context = JAXBContext.newInstance(elementMap.getClass());
         Unmarshaller unmarshaller = context.createUnmarshaller();
         R elementMap1 = (R) unmarshaller.unmarshal(new InputStreamReader(new FileInputStream(path.toString()), StandardCharsets.UTF_8));
