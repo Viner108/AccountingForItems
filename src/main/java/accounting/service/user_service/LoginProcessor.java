@@ -8,42 +8,38 @@ import accounting.entify.users.User;
 import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class LoginProcessor {
     private Path path;
-    private Repository<User,UserMap> repository;
+    private Repository<User, UserMap> repository;
 
     public LoginProcessor(Path path, Repository<User, UserMap> repository) {
         this.path = path;
         this.repository = repository;
     }
 
-    public User login(String login, String password) {
+    public User login(String login, String password) throws Exception {
         User user1 = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
-            ArrayList<User> users = ((ArrayList<User>) ois.readObject());
-            user1 = users.stream().filter(user -> user.getName().equals(login) && user.getPassword().equals(password)).findFirst().get();
-
-//           for (User user:users){
-//               if(Objects.equals(user.getName(), login) && Objects.equals(user.getPassword(), password)){
-//                   user1=user;
-//               }
-//           }
-        } catch (EOFException e) {
-            System.out.println("");
-            System.out.println("End of file reached");
-            return user1;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        User user2 = null;
+        User user3 = null;
+        ArrayList<User> users2 = repository.readFileWithItems();
+        UserMap userMap = new UserMap();
+        UserMap userMap1 = repository.readFromFile(userMap);
+        if(users2.size()!=0) {
+            user1 = users2.stream().filter(user -> user.getName().equals(login) && user.getPassword().equals(password)).findFirst().get();
         }
-        return user1;
+        if(userMap1.getUserMap() !=null) {
+            user2 = userMap1.getUserMap().values().stream().filter(user -> user.getName().equals(login) && user.getPassword().equals(password)).findFirst().get();
+        }
+        if (user1 != null) {
+            return user1;
+        } else if (user2 != null) {
+            return user2;
+        } else return user3;
     }
 
-    public boolean isUser(String name, String password) {
+    public boolean isUser(String name, String password) throws Exception {
         if (login(name, password) != null) {
             return true;
         }
