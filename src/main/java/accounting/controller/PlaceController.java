@@ -2,25 +2,27 @@ package accounting.controller;
 
 import accounting.AccountingForItemsApplication;
 import accounting.entify.places.Place;
+import accounting.entify.places.PlaceMap;
+import accounting.service.PlaceService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController()
 @RequestMapping("/place")
 public class PlaceController {
-    private AccountingForItemsApplication accountingForItemsApplication;
+    private PlaceService placeService;
 
     public PlaceController() {
-        accountingForItemsApplication = new AccountingForItemsApplication();
+        placeService = new PlaceService();
     }
     @GetMapping("/getPlace")
-    public Place getPlace(@RequestParam(name = "place") String placeName) {
-        return accountingForItemsApplication.useOfThePlace(placeName);
+    public Place getPlace(@RequestParam(name = "place") String placeName) throws Exception {
+        return placeService.useOfThePlace(placeName);
     }
 
     @PostMapping("/postPlace")
     public Place postPlace(@RequestBody Body body) throws Exception {
-        accountingForItemsApplication.createPlace(body.name, body.width, body.length, body.height);
-        return accountingForItemsApplication.useOfThePlace(body.name);
+        placeService.createPlace(body.name, body.width, body.length, body.height);
+        return placeService.useOfThePlace(body.name);
     }
 
     static class Body {

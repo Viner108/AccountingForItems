@@ -2,6 +2,8 @@ package accounting.service;
 
 import accounting.entify.items.Item;
 import accounting.entify.items.ItemMap;
+import accounting.entify.users.User;
+import accounting.entify.users.UserMap;
 import accounting.repository.ItemRepository;
 import accounting.repository.Repository;
 
@@ -10,42 +12,45 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class ItemService {
-    private Path path;
+    private Repository repository;
     private ArrayList<Item> items = new ArrayList<>();
     private ItemMap itemMap=new ItemMap();
-    private Repository repository;
-    public ItemService(Path path, Repository<Item,ItemMap> repository) {
-        this.path = path;
+    private Map<Integer, Item> mapForItem = new HashMap<>();
+    public ItemService(Repository<Item,ItemMap> repository) {
         this.repository=repository;
 
     }
 
-//    private ItemRepository fileRepository = new ItemRepository(path);
-
     public Item createItem(String name, int id, double width, double length, double height) throws JAXBException, Exception{
         Item item = new Item(name, id, width, length, height);
         items.add(item);
-        ItemRepository fileRepository = new ItemRepository(path);
-        fileRepository.writeToFile( items,itemMap, false);
+        mapForItem.put(items.size(), item);
+        itemMap.setItemMap(mapForItem);
+        repository.writeToFile( items,itemMap, false);
         return item;
     }
 
-    public Item useOfTheItem(String name) {
+    public Item useOfTheItem(String name) throws Exception {
         Item item1 = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
-            ArrayList<Item> items1 = ((ArrayList<Item>) ois.readObject());
-            item1 = items1.stream().filter(item -> Objects.equals(item.getName(), name)).findFirst().get();
-//            for (Item item : items1) {
-//                if (Objects.equals(item.getName(), name)) {
-//                    item1 = item;
-//                }
-//            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        Item item2 = null;
+        Item item3 = null;
+        ArrayList<Item> items2 = repository.readFileWithItems();
+        ItemMap itemMap1 = (ItemMap) repository.readFromFile(itemMap);
+        if(items2.size()!=0) {
+            item1 = items2.stream().filter(item -> Objects.equals(item.getName(), name)).findFirst().get();
         }
-        return item1;
+        if(itemMap1.getItemMap() !=null) {
+            item2 = itemMap1.getItemMap().values().stream().filter(item -> Objects.equals(item.getName(), name)).findFirst().get();
+        }
+        if (item1 != null) {
+            return item1;
+        } else if (item2 != null) {
+            return item2;
+        } else return item3;
     }
 }

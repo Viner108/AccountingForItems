@@ -16,10 +16,7 @@ import accounting.repository.xml.ActionXmlRepository;
 import accounting.repository.xml.ItemXmlRepository;
 import accounting.repository.xml.PlaceXmlRepository;
 import accounting.repository.xml.UserXmlRepository;
-import accounting.service.DocumentService;
-import accounting.service.DrugService;
-import accounting.service.ItemService;
-import accounting.service.PlaceService;
+import accounting.service.*;
 import accounting.service.user_service.LoginProcessor;
 import accounting.service.user_service.RegistrationProcessor;
 import accounting.entify.users.User;
@@ -70,13 +67,16 @@ public class AccountingForItemsApplication {
     private List<Item> items = new ArrayList<Item>();
     private List<ActionLog> actionLogs = new ArrayList<>();
     private Repository<Item, ItemMap> itemRepository1 = new ItemRepository(itemPath);
-    private ItemService itemService = new ItemService(itemPath,itemRepository1);
-    private Repository<Place, PlaceMap> placeRepository1 = new PlaceRepository(userPath);
-    private PlaceService placeService = new PlaceService(placePath,placeRepository1);
-//    private Repository<User, UserMap> userRepository1 = new UserRepository(userPath);
-    private Repository<User,UserMap> userRepository1=new UserXmlRepository(userXmlPath);
-    private LoginProcessor loginProcessor = new LoginProcessor(userPath, userRepository1);
-    private RegistrationProcessor registrationProcessor = new RegistrationProcessor(userPath, userRepository1);
+//    private Repository<Item,ItemMap> itemRepository1=new ItemXmlRepository(itemXmlPath);
+    private ItemService itemService = new ItemService(itemRepository1);
+    private Repository<Place, PlaceMap> placeRepository1 = new PlaceRepository(placePath);
+//    private Repository<Place,PlaceMap> placeRepository1=new PlaceXmlRepository(placeXMlPath);
+    private PlaceService placeService = new PlaceService(placeRepository1);
+    private Repository<User, UserMap> userRepository1 = new UserRepository(userPath);
+//    private Repository<User,UserMap> userRepository1=new UserXmlRepository(userXmlPath);
+    private UserService userService=new UserService(userRepository1);
+    private LoginProcessor loginProcessor = new LoginProcessor( userRepository1);
+    private RegistrationProcessor registrationProcessor = new RegistrationProcessor( userRepository1);
 
     public void createItem(String name, int id, double width, double length, double height) throws Exception {
         Item item = itemService.createItem(name, id, width, length, height);
@@ -97,7 +97,7 @@ public class AccountingForItemsApplication {
     }
 
     public void createUser(String login, String password) throws Exception {
-        User user = registrationProcessor.createUser(login, password);
+        User user = userService.createUser(login, password);
         users.add(user);
         mapForUser.put(users.size(), user);
         userMap.setUserMap(mapForUser);
@@ -125,16 +125,16 @@ public class AccountingForItemsApplication {
     }
 
     public User loginUser(String login, String password) throws Exception {
-        User user = loginProcessor.login(login, password);
+        User user = userService.useOfTheUser(login, password);
         return user;
     }
 
-    public Item useOfTheItem(String name) {
+    public Item useOfTheItem(String name) throws Exception {
         Item item = itemService.useOfTheItem(name);
         return item;
     }
 
-    public Place useOfThePlace(String name) {
+    public Place useOfThePlace(String name) throws Exception {
         Place place = placeService.useOfThePlace(name);
         return place;
     }

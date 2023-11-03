@@ -11,11 +11,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class LoginProcessor {
-    private Path path;
     private Repository<User, UserMap> repository;
 
-    public LoginProcessor(Path path, Repository<User, UserMap> repository) {
-        this.path = path;
+    public LoginProcessor( Repository<User, UserMap> repository) {
         this.repository = repository;
     }
 

@@ -12,13 +12,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RegistrationProcessor {
-    private Path path;
     private ArrayList<User> users = new ArrayList<>();
     private UserMap userMap=new UserMap();
     private Repository repository;
     private Map<Integer, User> mapForUser = new HashMap<>();
-    public RegistrationProcessor(Path path, Repository<User,UserMap> repository) {
-        this.path = path;
+    public RegistrationProcessor( Repository<User,UserMap> repository) {
         this.repository=repository;
     }
 
