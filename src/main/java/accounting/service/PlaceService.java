@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class PlaceService implements Serializable {
+    private Path placePath = Path.of("library", "Place.java");
     private Repository repository;
     private ArrayList<Place> places = new ArrayList<>();
     private PlaceMap placeMap=new PlaceMap();
@@ -55,7 +56,7 @@ public class PlaceService implements Serializable {
 
     public void overwritingPlace(String name, Place newPlace) throws JAXBException, Exception{
         ArrayList<Place> places1 = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(placePath.toFile()))) {
             places1 = ((ArrayList<Place>) ois.readObject());
             for (Place place : places1) {
                 if (Objects.equals(place.getName(), name)) {
