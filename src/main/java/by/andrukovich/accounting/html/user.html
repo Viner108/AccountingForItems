@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>UserHtml</title>
+        <script>
+            function getList() {
+                var xhr = new XMLHttpRequest();
+                var login = document.getElementById("login");
+                var pwd = document.getElementById("pwd");
+                var body = {
+                    "login" : login.value,
+                    "pwd" : pwd.value
+                }
+                xhr.open("POST", "http://localhost:8080/user/postUser", true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        displayList(response);
+                    }
+                }
+                ;
+
+                xhr.send(JSON.stringify(body));
+            }
+
+            function displayList(list) {
+                var listContainer = document.getElementById("list-container");
+                listContainer.innerHTML = "";
+
+                for (var i = 0; i < list.length; i++) {
+                    var listItem = document.createElement("div");
+                    listItem.className = "list-item";
+
+                    var name = document.createElement("span");
+                    name.textContent = "Name: " + list[i].user;
+                    listItem.appendChild(name);
+
+                    var sp = document.createElement("span");
+                    sp.textContent = "----";
+                    listItem.appendChild(sp);
+
+                    var login = document.createElement("span");
+                    login.textContent = "Login: " + list[i].login;
+                    listItem.appendChild(login);
+
+                    listContainer.appendChild(listItem);
+                }
+            }
+        </script>
+        <style>
+            .list-item {
+                margin-bottom: 30px;
+                padding: 15px;
+                border: 4px solid #a33;
+            }
+        </style>
+    </head>
+    <body>
+          <div>
+            <label for="say">What`s your name?</label>
+            <input name="login" id="login" value="Null" />
+          </div>
+          <div>
+            <label for="say">What`s your password?</label>
+            <input name="pwd" id="pwd" value="Null" />
+          </div>
+          <div>
+            <button onclick="getList()">Send my greetings</button>
+          </div>
+        <button onclick="getList()">Get List</button>
+    <div id="list-container"></div>
+	<div id="list-container1"></div>
+	<div id="list-container2"></div>
+        
+    </body>
+</html>
