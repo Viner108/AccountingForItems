@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class WellBeingService {
-    private WellBeingRepository repository;
+    private WellBeingRepository repository=new WellBeingRepository();
     public DTO createDTO(String pressure, String headAche) throws Exception{
         DTO dto = new DTO(pressure,headAche);
         repository.writeToFile(dto);

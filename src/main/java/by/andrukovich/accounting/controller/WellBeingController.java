@@ -9,11 +9,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/android/")
 public class WellBeingController{
 
-    private WellBeingService service;
+    private WellBeingService service=new WellBeingService();
 
-    public WellBeingController(WellBeingService service) {
-        this.service = service;
-    }
 
     @GetMapping("getDTO")
     public DTO getAndroid(@RequestParam(name = "pressure") String pressure,
@@ -23,12 +20,9 @@ public class WellBeingController{
     }
 
     @PostMapping("postDTO")
-    public DTO postPlace(@RequestBody Body body) throws Exception {
-        DTO dto=service.createDTO(body.pressure, body.headAche);
+    public DTO postPlace(@RequestBody DTO dto1) throws Exception {
+        DTO dto=service.createDTO(dto1.getPressure(), dto1.getHeadAche());
         return dto;
     }
-    static class Body{
-        public String pressure;
-        public String headAche;
-    }
+
 }

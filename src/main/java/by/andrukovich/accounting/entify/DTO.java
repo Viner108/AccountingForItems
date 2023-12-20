@@ -1,7 +1,11 @@
 package by.andrukovich.accounting.entify;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class DTO {
+    @JsonProperty("pressure")
     private String pressure;
+    @JsonProperty("headAche")
     private String headAche;
 
     public DTO(String pressure, String headAche) {
