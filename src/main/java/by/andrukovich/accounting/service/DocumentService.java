@@ -1,6 +1,6 @@
 package by.andrukovich.accounting.service;
 
-import by.andrukovich.accounting.entify.items.Documents;
+import by.andrukovich.accounting.entity.items.Documents;
 
 import java.time.LocalDate;
 

@@ -1,8 +1,8 @@
 package by.andrukovich.accounting.controller;
 
-import by.andrukovich.accounting.entify.places.Place;
+import by.andrukovich.accounting.entity.places.Place;
 import by.andrukovich.accounting.service.PlaceService;
-import by.andrukovich.accounting.entify.places.PlaceMap;
+import by.andrukovich.accounting.entity.places.PlaceMap;
 import by.andrukovich.accounting.repository.PlaceRepository;
 import by.andrukovich.accounting.repository.Repository;
 import org.springframework.web.bind.annotation.*;

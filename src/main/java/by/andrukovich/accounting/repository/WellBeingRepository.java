@@ -1,6 +1,6 @@
 package by.andrukovich.accounting.repository;
 
-import by.andrukovich.accounting.entify.DTO;
+import by.andrukovich.accounting.entity.DTO;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,7 @@
 package by.andrukovich.accounting.repository.xml.adapters;
 
-import by.andrukovich.accounting.entify.action.ActionLogWrapper;
-import by.andrukovich.accounting.entify.action.ActionLog;
+import by.andrukovich.accounting.entity.action.ActionLogWrapper;
+import by.andrukovich.accounting.entity.action.ActionLog;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.util.ArrayList;

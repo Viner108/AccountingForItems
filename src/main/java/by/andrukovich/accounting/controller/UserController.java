@@ -1,7 +1,7 @@
 package by.andrukovich.accounting.controller;
 
-import by.andrukovich.accounting.entify.users.User;
-import by.andrukovich.accounting.entify.users.UserMap;
+import by.andrukovich.accounting.entity.users.User;
+import by.andrukovich.accounting.entity.users.UserMap;
 import by.andrukovich.accounting.repository.Repository;
 import by.andrukovich.accounting.repository.UserRepository;
 import by.andrukovich.accounting.service.UserService;

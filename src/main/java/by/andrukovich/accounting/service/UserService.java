@@ -1,10 +1,10 @@
 package by.andrukovich.accounting.service;
 
-import by.andrukovich.accounting.entify.users.User;
+import by.andrukovich.accounting.entity.users.User;
 import by.andrukovich.accounting.repository.Repository;
 import by.andrukovich.accounting.service.user_service.LoginProcessor;
 import by.andrukovich.accounting.service.user_service.RegistrationProcessor;
-import by.andrukovich.accounting.entify.users.UserMap;
+import by.andrukovich.accounting.entity.users.UserMap;
 
 public class UserService {
     private Repository repository;

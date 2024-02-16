@@ -1,6 +1,6 @@
 package by.andrukovich.accounting.service;
 
-import by.andrukovich.accounting.entify.items.Medicines;
+import by.andrukovich.accounting.entity.items.Medicines;
 
 import java.time.LocalDate;
 

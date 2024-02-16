@@ -1,6 +1,6 @@
 package by.andrukovich.accounting.repository;
 
-import by.andrukovich.accounting.entify.action.ActionLog;
+import by.andrukovich.accounting.entity.action.ActionLog;
 
 import java.io.*;
 import java.nio.file.Path;

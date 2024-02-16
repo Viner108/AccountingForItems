@@ -1,15 +1,16 @@
 package by.andrukovich.accounting.controller;
 
-import by.andrukovich.accounting.entify.DTO;
+import by.andrukovich.accounting.entity.DTO;
 import by.andrukovich.accounting.service.WellBeingService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController()
 @RequestMapping("/android/")
 public class WellBeingController{
-
-    private WellBeingService service=new WellBeingService();
+    @Autowired
+    private WellBeingService service;
 
 
     @GetMapping("getDTO")
@@ -20,9 +21,12 @@ public class WellBeingController{
     }
 
     @PostMapping("postDTO")
-    public DTO postPlace(@RequestBody DTO dto1) throws Exception {
-        DTO dto=service.createDTO(dto1.getPressure(), dto1.getHeadAche());
+    public DTO postPlace(@RequestBody Body body) throws Exception {
+        DTO dto=service.createDTO(body.pressure, body.headAche);
         return dto;
     }
-
+    static class Body{
+        public String pressure;
+        public String headAche;
+    }
 }

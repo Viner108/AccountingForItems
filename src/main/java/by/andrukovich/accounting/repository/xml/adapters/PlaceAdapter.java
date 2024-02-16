@@ -1,7 +1,7 @@
 package by.andrukovich.accounting.repository.xml.adapters;
 
-import by.andrukovich.accounting.entify.places.Place;
-import by.andrukovich.accounting.entify.places.PlaceWrapper;
+import by.andrukovich.accounting.entity.places.Place;
+import by.andrukovich.accounting.entity.places.PlaceWrapper;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.util.ArrayList;

@@ -1,16 +1,16 @@
 package by.andrukovich.accounting;
 
-import by.andrukovich.accounting.entify.action.ActionLog;
-import by.andrukovich.accounting.entify.action.ActionLogMap;
-import by.andrukovich.accounting.entify.action.ListOfThingsInPlace;
-import by.andrukovich.accounting.entify.items.Documents;
-import by.andrukovich.accounting.entify.items.Item;
-import by.andrukovich.accounting.entify.items.ItemMap;
-import by.andrukovich.accounting.entify.items.Medicines;
-import by.andrukovich.accounting.entify.places.Place;
-import by.andrukovich.accounting.entify.places.PlaceMap;
-import by.andrukovich.accounting.entify.users.User;
-import by.andrukovich.accounting.entify.users.UserMap;
+import by.andrukovich.accounting.entity.action.ActionLog;
+import by.andrukovich.accounting.entity.action.ActionLogMap;
+import by.andrukovich.accounting.entity.action.ListOfThingsInPlace;
+import by.andrukovich.accounting.entity.items.Documents;
+import by.andrukovich.accounting.entity.items.Item;
+import by.andrukovich.accounting.entity.items.ItemMap;
+import by.andrukovich.accounting.entity.items.Medicines;
+import by.andrukovich.accounting.entity.places.Place;
+import by.andrukovich.accounting.entity.places.PlaceMap;
+import by.andrukovich.accounting.entity.users.User;
+import by.andrukovich.accounting.entity.users.UserMap;
 import by.andrukovich.accounting.repository.*;
 import by.andrukovich.accounting.repository.xml.ActionXmlRepository;
 import by.andrukovich.accounting.repository.xml.ItemXmlRepository;

@@ -1,7 +1,7 @@
 package by.andrukovich.accounting.repository.xml;
 
-import by.andrukovich.accounting.entify.items.Item;
-import by.andrukovich.accounting.entify.items.ItemMap;
+import by.andrukovich.accounting.entity.items.Item;
+import by.andrukovich.accounting.entity.items.ItemMap;
 
 import java.nio.file.Path;
 

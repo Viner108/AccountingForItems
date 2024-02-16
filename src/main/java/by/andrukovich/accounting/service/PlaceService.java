@@ -1,7 +1,7 @@
 package by.andrukovich.accounting.service;
 
-import by.andrukovich.accounting.entify.places.Place;
-import by.andrukovich.accounting.entify.places.PlaceMap;
+import by.andrukovich.accounting.entity.places.Place;
+import by.andrukovich.accounting.entity.places.PlaceMap;
 import by.andrukovich.accounting.repository.Repository;
 
 import javax.xml.bind.JAXBException;

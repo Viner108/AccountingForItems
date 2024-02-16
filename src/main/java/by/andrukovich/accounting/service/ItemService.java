@@ -1,7 +1,7 @@
 package by.andrukovich.accounting.service;
 
-import by.andrukovich.accounting.entify.items.Item;
-import by.andrukovich.accounting.entify.items.ItemMap;
+import by.andrukovich.accounting.entity.items.Item;
+import by.andrukovich.accounting.entity.items.ItemMap;
 import by.andrukovich.accounting.repository.Repository;
 
 import javax.xml.bind.JAXBException;

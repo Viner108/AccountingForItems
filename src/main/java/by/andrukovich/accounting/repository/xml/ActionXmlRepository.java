@@ -1,7 +1,7 @@
 package by.andrukovich.accounting.repository.xml;
 
-import by.andrukovich.accounting.entify.action.ActionLogMap;
-import by.andrukovich.accounting.entify.action.ActionLog;
+import by.andrukovich.accounting.entity.action.ActionLogMap;
+import by.andrukovich.accounting.entity.action.ActionLog;
 
 import java.nio.file.Path;
 

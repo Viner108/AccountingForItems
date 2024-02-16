@@ -1,7 +1,7 @@
 package by.andrukovich.accounting.repository.xml.adapters;
 
-import by.andrukovich.accounting.entify.users.User;
-import by.andrukovich.accounting.entify.users.UserWrapper;
+import by.andrukovich.accounting.entity.users.User;
+import by.andrukovich.accounting.entity.users.UserWrapper;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.util.ArrayList;

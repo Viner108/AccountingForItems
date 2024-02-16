@@ -1,7 +1,7 @@
 package by.andrukovich.accounting.repository.xml;
 
-import by.andrukovich.accounting.entify.users.User;
-import by.andrukovich.accounting.entify.users.UserMap;
+import by.andrukovich.accounting.entity.users.User;
+import by.andrukovich.accounting.entity.users.UserMap;
 
 import java.nio.file.Path;
 
